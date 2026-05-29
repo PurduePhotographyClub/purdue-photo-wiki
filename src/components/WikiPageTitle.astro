@@ -1,0 +1,58 @@
+---
+const route = Astro.locals.starlightRoute;
+const data = route.entry.data as typeof route.entry.data & {
+  author?: string;
+  date?: Date | string;
+  accent?:
+    | 'silver'
+    | 'slate'
+    | 'amber'
+    | 'orange'
+    | 'yellow'
+    | 'lime'
+    | 'green'
+    | 'emerald'
+    | 'teal'
+    | 'cyan'
+    | 'sky'
+    | 'blue'
+    | 'indigo'
+    | 'violet'
+    | 'purple'
+    | 'fuchsia'
+    | 'pink'
+    | 'rose'
+    | 'red';
+};
+
+const { title, description, author, date, accent = 'silver' } = data;
+const hasExplicitAccent = Boolean(data.accent);
+const id = route.id;
+const isWhatsNew = id === 'whats-new' || id.startsWith('whats-new/');
+const isHome = id === 'index';
+const topSection = id.split('/')[0]?.replaceAll('-', ' ') || 'PPC Wiki';
+const kicker = isWhatsNew ? "What's New" : topSection;
+const formattedDate = date
+  ? new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(new Date(date))
+  : '';
+---
+
+<header class:list={['wiki-title-block', `accent-${accent}`, hasExplicitAccent && 'has-accent', isWhatsNew && 'is-whats-new', isHome && 'is-home']}>
+  <div class="wiki-title-kicker">
+    <span></span>
+    {kicker}
+  </div>
+  <h1 id="_top">{title}</h1>
+  {description && <p class="wiki-title-description">{description}</p>}
+  {(author || formattedDate) && (
+    <div class="wiki-title-meta" aria-label="Article details">
+      {author && <span>{author}</span>}
+      {author && formattedDate && <i aria-hidden="true"></i>}
+      {formattedDate && <time datetime={new Date(date as Date | string).toISOString()}>{formattedDate}</time>}
+    </div>
+  )}
+</header>

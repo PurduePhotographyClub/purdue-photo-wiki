@@ -1,0 +1,154 @@
+---
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import WikiSidebarToc from './WikiSidebarToc.astro';
+
+interface Props {
+  sublist?: any[];
+  nested?: boolean;
+}
+
+const route = Astro.locals.starlightRoute;
+const { sublist = route.sidebar, nested = false } = Astro.props;
+const tocItems = route.toc?.items ?? [];
+const isRoot = !Astro.props.sublist;
+const gettingStartedTocItems = [
+  { slug: 'gs-start', text: 'Overview', children: [] },
+  { slug: 'gs-practice', text: 'What to Practice First', children: [] },
+  { slug: 'gs-gear', text: 'Before Buying Gear', children: [] },
+  { slug: 'gs-gallery', text: 'Club Member Work', children: [] },
+];
+const basicsTocItems = [
+  { slug: 'basics-start', text: 'Overview', children: [] },
+  { slug: 'exposure-triangle', text: 'Exposure Triangle', children: [] },
+  { slug: 'aperture', text: 'Aperture', children: [] },
+  { slug: 'shutter-speed', text: 'Shutter Speed', children: [] },
+  { slug: 'iso', text: 'ISO', children: [] },
+  { slug: 'dynamic-range', text: 'Dynamic Range', children: [] },
+  { slug: 'raw-vs-jpg', text: 'Raw vs. JPG', children: [] },
+  { slug: 'putting-it-together', text: 'Putting It Together', children: [] },
+  { slug: 'camera-modes', text: 'Camera Modes', children: [] },
+];
+const anatomyTocItems = [
+  { slug: 'anatomy-start', text: 'Overview', children: [] },
+  { slug: 'control-map', text: 'Top Controls', children: [] },
+  { slug: 'back-controls', text: 'Rear Controls', children: [] },
+  { slug: 'beginner-layout', text: 'Beginner Setup', children: [] },
+  { slug: 'body-parts', text: 'Body Parts', children: [] },
+  { slug: 'viewfinder-screen', text: 'Finder + Screen', children: [] },
+  { slug: 'important-settings', text: 'Useful Settings', children: [] },
+];
+const editingTocItems = [
+  { slug: 'editing-start', text: 'Overview', children: [] },
+  { slug: 'cropping', text: 'Cropping', children: [] },
+  { slug: 'value', text: 'Value', children: [] },
+  { slug: 'tone-curve', text: 'Tone Curve', children: [] },
+  { slug: 'color', text: 'Color', children: [] },
+  { slug: 'color-tools', text: 'Color Tools', children: [] },
+  { slug: 'software', text: 'Software', children: [] },
+  { slug: 'guidelines', text: 'Guidelines', children: [] },
+];
+const buyingGearTocItems = [
+  { slug: 'gear-start', text: 'Overview', children: [] },
+  { slug: 'first-questions', text: 'First Questions', children: [] },
+  { slug: 'used-gear', text: 'Used Gear', children: [] },
+  { slug: 'what-matters', text: 'What Matters', children: [] },
+  { slug: 'nice-specialized', text: 'Nice + Specialized', children: [] },
+  { slug: 'mirrorless-picks', text: 'Mirrorless Picks', children: [] },
+  { slug: 'dslrs', text: 'DSLRs', children: [] },
+];
+const helpfulResourcesTocItems = [
+  { slug: 'resources-start', text: 'Overview', children: [] },
+  { slug: 'comparison', text: 'Comparison', children: [] },
+  { slug: 'reviews', text: 'Reviews', children: [] },
+  { slug: 'sample-images', text: 'Sample Images', children: [] },
+  { slug: 'other', text: 'Other', children: [] },
+  { slug: 'how-to-use', text: 'How to Use', children: [] },
+];
+
+function hasCurrent(entries: any[] = []): boolean {
+  return entries.some((entry) =>
+    entry.type === 'link' ? entry.isCurrent : hasCurrent(entry.entries)
+  );
+}
+
+function tocForEntry(entry: any) {
+  if (!entry.isCurrent) return [];
+
+  if (entry.href?.endsWith('/photography/') || entry.href?.endsWith('/getting-started/')) {
+    return gettingStartedTocItems;
+  }
+
+  if (entry.href?.endsWith('/basics/')) {
+    return basicsTocItems;
+  }
+
+  if (entry.href?.endsWith('/anatomy-of-a-camera/')) {
+    return anatomyTocItems;
+  }
+
+  if (entry.href?.endsWith('/editing/')) {
+    return editingTocItems;
+  }
+
+  if (entry.href?.endsWith('/buying-guide-gear/')) {
+    return buyingGearTocItems;
+  }
+
+  if (entry.href?.endsWith('/helpful-resources/')) {
+    return helpfulResourcesTocItems;
+  }
+
+  return tocItems;
+}
+---
+
+{isRoot ? (
+  <>
+    <SidebarPersister>
+      <Astro.self sublist={sublist} />
+    </SidebarPersister>
+
+    <div class="wiki-sidebar-version" aria-label="Wiki version">v0.1</div>
+
+    <div class="md:sl-hidden">
+      <MobileMenuFooter />
+    </div>
+  </>
+) : (
+  <ul class:list={{ 'top-level': !nested }}>
+    {sublist.map((entry) => (
+      <li>
+        {entry.type === 'link' ? (
+          (() => {
+            const entryTocItems = tocForEntry(entry);
+
+            return (
+          <>
+            <a
+              href={entry.href}
+              aria-current={entry.isCurrent ? 'page' : undefined}
+              class:list={[{ large: !nested }, entry.attrs?.class]}
+              {...entry.attrs}
+            >
+              <span>{entry.label}</span>
+            </a>
+            {entryTocItems.length > 0 && <WikiSidebarToc items={entryTocItems} />}
+          </>
+            );
+          })()
+        ) : (
+          <details open={hasCurrent(entry.entries) || !entry.collapsed}>
+            <summary>
+              <span class="group-label">
+                <span class="large">{entry.label}</span>
+              </span>
+              <span class="caret" aria-hidden="true">›</span>
+            </summary>
+            <Astro.self sublist={entry.entries} nested />
+          </details>
+        )}
+      </li>
+    ))}
+  </ul>
+)}

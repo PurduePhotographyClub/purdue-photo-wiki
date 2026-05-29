@@ -1,0 +1,25 @@
+---
+interface TocItem {
+  slug: string;
+  text: string;
+  children: TocItem[];
+}
+
+interface Props {
+  items: TocItem[];
+  depth?: number;
+}
+
+const { items, depth = 0 } = Astro.props;
+---
+
+{items.length > 0 && (
+  <ul class="wiki-sidebar-toc" style={`--toc-depth: ${depth}`}>
+    {items.map((item) => (
+      <li>
+        <a href={`#${item.slug}`}>{item.text}</a>
+        {item.children.length > 0 && <Astro.self items={item.children} depth={depth + 1} />}
+      </li>
+    ))}
+  </ul>
+)}

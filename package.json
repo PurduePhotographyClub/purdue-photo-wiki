@@ -1,0 +1,23 @@
+{
+  "name": "purdue-photography-club-wiki",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "pages:preview": "npm run build && wrangler pages dev dist",
+    "pages:deploy": "npm run build && wrangler pages deploy dist"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.39.2",
+    "astro": "^6.3.6",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.12",
+    "tailwindcss": "4.1.12",
+    "wrangler": "^4.93.0"
+  }
+}
