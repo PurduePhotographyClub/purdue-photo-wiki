@@ -77,3 +77,16 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
     </div>
   </div>
 </div>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const updateMobileHeaderState = () => {
+      root.classList.toggle('wiki-mobile-header-scrolled', window.scrollY > 8);
+    };
+
+    updateMobileHeaderState();
+    window.addEventListener('scroll', updateMobileHeaderState, { passive: true });
+    window.addEventListener('pageshow', updateMobileHeaderState);
+  })();
+</script>

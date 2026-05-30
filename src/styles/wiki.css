@@ -4508,7 +4508,28 @@ body:has(.wiki-404) .ppc-footer__inner {
   }
 
   body .page>header.header .group\/wiki-nav {
-    display: none !important;
+    transition: opacity 160ms ease, visibility 160ms ease;
+  }
+
+  :root.wiki-mobile-header-scrolled body .page>header.header {
+    border-bottom-color: transparent !important;
+    background: transparent !important;
+    backdrop-filter: none;
+  }
+
+  :root.wiki-mobile-header-scrolled body .page>header.header::before {
+    height: max(env(safe-area-inset-top, 0px), 0px);
+    background: rgb(10 10 10 / 0.94);
+  }
+
+  :root.wiki-mobile-header-scrolled body .page>header.header::after {
+    opacity: 0;
+  }
+
+  :root.wiki-mobile-header-scrolled body .page>header.header .group\/wiki-nav {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   starlight-menu-button button {
