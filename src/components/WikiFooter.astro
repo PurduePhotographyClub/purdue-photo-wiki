@@ -112,15 +112,24 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 
 <style>
   .wiki-doc-pagination {
+    box-sizing: border-box;
     width: min(68rem, calc(100vw - 2rem));
+    max-width: 100%;
     margin: clamp(2rem, 5vw, 4rem) auto clamp(2rem, 5vw, 3rem);
+  }
+
+  @media (max-width: 50rem) {
+    .wiki-doc-pagination {
+      width: 100%;
+      margin-inline: 0;
+    }
   }
 </style>
 
 <script is:inline>
   (() => {
     const images = Array.from(
-      document.querySelectorAll('.basics-page figure img, .anatomy-page figure img, .editing-page figure img, .gear-page figure img')
+      document.querySelectorAll('.gs-page .gs-photo-link img, .basics-page figure img, .anatomy-page figure img, .editing-page figure img, .gear-page figure img')
     );
 
     if (images.length === 0) return;
@@ -162,6 +171,11 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
     const closeButton = viewer.querySelector('.wiki-image-viewer__close');
     const closeTargets = viewer.querySelectorAll('.wiki-image-viewer__backdrop, .wiki-image-viewer__close');
 
+    const updateViewerHeight = () => {
+      const height = window.visualViewport?.height || window.innerHeight;
+      document.documentElement.style.setProperty('--wiki-viewer-height', `${height}px`);
+    };
+
     const getCaptionText = (image) => {
       const figure = image.closest('figure');
       const figureCaption = figure?.querySelector('figcaption');
@@ -175,6 +189,7 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
       document.body.classList.remove('wiki-image-viewer-open');
       viewerImage.removeAttribute('src');
       caption.textContent = '';
+      document.documentElement.style.removeProperty('--wiki-viewer-height');
 
       if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
         lastFocusedElement.focus({ preventScroll: true });
@@ -183,6 +198,7 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 
     const openViewer = (image) => {
       lastFocusedElement = document.activeElement;
+      updateViewerHeight();
       viewerImage.src = image.currentSrc || image.src;
       viewerImage.alt = image.alt || '';
       caption.textContent = getCaptionText(image);
@@ -199,20 +215,40 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
       if (event.key === 'Escape') closeViewer();
     });
 
+    window.visualViewport?.addEventListener('resize', updateViewerHeight);
+    window.visualViewport?.addEventListener('scroll', updateViewerHeight);
+    window.addEventListener('resize', updateViewerHeight);
+
     images.forEach((image) => {
       if (image.dataset.wikiExpandableImage === 'true') return;
 
       image.dataset.wikiExpandableImage = 'true';
       image.classList.add('wiki-expandable-image');
+      const photoLink = image.closest('.gs-photo-link');
+      const openImage = (event) => {
+        event?.preventDefault();
+        openViewer(image);
+      };
+
+      if (photoLink) {
+        photoLink.classList.add('wiki-expandable-image-link');
+        photoLink.setAttribute('aria-label', `View ${getCaptionText(image)} full size`);
+        photoLink.addEventListener('click', openImage);
+        photoLink.addEventListener('keydown', (event) => {
+          if (event.key !== ' ') return;
+          openImage(event);
+        });
+        return;
+      }
+
       image.tabIndex = 0;
       image.setAttribute('role', 'button');
       image.setAttribute('aria-label', `View ${getCaptionText(image)} full size`);
 
-      image.addEventListener('click', () => openViewer(image));
+      image.addEventListener('click', openImage);
       image.addEventListener('keydown', (event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        openViewer(image);
+        openImage(event);
       });
     });
   })();

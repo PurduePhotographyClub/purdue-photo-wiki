@@ -28,16 +28,20 @@ const socialLinkClass = 'inline-flex text-[#6b6660] transition-colors hover:text
 const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]';
 ---
 
-<div class="grid h-full w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 max-[50rem]:grid-cols-1">
+<div class="wiki-header-content grid h-full w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 max-[50rem]:gap-2">
   <a href={mainSite} class="group/wiki-nav inline-flex min-w-0 items-center gap-3 text-ppc-paper no-underline" aria-label="Purdue Photography Club home">
     <img src="/images/brand/wiki/ppc-logo.webp" alt="" class="size-10 shrink-0 rounded-full brightness-[1.7] invert mix-blend-screen max-[50rem]:size-9" />
-    <span class="inline-flex min-w-0 items-center gap-3 max-[50rem]:max-w-[calc(100vw-8rem)] max-[50rem]:gap-2">
+    <span class="inline-flex min-w-0 items-center gap-3 max-[50rem]:max-w-[calc(100vw-8.5rem)] max-[50rem]:gap-2">
       <span class="font-display max-w-full overflow-hidden text-xs leading-tight text-[#d5d0c8] uppercase text-ellipsis whitespace-nowrap max-[50rem]:text-[0.64rem] max-[24rem]:max-w-32 max-[24rem]:text-[0.56rem]">Purdue Photography Club</span>
       <span class="relative ml-[-0.1rem] inline-flex cursor-pointer items-baseline transition-transform duration-200 group-hover/wiki-nav:-translate-y-px" aria-label="Wiki">
         <span class="inline-block bg-ppc-paper px-2 py-1 text-[0.68rem] leading-none font-bold text-ppc-ink uppercase shadow-[0_0_12px_rgb(246_241_232_/_0.15),0_1px_3px_rgb(0_0_0_/_0.3)] transition duration-200 [transform:rotate(-6deg)_translateY(-0.25rem)] [-webkit-text-fill-color:var(--color-ppc-ink)] group-hover/wiki-nav:scale-105 group-hover/wiki-nav:shadow-[0_0_20px_rgb(246_241_232_/_0.25),0_2px_6px_rgb(0_0_0_/_0.3)] max-[50rem]:text-[0.56rem]" style="animation: wiki-badge-shimmer 3s ease-in-out infinite;">wiki</span>
       </span>
     </span>
   </a>
+
+  <button class="wiki-header-menu-button" type="button" aria-label="Open wiki navigation" aria-expanded="false">
+    <img src="/images/ui/pixel-art/side-bar-openenr-phone.svg" alt="" />
+  </button>
 
   <div class="flex min-w-0 items-center justify-end gap-4 max-[50rem]:hidden">
     <div class="w-[min(32vw,20rem)] min-w-36 max-[64rem]:w-[min(38vw,16rem)]">
@@ -77,3 +81,39 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
     </div>
   </div>
 </div>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const menuButton = document.querySelector('.wiki-header-menu-button');
+
+    if (!menuButton) return;
+
+    const setOpen = (isOpen) => {
+      root.classList.toggle('wiki-header-sidebar-open', isOpen);
+      menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    menuButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setOpen(!root.classList.contains('wiki-header-sidebar-open'));
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!root.classList.contains('wiki-header-sidebar-open')) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target) return;
+      if (target.closest('.sidebar-pane a')) {
+        setOpen(false);
+        return;
+      }
+      if (target.closest('.wiki-header-menu-button, .sidebar-pane')) return;
+
+      setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  })();
+</script>
