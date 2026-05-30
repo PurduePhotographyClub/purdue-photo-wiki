@@ -1050,6 +1050,17 @@ body .page>header.header>.header {
   backdrop-filter: none;
 }
 
+.wiki-header-menu-button {
+  display: none;
+}
+
+.wiki-header-menu-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .sidebar-pane,
 .right-sidebar {
   backdrop-filter: blur(14px);
@@ -4478,15 +4489,37 @@ body:has(.wiki-404) .ppc-footer__inner {
     min-height: var(--sl-nav-height) !important;
   }
 
+  body .page {
+    padding-top: var(--sl-nav-height) !important;
+  }
+
   body .page>header.header {
-    position: sticky !important;
+    position: fixed !important;
     top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
     z-index: 1000 !important;
+    width: 100% !important;
     height: var(--sl-nav-height) !important;
     overflow: hidden;
     padding-block: 0 !important;
     padding-inline-start: max(1rem, env(safe-area-inset-left, 0px)) !important;
     padding-inline-end: max(1rem, env(safe-area-inset-right, 0px)) !important;
+  }
+
+  body .page>.wiki-header-content {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+    height: var(--sl-nav-height) !important;
+    padding-inline-start: max(1rem, env(safe-area-inset-left, 0px)) !important;
+    padding-inline-end: max(1rem, env(safe-area-inset-right, 0px)) !important;
+    border-bottom: 1px solid var(--color-ppc-line) !important;
+    background: rgb(10 10 10 / 0.92) !important;
+    backdrop-filter: blur(14px);
   }
 
   body .page>header.header::after {
@@ -4501,47 +4534,54 @@ body:has(.wiki-404) .ppc-footer__inner {
     padding-inline: 0 !important;
   }
 
-  starlight-menu-button {
-    display: flex !important;
-    align-items: center !important;
-    position: absolute !important;
-    inset-block-start: 50% !important;
-    inset-inline-end: max(0.75rem, env(safe-area-inset-right, 0px)) !important;
-    z-index: 3 !important;
-    width: 3.75rem !important;
-    height: 3.75rem !important;
-    transform: translateY(-50%) !important;
+  .wiki-header-menu-button {
+    display: grid;
+    place-items: center;
+    width: 3.8rem;
+    height: 3.8rem;
+    margin-inline-end: -0.45rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
   }
 
-  starlight-menu-button button {
-    position: relative !important;
-    inset: auto !important;
+  starlight-menu-button {
+    display: none !important;
+  }
+
+  .sidebar-pane {
+    position: fixed !important;
+    top: var(--sl-nav-height) !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    z-index: 999 !important;
+    display: block !important;
     width: 100% !important;
-    height: 100% !important;
-    transform: none !important;
+    max-height: calc(100svh - var(--sl-nav-height)) !important;
+    border-inline-end: 0 !important;
+    border-bottom: 1px solid var(--color-ppc-line-strong) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-0.5rem) !important;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease,
+      visibility 160ms ease !important;
+  }
+
+  .sidebar-pane .sidebar-content {
+    max-height: calc(100svh - var(--sl-nav-height)) !important;
+    overflow-y: auto !important;
+  }
+
+  :root.wiki-header-sidebar-open .sidebar-pane {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
-  }
-
-  starlight-menu-button button::before {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    display: block !important;
-    width: 3.65rem !important;
-    height: 3.65rem !important;
-    background: url('/images/ui/pixel-art/side-bar-openenr-phone.svg') center / contain no-repeat !important;
-    content: '' !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  starlight-menu-button button .open-menu {
-    display: none !important;
-  }
-
-  starlight-menu-button button svg {
-    display: none !important;
+    transform: none !important;
   }
 
   .content-panel {
