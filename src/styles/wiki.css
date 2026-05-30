@@ -4453,7 +4453,7 @@ body:has(.wiki-404) .ppc-footer__inner {
   :root[data-has-sidebar][data-has-toc] {
     --sl-content-inline-start: 0rem !important;
     --sl-content-margin-inline: 0rem !important;
-    --sl-nav-height: calc(4rem + env(safe-area-inset-top, 0px));
+    --sl-nav-height: 4rem;
   }
 
   body .page,
@@ -4480,23 +4480,10 @@ body:has(.wiki-404) .ppc-footer__inner {
     top: 0 !important;
     z-index: 1000 !important;
     height: var(--sl-nav-height) !important;
-    overflow: visible;
-    padding-block-start: env(safe-area-inset-top, 0px) !important;
-    padding-block-end: 0 !important;
+    overflow: hidden;
+    padding-block: 0 !important;
     padding-inline-start: max(1rem, env(safe-area-inset-left, 0px)) !important;
-    padding-inline-end: max(4rem, calc(4rem + env(safe-area-inset-right, 0px))) !important;
-  }
-
-  body .page>header.header::before {
-    position: fixed;
-    inset: 0 0 auto;
-    z-index: 0;
-    height: max(calc(env(safe-area-inset-top, 0px) + 4rem), 4rem);
-    background: rgb(10 10 10 / 0.94);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    content: '';
-    pointer-events: none;
+    padding-inline-end: max(1rem, env(safe-area-inset-right, 0px)) !important;
   }
 
   body .page>header.header::after {
@@ -4513,9 +4500,8 @@ body:has(.wiki-404) .ppc-footer__inner {
 
   body .page>header.header .wiki-nav-home {
     display: inline-flex !important;
-    width: min(100%, calc(100dvw - 6.25rem));
-    max-width: calc(100dvw - 6.25rem);
-    transition: opacity 160ms ease, visibility 160ms ease;
+    width: 100%;
+    max-width: 100%;
   }
 
   body .page>header.header .wiki-nav-wordmark {
@@ -4530,39 +4516,20 @@ body:has(.wiki-404) .ppc-footer__inner {
     max-width: 10.5rem;
   }
 
-  :root.wiki-mobile-header-scrolled body .page>header.header {
-    border-bottom-color: transparent !important;
-    background: transparent !important;
-    backdrop-filter: none;
-  }
-
-  :root.wiki-mobile-header-scrolled body .page>header.header::before {
-    height: max(env(safe-area-inset-top, 0px), 0px);
-    background: rgb(10 10 10 / 0.94);
-  }
-
-  :root.wiki-mobile-header-scrolled body .page>header.header::after {
-    opacity: 0;
-  }
-
-  :root.wiki-mobile-header-scrolled body .page>header.header .group\/wiki-nav {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
   starlight-menu-button button {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     position: fixed !important;
-    z-index: 3 !important;
+    z-index: 1002 !important;
     opacity: 1 !important;
     visibility: visible !important;
-    top: calc(env(safe-area-inset-top, 0px) + 2rem) !important;
-    right: max(1.1rem, env(safe-area-inset-right, 0px)) !important;
+    top: auto !important;
+    right: max(0.85rem, env(safe-area-inset-right, 0px)) !important;
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px)) !important;
     width: 4.75rem !important;
     height: 4.75rem !important;
+    transform: none !important;
   }
 
   starlight-menu-button button::before {
@@ -4579,6 +4546,29 @@ body:has(.wiki-404) .ppc-footer__inner {
 
   starlight-menu-button button .open-menu {
     display: none !important;
+  }
+
+  starlight-menu-button button svg {
+    display: none !important;
+  }
+
+  .sidebar-pane {
+    position: fixed !important;
+    right: max(0.9rem, env(safe-area-inset-right, 0px)) !important;
+    bottom: calc(max(1rem, env(safe-area-inset-bottom, 0px)) + 5.25rem) !important;
+    left: auto !important;
+    top: auto !important;
+    width: min(22rem, calc(100dvw - 1.8rem)) !important;
+    max-height: min(72svh, 34rem) !important;
+    border: 1px solid var(--color-ppc-line-strong) !important;
+    background:
+      radial-gradient(ellipse at 10% 0%, rgb(246 241 232 / 0.05), transparent 18rem),
+      rgb(10 10 10 / 0.98) !important;
+    box-shadow: 0 1.5rem 3.5rem rgb(0 0 0 / 0.45);
+  }
+
+  .sidebar-pane .sidebar-content {
+    max-height: inherit;
   }
 
   .content-panel {
