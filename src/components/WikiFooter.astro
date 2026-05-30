@@ -24,10 +24,6 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
   </div>
 )}
 
-<button class="wiki-floating-menu-button" type="button" aria-label="Open wiki navigation" aria-expanded="false">
-  <img src="/images/ui/pixel-art/side-bar-openenr-phone-small.png" alt="" />
-</button>
-
 <footer class="ppc-footer">
   <div class="ppc-footer__inner">
     <div class="ppc-footer__grid">
@@ -132,28 +128,6 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 
 <script is:inline>
   (() => {
-    const root = document.documentElement;
-    const floatingButton = document.querySelector('.wiki-floating-menu-button');
-
-    if (floatingButton) {
-      const setExpanded = (expanded) => {
-        floatingButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      };
-
-      floatingButton.addEventListener('click', () => {
-        const expanded = root.classList.toggle('wiki-floating-sidebar-open');
-        setExpanded(expanded);
-      });
-
-      document.addEventListener('click', (event) => {
-        if (!root.classList.contains('wiki-floating-sidebar-open')) return;
-        if (event.target.closest('.wiki-floating-menu-button, .sidebar-pane')) return;
-
-        root.classList.remove('wiki-floating-sidebar-open');
-        setExpanded(false);
-      });
-    }
-
     const images = Array.from(
       document.querySelectorAll('.basics-page figure img, .anatomy-page figure img, .editing-page figure img, .gear-page figure img')
     );
