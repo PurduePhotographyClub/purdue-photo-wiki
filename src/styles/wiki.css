@@ -4362,6 +4362,10 @@ body:has(.wiki-404) .ppc-footer__inner {
   margin-inline: auto;
 }
 
+main>.content-panel:first-child {
+  padding-top: clamp(0.5rem, 2vw, 1.5rem) !important;
+}
+
 @media (min-width: 50rem) {
   :root[data-has-sidebar] {
     --wiki-sidebar-expanded-width: 18.75rem;
@@ -4454,6 +4458,7 @@ body:has(.wiki-404) .ppc-footer__inner {
     --sl-content-inline-start: 0rem !important;
     --sl-content-margin-inline: 0rem !important;
     --sl-nav-height: 4rem;
+    --wiki-mobile-menu-bottom: max(5.25rem, calc(env(safe-area-inset-bottom, 0px) + 1rem));
   }
 
   body .page,
@@ -4516,19 +4521,28 @@ body:has(.wiki-404) .ppc-footer__inner {
     max-width: 10.5rem;
   }
 
+  starlight-menu-button {
+    display: block !important;
+    position: fixed !important;
+    right: max(0.85rem, env(safe-area-inset-right, 0px)) !important;
+    bottom: var(--wiki-mobile-menu-bottom) !important;
+    z-index: 1002 !important;
+    width: 4.75rem !important;
+    height: 4.75rem !important;
+    pointer-events: auto !important;
+  }
+
   starlight-menu-button button {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    position: fixed !important;
+    position: relative !important;
+    inset: auto !important;
     z-index: 1002 !important;
     opacity: 1 !important;
     visibility: visible !important;
-    top: auto !important;
-    right: max(0.85rem, env(safe-area-inset-right, 0px)) !important;
-    bottom: max(1rem, env(safe-area-inset-bottom, 0px)) !important;
-    width: 4.75rem !important;
-    height: 4.75rem !important;
+    width: 100% !important;
+    height: 100% !important;
     transform: none !important;
   }
 
@@ -4555,7 +4569,7 @@ body:has(.wiki-404) .ppc-footer__inner {
   .sidebar-pane {
     position: fixed !important;
     right: max(0.9rem, env(safe-area-inset-right, 0px)) !important;
-    bottom: calc(max(1rem, env(safe-area-inset-bottom, 0px)) + 5.25rem) !important;
+    bottom: calc(var(--wiki-mobile-menu-bottom) + 5.25rem) !important;
     left: auto !important;
     top: auto !important;
     width: min(22rem, calc(100dvw - 1.8rem)) !important;
@@ -4574,7 +4588,7 @@ body:has(.wiki-404) .ppc-footer__inner {
   .content-panel {
     width: 100% !important;
     margin-inline: 0 !important;
-    padding-top: 0.35rem !important;
+    padding-top: 0 !important;
   }
 
   .sl-container {
@@ -4595,6 +4609,14 @@ body:has(.wiki-404) .ppc-footer__inner {
 
   .wiki-title-block h1 {
     overflow-wrap: anywhere;
+  }
+
+  main>.content-panel:first-child {
+    padding-top: 0 !important;
+  }
+
+  main>.content-panel:first-child .wiki-title-block {
+    margin-top: -2.25rem !important;
   }
 
   .ppc-footer {
