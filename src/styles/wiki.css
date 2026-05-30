@@ -4366,6 +4366,48 @@ main>.content-panel:first-child {
   padding-top: clamp(0.5rem, 2vw, 1.5rem) !important;
 }
 
+@media (max-width: 64rem) {
+  .sidebar::before {
+    display: none !important;
+  }
+
+  .wiki-floating-menu-button {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    z-index: 1003;
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .wiki-floating-menu-button img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0.8rem 1rem rgb(0 0 0 / 0.36));
+  }
+
+  main>.content-panel:first-child {
+    padding-top: 0 !important;
+  }
+
+  main>.content-panel:first-child .wiki-title-block {
+    margin-top: -5.5rem !important;
+  }
+}
+
+@media (min-width: 64.001rem) {
+  .wiki-floating-menu-button {
+    display: none !important;
+  }
+}
+
 @media (min-width: 50rem) {
   :root[data-has-sidebar] {
     --wiki-sidebar-expanded-width: 18.75rem;
@@ -4458,7 +4500,7 @@ main>.content-panel:first-child {
     --sl-content-inline-start: 0rem !important;
     --sl-content-margin-inline: 0rem !important;
     --sl-nav-height: 4rem;
-    --wiki-mobile-menu-bottom: max(5.25rem, calc(env(safe-area-inset-bottom, 0px) + 1rem));
+    --wiki-mobile-menu-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   body .page,
@@ -4522,40 +4564,21 @@ main>.content-panel:first-child {
   }
 
   starlight-menu-button {
-    display: block !important;
     position: fixed !important;
-    right: max(0.85rem, env(safe-area-inset-right, 0px)) !important;
-    bottom: var(--wiki-mobile-menu-bottom) !important;
-    z-index: 1002 !important;
-    width: 4.75rem !important;
-    height: 4.75rem !important;
-    pointer-events: auto !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
   starlight-menu-button button {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-    inset: auto !important;
-    z-index: 1002 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    width: 100% !important;
-    height: 100% !important;
-    transform: none !important;
+    width: 1px !important;
+    height: 1px !important;
   }
 
   starlight-menu-button button::before {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    display: block !important;
-    width: 4.5rem !important;
-    height: 4.5rem !important;
-    background: url('/images/ui/pixel-art/side-bar-openenr-phone.svg') center / contain no-repeat !important;
-    content: '' !important;
-    transform: translate(-50%, -50%) !important;
+    content: none !important;
   }
 
   starlight-menu-button button .open-menu {
@@ -4583,6 +4606,14 @@ main>.content-panel:first-child {
 
   .sidebar-pane .sidebar-content {
     max-height: inherit;
+  }
+
+  :root.wiki-floating-sidebar-open .sidebar-pane {
+    display: block !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 
   .content-panel {
@@ -4616,7 +4647,7 @@ main>.content-panel:first-child {
   }
 
   main>.content-panel:first-child .wiki-title-block {
-    margin-top: -2.25rem !important;
+    margin-top: -5.5rem !important;
   }
 
   .ppc-footer {

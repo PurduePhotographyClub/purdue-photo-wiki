@@ -77,3 +77,50 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
     </div>
   </div>
 </div>
+
+<button class="wiki-floating-menu-button" type="button" aria-label="Open wiki navigation" aria-expanded="false">
+  <img src="/images/ui/pixel-art/side-bar-openenr-phone.svg" alt="" />
+</button>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const floatingButton = document.querySelector('.wiki-floating-menu-button');
+    if (!floatingButton) return;
+
+    const setExpanded = (expanded) => {
+      floatingButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    };
+
+    floatingButton.addEventListener('click', () => {
+      const nativeButton = document.querySelector('starlight-menu-button button');
+
+      if (nativeButton) {
+        const previousState = nativeButton.getAttribute('aria-expanded');
+        nativeButton.click();
+        window.requestAnimationFrame(() => {
+          const nextState = nativeButton.getAttribute('aria-expanded');
+          if (nextState !== previousState) {
+            setExpanded(nextState === 'true');
+            return;
+          }
+
+          const expanded = root.classList.toggle('wiki-floating-sidebar-open');
+          setExpanded(expanded);
+        });
+        return;
+      }
+
+      const expanded = root.classList.toggle('wiki-floating-sidebar-open');
+      setExpanded(expanded);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!root.classList.contains('wiki-floating-sidebar-open')) return;
+      if (event.target.closest('.wiki-floating-menu-button, .sidebar-pane')) return;
+
+      root.classList.remove('wiki-floating-sidebar-open');
+      setExpanded(false);
+    });
+  })();
+</script>
