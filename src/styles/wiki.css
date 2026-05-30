@@ -4362,10 +4362,6 @@ body:has(.wiki-404) .ppc-footer__inner {
   margin-inline: auto;
 }
 
-main>.content-panel:first-child {
-  padding-top: clamp(0.5rem, 2vw, 1.5rem) !important;
-}
-
 @media (max-width: 64rem) {
   .sidebar::before {
     display: none !important;
@@ -4391,14 +4387,6 @@ main>.content-panel:first-child {
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0.8rem 1rem rgb(0 0 0 / 0.36));
-  }
-
-  main>.content-panel:first-child {
-    padding-top: 0 !important;
-  }
-
-  main>.content-panel:first-child .wiki-title-block {
-    margin-top: -5.5rem !important;
   }
 }
 
@@ -4545,24 +4533,6 @@ main>.content-panel:first-child {
     padding-inline: 0 !important;
   }
 
-  body .page>header.header .wiki-nav-home {
-    display: inline-flex !important;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  body .page>header.header .wiki-nav-wordmark {
-    flex: 1 1 auto;
-    max-width: none;
-  }
-
-  body .page>header.header .wiki-nav-label {
-    display: inline-block;
-    flex: 0 1 auto;
-    min-width: 8.6rem;
-    max-width: 10.5rem;
-  }
-
   starlight-menu-button {
     position: fixed !important;
     width: 1px !important;
@@ -4619,7 +4589,7 @@ main>.content-panel:first-child {
   .content-panel {
     width: 100% !important;
     margin-inline: 0 !important;
-    padding-top: 0 !important;
+    padding-top: 0.35rem !important;
   }
 
   .sl-container {
@@ -4640,14 +4610,6 @@ main>.content-panel:first-child {
 
   .wiki-title-block h1 {
     overflow-wrap: anywhere;
-  }
-
-  main>.content-panel:first-child {
-    padding-top: 0 !important;
-  }
-
-  main>.content-panel:first-child .wiki-title-block {
-    margin-top: -5.5rem !important;
   }
 
   .ppc-footer {
@@ -4673,5 +4635,58 @@ main>.content-panel:first-child {
   .ppc-footer__bottom {
     align-items: flex-start !important;
     flex-direction: column !important;
+  }
+}
+
+@media (min-width: 50.001rem) and (max-width: 64rem) {
+  :root[data-has-sidebar],
+  :root[data-has-sidebar][data-has-toc] {
+    --sl-content-inline-start: 0rem !important;
+  }
+
+  starlight-menu-button {
+    position: fixed !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  starlight-menu-button button::before {
+    content: none !important;
+  }
+
+  .sidebar-pane {
+    position: fixed !important;
+    right: max(0.9rem, env(safe-area-inset-right, 0px)) !important;
+    bottom: calc(max(1rem, env(safe-area-inset-bottom, 0px)) + 5.25rem) !important;
+    left: auto !important;
+    top: auto !important;
+    width: min(22rem, calc(100dvw - 1.8rem)) !important;
+    max-height: min(72svh, 34rem) !important;
+    border: 1px solid var(--color-ppc-line-strong) !important;
+    background:
+      radial-gradient(ellipse at 10% 0%, rgb(246 241 232 / 0.05), transparent 18rem),
+      rgb(10 10 10 / 0.98) !important;
+    box-shadow: 0 1.5rem 3.5rem rgb(0 0 0 / 0.45);
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(0.5rem) scale(0.98) !important;
+  }
+
+  .sidebar-pane .sidebar-content {
+    max-height: inherit;
+    opacity: 1 !important;
+    scrollbar-width: thin !important;
+  }
+
+  :root.wiki-floating-sidebar-open .sidebar-pane {
+    display: block !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 }
