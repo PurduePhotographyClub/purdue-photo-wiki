@@ -171,6 +171,11 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
     const closeButton = viewer.querySelector('.wiki-image-viewer__close');
     const closeTargets = viewer.querySelectorAll('.wiki-image-viewer__backdrop, .wiki-image-viewer__close');
 
+    const updateViewerHeight = () => {
+      const height = window.visualViewport?.height || window.innerHeight;
+      document.documentElement.style.setProperty('--wiki-viewer-height', `${height}px`);
+    };
+
     const getCaptionText = (image) => {
       const figure = image.closest('figure');
       const figureCaption = figure?.querySelector('figcaption');
@@ -184,6 +189,7 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
       document.body.classList.remove('wiki-image-viewer-open');
       viewerImage.removeAttribute('src');
       caption.textContent = '';
+      document.documentElement.style.removeProperty('--wiki-viewer-height');
 
       if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
         lastFocusedElement.focus({ preventScroll: true });
@@ -192,6 +198,7 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 
     const openViewer = (image) => {
       lastFocusedElement = document.activeElement;
+      updateViewerHeight();
       viewerImage.src = image.currentSrc || image.src;
       viewerImage.alt = image.alt || '';
       caption.textContent = getCaptionText(image);
@@ -207,6 +214,10 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') closeViewer();
     });
+
+    window.visualViewport?.addEventListener('resize', updateViewerHeight);
+    window.visualViewport?.addEventListener('scroll', updateViewerHeight);
+    window.addEventListener('resize', updateViewerHeight);
 
     images.forEach((image) => {
       if (image.dataset.wikiExpandableImage === 'true') return;
