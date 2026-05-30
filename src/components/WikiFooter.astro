@@ -129,7 +129,7 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 <script is:inline>
   (() => {
     const images = Array.from(
-      document.querySelectorAll('.basics-page figure img, .anatomy-page figure img, .editing-page figure img, .gear-page figure img')
+      document.querySelectorAll('.gs-page .gs-photo-link img, .basics-page figure img, .anatomy-page figure img, .editing-page figure img, .gear-page figure img')
     );
 
     if (images.length === 0) return;
@@ -224,15 +224,31 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 
       image.dataset.wikiExpandableImage = 'true';
       image.classList.add('wiki-expandable-image');
+      const photoLink = image.closest('.gs-photo-link');
+      const openImage = (event) => {
+        event?.preventDefault();
+        openViewer(image);
+      };
+
+      if (photoLink) {
+        photoLink.classList.add('wiki-expandable-image-link');
+        photoLink.setAttribute('aria-label', `View ${getCaptionText(image)} full size`);
+        photoLink.addEventListener('click', openImage);
+        photoLink.addEventListener('keydown', (event) => {
+          if (event.key !== ' ') return;
+          openImage(event);
+        });
+        return;
+      }
+
       image.tabIndex = 0;
       image.setAttribute('role', 'button');
       image.setAttribute('aria-label', `View ${getCaptionText(image)} full size`);
 
-      image.addEventListener('click', () => openViewer(image));
+      image.addEventListener('click', openImage);
       image.addEventListener('keydown', (event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        openViewer(image);
+        openImage(event);
       });
     });
   })();
