@@ -4507,9 +4507,26 @@ body:has(.wiki-404) .ppc-footer__inner {
     padding-inline: 0 !important;
   }
 
+  body .page>header.header .group\/wiki-nav {
+    display: none !important;
+  }
+
   starlight-menu-button button {
+    position: fixed !important;
+    z-index: 3 !important;
     top: calc(env(safe-area-inset-top, 0px) + 2rem) !important;
-    right: max(1rem, env(safe-area-inset-right, 0px)) !important;
+    right: max(1.1rem, env(safe-area-inset-right, 0px)) !important;
+    width: 4.75rem !important;
+    height: 4.75rem !important;
+  }
+
+  starlight-menu-button:not([aria-expanded='true']) button::before {
+    width: 4.5rem !important;
+    height: 4.5rem !important;
+  }
+
+  starlight-menu-button button .open-menu {
+    display: none !important;
   }
 
   .content-panel {
