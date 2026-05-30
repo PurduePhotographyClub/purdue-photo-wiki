@@ -112,8 +112,17 @@ const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:ro
 
 <style>
   .wiki-doc-pagination {
+    box-sizing: border-box;
     width: min(68rem, calc(100vw - 2rem));
+    max-width: 100%;
     margin: clamp(2rem, 5vw, 4rem) auto clamp(2rem, 5vw, 3rem);
+  }
+
+  @media (max-width: 50rem) {
+    .wiki-doc-pagination {
+      width: 100%;
+      margin-inline: 0;
+    }
   }
 </style>
 
