@@ -13,6 +13,7 @@ export default defineConfig({
       description: 'Purdue Photography Club knowledge base, updates, and operating notes.',
       favicon: '/favicon.svg',
       customCss: ['./src/styles/wiki.css'],
+      disable404Route: true,
       components: {
         Header: './src/components/WikiHeader.astro',
         Footer: './src/components/WikiFooter.astro',
