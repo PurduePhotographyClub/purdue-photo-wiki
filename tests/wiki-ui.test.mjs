@@ -92,6 +92,12 @@ test('the responsive wiki shell is made from explicit Tailwind components', () =
   assert.match(config, /customCss:\s*\[['"]\.\/src\/styles\/tailwind\.css['"]\]/);
   assert.match(pageFrame, /lg:grid-cols-\[17rem_minmax\(0,1fr\)\]/);
   assert.match(pageFrame, /id="starlight__sidebar"/);
+  assert.match(pageFrame, /lg:px-0/);
+  assert.match(header, /lg:grid-cols-\[17rem_minmax\(0,1fr\)\]/);
+  assert.match(header, /lg:max-w-lg/);
+  assert.match(header, /xl:max-w-2xl/);
+  assert.match(header, /items-center justify-end[^"\n]+lg:justify-start/);
+  assert.match(header, /lg:ml-auto!/);
   assert.match(header, /aria-controls="starlight__sidebar"/);
   assert.match(header, /min-h-11/);
   assert.match(themeProvider, /dataset\.theme\s*=\s*['"]dark['"]/);
@@ -103,22 +109,36 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   const pageTitle = readProjectFile('src/components/WikiPageTitle.astro');
   const markdown = readProjectFile('src/components/WikiMarkdownContent.astro');
   const footer = readProjectFile('src/components/WikiFooter.astro');
+  const homepage = readProjectFile('src/content/docs/index.md');
   const gettingStarted = readProjectFile('src/content/docs/photography/index.md');
 
-  assert.match(contentPanel, /mx-auto![^\n]+max-w-5xl/);
+  assert.match(contentPanel, /@container[^\n]+mx-auto![^\n]+max-w-7xl[^\n]+2xl:max-w-\[90rem\]/);
   assert.match(twoColumnContent, /sm:\[&>main\]:px-6!/);
   assert.match(twoColumnContent, /lg:\[&>main\]:px-8!/);
   assert.match(twoColumnContent, /xl:\[&>main\]:px-10!/);
   assert.match(pageTitle, /px-5[^\n]+sm:px-7[^\n]+lg:px-9/);
   assert.match(pageTitle, /text-4xl[^\n]+sm:text-5xl[^\n]+lg:text-6xl/);
   assert.match(markdown, /sl-markdown-content/);
-  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:mt-16!/);
+  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:mt-20!/);
+  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:pt-10!/);
   assert.match(markdown, /\[&_\.sl-anchor-link\]:no-underline!/);
+  assert.match(markdown, /\[&_p\+p\]:mt-5!/);
+  assert.match(markdown, /\[&_ol\]:my-8/);
+  assert.match(markdown, /\[&_ol\]:space-y-4/);
   assert.doesNotMatch(markdown, /\bspace-y-6\b/);
+  assert.match(homepage, /@3xl:grid-cols-2/);
+  assert.match(homepage, /@5xl:grid-cols-3/);
+  assert.match(homepage, /@7xl:grid-cols-4/);
+  assert.match(homepage, /grid grid-cols-1 gap-4/);
+  assert.match(homepage, /flex aspect-square[^\n]+border border-white\/10[^\n]+p-6/);
+  assert.match(gettingStarted, /flex flex-col gap-16 sm:gap-24/);
   assert.match(gettingStarted, /border-l-2[^\n]+px-5[^\n]+sm:px-8/);
-  assert.match(gettingStarted, /mx-auto w-full max-w-4xl min-w-0/);
+  assert.match(gettingStarted, /mx-auto! w-full max-w-6xl min-w-0/);
+  assert.match(gettingStarted, /mb-10![^\n]+sm:mb-12!/);
+  assert.match(gettingStarted, /gap-5[^\n]+py-7[^\n]+sm:gap-7[^\n]+sm:py-8/);
   assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
-  assert.match(footer, /mx-auto[^\n]+max-w-5xl[^\n]+py-16[^\n]+sm:py-20/);
+  assert.match(footer, /mx-auto![^\n]+max-w-7xl[^\n]+2xl:max-w-\[90rem\][^\n]+py-16[^\n]+sm:py-20/);
+  assert.match(footer, /mx-auto! w-full max-w-7xl/);
 });
 
 test('the wiki footer mirrors the club website footer', () => {

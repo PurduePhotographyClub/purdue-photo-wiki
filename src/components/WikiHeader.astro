@@ -13,8 +13,8 @@ const socialLinks = [
 const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]';
 ---
 
-<div class="flex h-full w-full items-center gap-2 sm:gap-4">
-  <a href="/" class="group flex min-w-0 shrink-0 items-center gap-2.5 text-white no-underline" aria-label="PPC Wiki home">
+<div class="flex h-full w-full items-center gap-2 sm:gap-4 lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-0">
+  <a href="/" class="group flex min-w-0 shrink-0 items-center gap-2.5 text-white no-underline lg:h-full lg:px-7" aria-label="PPC Wiki home">
     <span class="grid size-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.03] transition group-hover:border-amber-200/50">
       <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="size-7 object-contain brightness-[1.7] invert mix-blend-screen" />
     </span>
@@ -24,62 +24,64 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
     </span>
   </a>
 
-  {shouldRenderSearch && (
-    <div class="ml-auto flex min-w-0 flex-1 justify-end sm:max-w-xs [&_button[data-open-modal]]:min-h-11 [&_button[data-open-modal]]:w-11 [&_button[data-open-modal]]:justify-center [&_button[data-open-modal]]:rounded-none [&_button[data-open-modal]]:border [&_button[data-open-modal]]:border-white/15 [&_button[data-open-modal]]:bg-white/[0.03] [&_button[data-open-modal]]:transition [&_button[data-open-modal]]:hover:border-white/35 sm:[&_button[data-open-modal]]:w-full sm:[&_button[data-open-modal]]:justify-start">
-      <Search />
-    </div>
-  )}
+  <div class="ml-auto flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-4 lg:ml-0 lg:w-full lg:justify-start lg:gap-6 lg:px-8 xl:px-10">
+    {shouldRenderSearch && (
+      <div class="flex min-w-0 flex-1 justify-end sm:max-w-xs lg:max-w-lg lg:justify-start xl:max-w-2xl [&_button[data-open-modal]]:min-h-11 [&_button[data-open-modal]]:w-11 [&_button[data-open-modal]]:justify-center [&_button[data-open-modal]]:rounded-none [&_button[data-open-modal]]:border [&_button[data-open-modal]]:border-white/15 [&_button[data-open-modal]]:bg-white/[0.03] [&_button[data-open-modal]]:transition [&_button[data-open-modal]]:hover:border-white/35 sm:[&_button[data-open-modal]]:w-full sm:[&_button[data-open-modal]]:justify-start">
+        <Search />
+      </div>
+    )}
 
-  <nav class="hidden items-center gap-1 lg:flex" aria-label="Club links">
-    <a
-      href="https://purduephotoclub.org"
-      class="inline-flex min-h-11 items-center border border-transparent px-3 text-[0.65rem] tracking-[0.16em] text-neutral-300 uppercase transition hover:border-white/15 hover:text-white"
-    >
-      Club site
-    </a>
-    {socialLinks.map((link) => (
+    <nav class="hidden items-center gap-1 lg:ml-auto! lg:flex" aria-label="Club links">
       <a
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={link.label}
-        title={link.label}
-        class="inline-flex size-11 items-center justify-center text-neutral-400 transition hover:bg-white/[0.04] hover:text-white"
+        href="https://purduephotoclub.org"
+        class="inline-flex min-h-11 items-center border border-transparent px-3 text-[0.65rem] tracking-[0.16em] text-neutral-300 uppercase transition hover:border-white/15 hover:text-white"
       >
-        {link.icon === 'instagram' && (
-          <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-            <rect x="3" y="3" width="18" height="18" rx="5" />
-            <circle cx="12" cy="12" r="4" />
-            <path d="M17.5 6.5h.01" />
-          </svg>
-        )}
-        {link.icon === 'discord' && (
-          <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-            <path d="M8.5 8.6a10.8 10.8 0 0 1 7 0M9 15c2 1.2 4 1.2 6 0" />
-            <path d="M7.2 5.7A18 18 0 0 0 3.5 18c2.2 1.6 4.2 2.2 4.2 2.2l1-1.5M16.8 5.7A18 18 0 0 1 20.5 18c-2.2 1.6-4.2 2.2-4.2 2.2l-1-1.5" />
-            <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none" />
-            <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none" />
-          </svg>
-        )}
+        Club site
       </a>
-    ))}
-  </nav>
+      {socialLinks.map((link) => (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={link.label}
+          title={link.label}
+          class="inline-flex size-11 items-center justify-center text-neutral-400 transition hover:bg-white/[0.04] hover:text-white"
+        >
+          {link.icon === 'instagram' && (
+            <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <path d="M17.5 6.5h.01" />
+            </svg>
+          )}
+          {link.icon === 'discord' && (
+            <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
+              <path d="M8.5 8.6a10.8 10.8 0 0 1 7 0M9 15c2 1.2 4 1.2 6 0" />
+              <path d="M7.2 5.7A18 18 0 0 0 3.5 18c2.2 1.6 4.2 2.2 4.2 2.2l1-1.5M16.8 5.7A18 18 0 0 1 20.5 18c-2.2 1.6-4.2 2.2-4.2 2.2l-1-1.5" />
+              <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none" />
+              <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          )}
+        </a>
+      ))}
+    </nav>
 
-  <button
-    type="button"
-    data-wiki-menu
-    aria-controls="starlight__sidebar"
-    aria-expanded="false"
-    aria-label="Open wiki navigation"
-    class="inline-flex min-h-11 min-w-11 items-center justify-center border border-white/15 bg-white/[0.03] text-neutral-200 transition hover:border-white/35 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 lg:hidden"
-  >
-    <svg data-menu-open-icon viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2">
-      <path d="M4 7h16M4 12h16M4 17h16" />
-    </svg>
-    <svg data-menu-close-icon viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2">
-      <path d="m6 6 12 12M18 6 6 18" />
-    </svg>
-  </button>
+    <button
+      type="button"
+      data-wiki-menu
+      aria-controls="starlight__sidebar"
+      aria-expanded="false"
+      aria-label="Open wiki navigation"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center border border-white/15 bg-white/[0.03] text-neutral-200 transition hover:border-white/35 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 lg:hidden"
+    >
+      <svg data-menu-open-icon viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <svg data-menu-close-icon viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </svg>
+    </button>
+  </div>
 </div>
 
 <script>

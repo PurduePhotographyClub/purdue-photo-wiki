@@ -6,8 +6,8 @@ sidebar:
   label: Getting Started
 ---
 
-<div class="space-y-14 sm:space-y-20" id="gs-start">
-  <section class="grid grid-cols-1 items-end gap-7 border border-white/10 bg-neutral-950 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-10 lg:p-8">
+<div class="flex flex-col gap-16 sm:gap-24" id="gs-start">
+  <section class="grid grid-cols-1 items-end gap-7 border border-white/10 bg-neutral-950 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-12 lg:p-10">
     <div class="space-y-5">
       <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">No gatekeeping, no gear panic.</p>
       <p class="m-0! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100 sm:text-3xl! lg:text-4xl!">
@@ -27,28 +27,28 @@ sidebar:
     </figure>
   </section>
 
-  <section class="border-l-2 border-amber-200/30 px-5 sm:px-8" id="gs-practice" aria-label="What to practice first">
-    <div class="mx-auto w-full max-w-4xl min-w-0">
-      <p class="m-0! mb-7! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-snug! font-semibold text-neutral-100 sm:text-3xl!">
+  <section class="border-l-2 border-amber-200/30 px-5 py-4 sm:px-8 sm:py-6" id="gs-practice" aria-label="What to practice first">
+    <div class="mx-auto! w-full max-w-6xl min-w-0">
+      <p class="m-0! mb-10! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-snug! font-semibold text-neutral-100 sm:mb-12! sm:text-3xl!">
         Your first few goals are simple: notice <em class="not-italic text-amber-200">light</em>, pick a <em class="not-italic text-neutral-100">frame</em>, and make the photo feel <em class="not-italic text-neutral-100">intentional</em>.
       </p>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-t border-white/10 py-5 sm:grid-cols-[4rem_minmax(0,1fr)]">
+      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-7 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-8">
         <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">01</span>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Use What You Have</h2>
           <p class="m-0! text-sm! leading-7! text-neutral-400">Your phone is enough. Learn how it sees highlights, shadows, motion, and color before you worry about lenses.</p>
         </div>
       </div>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-t border-white/10 py-5 sm:grid-cols-[4rem_minmax(0,1fr)]">
+      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-7 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-8">
         <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">02</span>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Chase Light</h2>
           <p class="m-0! text-sm! leading-7! text-neutral-400">Good light does a lot of the heavy lifting. Try windows, sunsets, neon, cloudy days, and harsh noon light just to see what happens.</p>
         </div>
       </div>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-y border-white/10 py-5 sm:grid-cols-[4rem_minmax(0,1fr)]">
+      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-y border-white/10 py-7 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-8">
         <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">03</span>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Make It Intentional</h2>
           <p class="m-0! text-sm! leading-7! text-neutral-400">Move your feet. Crop with your body. Ask what belongs in the frame and what can leave.</p>
         </div>
@@ -56,7 +56,7 @@ sidebar:
     </div>
   </section>
 
-  <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-8 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-10" id="gs-gear">
+  <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-10 sm:pt-12 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-12" id="gs-gear">
     <div class="space-y-5">
       <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Before buying gear</p>
       <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Figure Out What You Like Shooting</h2>
@@ -77,7 +77,7 @@ sidebar:
     </figure>
   </section>
 
-  <section class="border-t border-white/10 pt-8" id="gs-gallery">
+  <section class="border-t border-white/10 pt-10 sm:pt-12" id="gs-gallery">
     <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Club member work</p>
     <h2 class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Phone, Camera, Whatever. Train Your Eye.</h2>
     <p class="mt-5! mb-0! text-neutral-300">
