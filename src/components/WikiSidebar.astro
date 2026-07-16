@@ -1,5 +1,4 @@
 ---
-import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
 import WikiSidebarToc from './WikiSidebarToc.astro';
 
@@ -10,142 +9,57 @@ interface Props {
 
 const route = Astro.locals.starlightRoute;
 const { sublist = route.sidebar, nested = false } = Astro.props;
-const tocItems = route.toc?.items ?? [];
 const isRoot = !Astro.props.sublist;
-const gettingStartedTocItems = [
-  { slug: 'gs-start', text: 'Overview', children: [] },
-  { slug: 'gs-practice', text: 'What to Practice First', children: [] },
-  { slug: 'gs-gear', text: 'Before Buying Gear', children: [] },
-  { slug: 'gs-gallery', text: 'Club Member Work', children: [] },
-];
-const basicsTocItems = [
-  { slug: 'basics-start', text: 'Overview', children: [] },
-  { slug: 'exposure-triangle', text: 'Exposure Triangle', children: [] },
-  { slug: 'aperture', text: 'Aperture', children: [] },
-  { slug: 'shutter-speed', text: 'Shutter Speed', children: [] },
-  { slug: 'iso', text: 'ISO', children: [] },
-  { slug: 'dynamic-range', text: 'Dynamic Range', children: [] },
-  { slug: 'raw-vs-jpg', text: 'Raw vs. JPG', children: [] },
-  { slug: 'putting-it-together', text: 'Putting It Together', children: [] },
-  { slug: 'camera-modes', text: 'Camera Modes', children: [] },
-];
-const anatomyTocItems = [
-  { slug: 'anatomy-start', text: 'Overview', children: [] },
-  { slug: 'control-map', text: 'Top Controls', children: [] },
-  { slug: 'back-controls', text: 'Rear Controls', children: [] },
-  { slug: 'beginner-layout', text: 'Beginner Setup', children: [] },
-  { slug: 'body-parts', text: 'Body Parts', children: [] },
-  { slug: 'viewfinder-screen', text: 'Finder + Screen', children: [] },
-  { slug: 'important-settings', text: 'Useful Settings', children: [] },
-];
-const editingTocItems = [
-  { slug: 'editing-start', text: 'Overview', children: [] },
-  { slug: 'cropping', text: 'Cropping', children: [] },
-  { slug: 'value', text: 'Value', children: [] },
-  { slug: 'tone-curve', text: 'Tone Curve', children: [] },
-  { slug: 'color', text: 'Color', children: [] },
-  { slug: 'color-tools', text: 'Color Tools', children: [] },
-  { slug: 'software', text: 'Software', children: [] },
-  { slug: 'guidelines', text: 'Guidelines', children: [] },
-];
-const buyingGearTocItems = [
-  { slug: 'gear-start', text: 'Overview', children: [] },
-  { slug: 'first-questions', text: 'First Questions', children: [] },
-  { slug: 'used-gear', text: 'Used Gear', children: [] },
-  { slug: 'what-matters', text: 'What Matters', children: [] },
-  { slug: 'nice-specialized', text: 'Nice + Specialized', children: [] },
-  { slug: 'mirrorless-picks', text: 'Mirrorless Picks', children: [] },
-  { slug: 'dslrs', text: 'DSLRs', children: [] },
-];
-const helpfulResourcesTocItems = [
-  { slug: 'resources-start', text: 'Overview', children: [] },
-  { slug: 'comparison', text: 'Comparison', children: [] },
-  { slug: 'reviews', text: 'Reviews', children: [] },
-  { slug: 'sample-images', text: 'Sample Images', children: [] },
-  { slug: 'other', text: 'Other', children: [] },
-  { slug: 'how-to-use', text: 'How to Use', children: [] },
-];
 
 function hasCurrent(entries: any[] = []): boolean {
   return entries.some((entry) =>
     entry.type === 'link' ? entry.isCurrent : hasCurrent(entry.entries)
   );
 }
-
-function tocForEntry(entry: any) {
-  if (!entry.isCurrent) return [];
-
-  if (entry.href?.endsWith('/photography/') || entry.href?.endsWith('/getting-started/')) {
-    return gettingStartedTocItems;
-  }
-
-  if (entry.href?.endsWith('/basics/')) {
-    return basicsTocItems;
-  }
-
-  if (entry.href?.endsWith('/anatomy-of-a-camera/')) {
-    return anatomyTocItems;
-  }
-
-  if (entry.href?.endsWith('/editing/')) {
-    return editingTocItems;
-  }
-
-  if (entry.href?.endsWith('/buying-guide-gear/')) {
-    return buyingGearTocItems;
-  }
-
-  if (entry.href?.endsWith('/helpful-resources/')) {
-    return helpfulResourcesTocItems;
-  }
-
-  return tocItems;
-}
 ---
 
 {isRoot ? (
   <>
+    <div class="mb-5 border-b border-white/10 px-3 pb-4">
+      <p class="m-0 text-[0.58rem] tracking-[0.22em] text-amber-200/80 uppercase">Browse the archive</p>
+      <p class="mt-2 mb-0 text-xs leading-5 text-neutral-400">Photography guides, club knowledge, and the machinery behind the site.</p>
+    </div>
     <SidebarPersister>
       <Astro.self sublist={sublist} />
     </SidebarPersister>
-
-    <div class="wiki-sidebar-version" aria-label="Wiki version">v0.1</div>
-
-    <div class="md:sl-hidden">
-      <MobileMenuFooter />
-    </div>
+    <div class="mt-8 border-t border-white/10 px-3 pt-4 pb-6 text-[0.58rem] tracking-[0.18em] text-neutral-500 uppercase">PPC Wiki · v0.2</div>
   </>
 ) : (
-  <ul class:list={{ 'top-level': !nested }}>
+  <ul class:list={['m-0 list-none p-0', !nested && 'space-y-4']}>
     {sublist.map((entry) => (
-      <li>
+      <li class="m-0 p-0">
         {entry.type === 'link' ? (
-          (() => {
-            const entryTocItems = tocForEntry(entry);
-
-            return (
           <>
             <a
               href={entry.href}
               aria-current={entry.isCurrent ? 'page' : undefined}
-              class:list={[{ large: !nested }, entry.attrs?.class]}
-              {...entry.attrs}
+              class:list={[
+                'group flex min-h-11 items-center border-l-2 px-3 py-2 text-[0.72rem] leading-5 no-underline transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200',
+                entry.isCurrent
+                  ? 'border-amber-200 bg-white/[0.06] text-white'
+                  : 'border-transparent text-neutral-400 hover:border-white/20 hover:bg-white/[0.03] hover:text-white',
+              ]}
             >
               <span>{entry.label}</span>
             </a>
-            {entryTocItems.length > 0 && <WikiSidebarToc items={entryTocItems} />}
+            {entry.isCurrent && route.toc?.items?.length > 0 && <WikiSidebarToc items={route.toc.items} />}
           </>
-            );
-          })()
         ) : (
-          <details open={hasCurrent(entry.entries) || !entry.collapsed}>
-            <summary>
-              <span class="group-label">
-                <span class="large">{entry.label}</span>
-              </span>
-              <span class="caret" aria-hidden="true">›</span>
+          <details open={hasCurrent(entry.entries) || !entry.collapsed} class="group/details">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between border-b border-white/10 px-3 py-2 text-[0.62rem] font-bold tracking-[0.18em] text-neutral-300 uppercase transition hover:text-white marker:hidden">
+              <span>{entry.label}</span>
+              <svg viewBox="0 0 16 16" aria-hidden="true" class="size-4 fill-none stroke-current transition group-open/details:rotate-90">
+                <path d="m6 3 5 5-5 5" />
+              </svg>
             </summary>
-            <Astro.self sublist={entry.entries} nested />
+            <div class="mt-1 pl-2">
+              <Astro.self sublist={entry.entries} nested />
+            </div>
           </details>
         )}
       </li>

@@ -1,0 +1,36 @@
+---
+import WikiImageViewer from './WikiImageViewer.astro';
+---
+
+<div class="min-h-screen bg-neutral-950 font-['Space_Mono',ui-monospace,monospace] text-neutral-100 antialiased selection:bg-amber-200 selection:text-neutral-950">
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-10%,rgba(206,184,136,0.10),transparent_30rem),radial-gradient(circle_at_90%_18%,rgba(56,189,248,0.06),transparent_28rem)]"></div>
+
+  <header class="sticky top-0 z-50 h-20 border-b border-white/10 bg-neutral-950/95 px-3 backdrop-blur-xl sm:px-5 lg:px-7">
+    <slot name="header" />
+  </header>
+
+  <div class="lg:grid lg:grid-cols-[17rem_minmax(0,1fr)]">
+    <aside
+      id="starlight__sidebar"
+      aria-label="Wiki navigation"
+      class="fixed inset-x-0 top-20 bottom-0 z-40 hidden lg:sticky lg:top-20 lg:block lg:h-[calc(100svh-5rem)] lg:border-r lg:border-white/10"
+    >
+      <button
+        type="button"
+        data-wiki-sidebar-backdrop
+        tabindex="-1"
+        class="absolute inset-0 cursor-default bg-black/75 backdrop-blur-sm lg:hidden"
+        aria-label="Close wiki navigation"
+      ></button>
+      <div class="relative h-full w-[min(88vw,21rem)] overflow-y-auto border-r border-white/10 bg-neutral-950 px-3 py-5 shadow-2xl shadow-black/60 lg:w-auto lg:border-r-0 lg:bg-neutral-950/70 lg:shadow-none">
+        <slot name="sidebar" />
+      </div>
+    </aside>
+
+    <div class="min-w-0">
+      <slot />
+    </div>
+  </div>
+
+  <WikiImageViewer />
+</div>

@@ -1,0 +1,49 @@
+---
+const technologies = [
+  { name: 'Astro', detail: 'Server-rendered site shell and static wiki build', icon: 'astro', group: 'Interface' },
+  { name: 'React', detail: 'Interactive islands in the public site and dashboard', icon: 'react', group: 'Interface' },
+  { name: 'TypeScript', detail: 'Shared language across every Worker and web app', icon: 'typescript', group: 'Foundation' },
+  { name: 'Tailwind CSS', detail: 'Utility-first visual system and responsive layout', icon: 'tailwindcss', group: 'Interface' },
+  { name: 'Starlight + Pagefind', detail: 'Documentation structure and static search index', icon: 'astro', group: 'Interface' },
+  { name: 'Cloudflare Workers', detail: 'Website, API, Discord, email, and scheduler compute', icon: 'cloudflareworkers', group: 'Cloudflare' },
+  { name: 'Cloudflare Pages', detail: 'Static hosting and deployment for this wiki', icon: 'cloudflarepages', group: 'Cloudflare' },
+  { name: 'D1', detail: 'Relational system of record behind the API', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'R2', detail: 'Gallery, competition, avatar, merch, and leadership media', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'KV', detail: 'Receipt intake dedupe, leases, and retry records', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'Email Routing', detail: 'Inbound TooCOOL receipt delivery to the Email Worker', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'Wrangler', detail: 'Worker builds, bindings, migrations, secrets, and deployments', icon: 'cloudflareworkers', group: 'Operations' },
+  { name: 'Better Auth', detail: 'Sessions, accounts, passkeys, 2FA, and Discord linking', icon: 'betterauth', group: 'Identity' },
+  { name: 'Turnstile', detail: 'Bot challenge at public account and request boundaries', icon: 'cloudflare', group: 'Identity' },
+  { name: 'Drizzle ORM', detail: 'Typed database access inside the API Worker', icon: 'drizzle', group: 'Data' },
+  { name: 'Discord', detail: 'Commands, roles, DMs, channels, and server events', icon: 'discord', group: 'Automation' },
+  { name: 'discord.js', detail: 'Long-lived Gateway client on the VPS', icon: 'discorddotjs', group: 'Automation' },
+  { name: 'Node.js', detail: 'VPS Discord Gateway runtime and development tooling', icon: 'nodedotjs', group: 'Foundation' },
+  { name: 'postal-mime + unpdf', detail: 'MIME decoding and PDF text extraction for receipt intake', icon: 'package-library', group: 'Data' },
+  { name: 'Resend', detail: 'Transactional membership and activation email', icon: 'resend', group: 'Communication' },
+  { name: 'GitHub Actions', detail: 'Verification and Cloudflare deployment pipelines', icon: 'githubactions', group: 'Operations' },
+];
+---
+
+<section aria-labelledby="technology-grid-title" class="my-10 border border-white/10 bg-white/10">
+  <div class="flex flex-col gap-2 border-b border-white/10 bg-neutral-950 p-5 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="m-0 text-[0.6rem] tracking-[0.2em] text-amber-200 uppercase">Technology map</p>
+      <h2 id="technology-grid-title" class="mt-2! border-0! pt-0! text-3xl!">What the system runs on</h2>
+    </div>
+    <p class="m-0 max-w-md text-xs leading-5 text-neutral-400">One stack, split into small services with narrow jobs.</p>
+  </div>
+  <div class="grid gap-px sm:grid-cols-2 xl:grid-cols-3">
+    {technologies.map((technology) => (
+      <article class="group flex min-h-36 gap-4 bg-neutral-950 p-5 transition hover:bg-neutral-900/80">
+        <span class="grid size-12 shrink-0 place-items-center border border-white/10 bg-white/[0.025] transition group-hover:border-white/25">
+          <img src={`/images/tech/${technology.icon}.svg`} width="26" height="26" alt="" loading="lazy" decoding="async" class="size-6 object-contain" />
+        </span>
+        <div>
+          <p class="m-0 text-[0.55rem] tracking-[0.16em] text-neutral-500 uppercase">{technology.group}</p>
+          <h3 class="mt-1! font-['Playfair_Display',Georgia,serif] text-xl! font-semibold text-white">{technology.name}</h3>
+          <p class="mt-2 mb-0 text-xs leading-5 text-neutral-400">{technology.detail}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

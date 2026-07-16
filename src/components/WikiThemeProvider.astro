@@ -1,0 +1,12 @@
+<script is:inline>
+  document.documentElement.dataset.theme = 'dark';
+  document.documentElement.style.colorScheme = 'dark';
+
+  window.StarlightThemeProvider = {
+    updatePickers() {
+      document.querySelectorAll('starlight-theme-select select').forEach((select) => {
+        select.value = 'dark';
+      });
+    },
+  };
+</script>

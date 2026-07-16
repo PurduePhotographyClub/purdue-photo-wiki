@@ -1,0 +1,125 @@
+---
+title: Data and Images
+description: How D1, R2, and KV divide the work, how media uploads are committed, and where cleanup and object-key exposure differ by domain.
+accent: amber
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+D1 is the system of record. R2 holds the bytes that do not belong in relational rows. The Email Worker uses KV for a narrow receipt-intake job where short-lived leases and retry records matter more than relational queries.
+
+The API Worker owns the operational D1 and R2 paths. The Email Worker owns its `RECEIPT_DEDUPE` KV namespace. The website, Discord Worker, and scheduler do not receive direct D1 or R2 bindings.
+
+## D1: the record of what happened
+
+The checked-in schema contains 42 tables. That number is less useful than the boundaries inside it:
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-sky-200 uppercase">Identity</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Users, sessions, linked accounts, verification records, two-factor records, and passkeys.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-amber-200 uppercase">Membership</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Tiers, activation keys, receipt fulfillment, expiry state, and the data used to synchronize access.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-emerald-200 uppercase">Media</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Gallery photos, member profiles, competitions, entries, results, event galleries, leadership, and merchandise records.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-violet-200 uppercase">Club operations</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Equipment, loans, terms acceptance, audit logs, film requests, roll credits, darkroom slots, registrations, and studio requests.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-rose-200 uppercase">Communication</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Newsletter subscribers, dashboard updates, dismissals, read state, clear state, and Discord message references.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-neutral-300 uppercase">Coordination</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Discord verification challenges, gateway replay nonces, competition deletion claims, and scheduled-job leases.</p></article>
+</div>
+
+These records give every surface the same answer. A gallery page and a Discord notification can refer to one photo row. A dashboard loan and an equipment reminder can refer to one loan state. The schedule timer and a staff action can use the same studio request transition.
+
+The API uses parameterized D1 queries and typed access helpers. Some domains use Drizzle; others use focused database modules where direct D1 statements better match the existing route. The important boundary is consistent: request handlers do not pass a database binding to the browser or to another service.
+
+## R2: three buckets, several media domains
+
+The API configuration declares three R2 buckets:
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Binding</th><th>Primary content</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>GALLERY_BUCKET</code></td><td>Gallery images and thumbnails</td><td>Also carries portfolio photos, leadership media, and merchandise media in the current implementation.</td></tr>
+      <tr><td><code>COMPETITIONS_BUCKET</code></td><td>Competition entries and derived images</td><td>Separated so competition lifecycle and cleanup stay isolated from the main gallery.</td></tr>
+      <tr><td><code>PROFILE_BUCKET</code></td><td>Member profile avatars</td><td>Portfolio views are backed by gallery records rather than a second portfolio object store.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+Most public media pages use API routes backed by record IDs, keeping bucket layout out of their stable contract. Merchandise images are the current exception: their URL includes the stored `imageR2Key`.
+
+<SystemDiagram type="media" />
+
+## The gallery and competition upload boundary
+
+An upload is rejected before R2 receives it if the caller or file is outside the contract.
+
+The exact limits vary by domain. Gallery and competition submissions use this paired-image path:
+
+1. Resolve the session and require the correct membership or staff permission.
+2. Apply the upload-specific rate limiter.
+3. Parse a bounded multipart request.
+4. Check the declared media type and the actual accepted image contract.
+5. Enforce the byte limit and image dimensions.
+6. Receive the full image and caller-prepared thumbnail.
+7. Write both accepted objects to R2.
+8. Write the D1 row that connects the public record to those objects.
+
+The hard limits belong at more than one layer. A browser file picker can explain the limit early, but the API still checks the bytes because a caller can bypass the UI.
+
+### Why these routes write R2 before D1
+
+The API needs final object keys before it can commit the row that refers to them. That creates a short window where R2 contains new objects but D1 does not yet contain the corresponding record.
+
+The gallery and competition compensation paths close that window. If the database insert fails, those handlers delete the new full-size and thumbnail objects before returning an error. The failed upload does not become visible and the submitted pair is not left unreferenced.
+
+This is not a distributed database transaction; R2 and D1 do not share one commit. It is an explicit two-step write with cleanup for the second-step failure.
+
+That cleanup is not universal across every media route. Avatars, event images, leadership images, and merchandise use their own single-object flows. Leadership creation currently writes its R2 object before D1 without an equivalent insert-failure cleanup, so that route needs separate attention when its write path changes.
+
+## Public image reads
+
+Gallery and competition image routes receive an opaque photo or entry ID. The API looks up that ID in D1, obtains the stored object relationship, checks the route's visibility rules, and then streams the R2 body. Profile avatar reads follow the same record-first idea with their own route shape.
+
+That indirection gives the API room to:
+
+- Return `404` for a missing or no-longer-visible record.
+- Change an internal object key without rewriting every public link.
+- Apply cache and content headers in one place.
+- Keep bucket layout out of the browser contract.
+- Delete a database record and its media through one domain workflow.
+
+This indirection is a common pattern, not a platform-wide guarantee. Merchandise currently serves `/api/merch/image/:imageR2Key`, so its public URL exposes the stored key directly. Any change to key layout must account for those links.
+
+## KV: a narrow intake queue, not the database
+
+The Email Worker binds one KV namespace named `RECEIPT_DEDUPE`. It stores receipt-intake dedupe state, processing leases, retry records, and terminal results for normalized payloads that reached the intake state machine.
+
+Calling it a queue can be convenient in conversation, but it is not Cloudflare Queues. The repository does not configure a Queue binding. The worker writes retry records to KV and its own five-minute cron scans eligible work.
+
+KV handles the submission problem after parsing: “Are we already processing or retrying this normalized purchase?” D1 handles the business problem: “Has this purchase already produced its membership key, email, or Discord side effect?” Both layers share the purchase's logical idempotency identity, but use different storage-key prefixes, records, lifetimes, and responsibilities.
+
+The website also declares a `SESSION` KV binding. Better Auth sessions in the current API are stored in D1, and no direct source use of that website binding was found while this guide was prepared. It should be treated as configured infrastructure, not described as the active session database without confirming a later code change.
+
+## What is not in the storage stack
+
+There are no configured Cloudflare Queues or Durable Objects in this checkout.
+
+That matters when reading the code:
+
+- Receipt retries are KV records, not queue messages.
+- Scheduled concurrency is a D1 lease, not a Durable Object lock.
+- Discord replay protection is a D1 nonce claim, not an in-memory Worker set.
+- The VPS Gateway owns the persistent Discord websocket because a normal request Worker does not stay alive as a permanent socket process.
+
+Adding a Queue or Durable Object later could be a sensible architectural change for a specific problem, but this guide documents the system that exists in the repository now.
+
+## Data consistency in club workflows
+
+Operational domains keep state transitions in the API so side effects can follow a committed decision.
+
+For an equipment loan, the API validates the borrower and item, writes the loan transition and audit information, then dispatches any required Discord update. For a film or studio request, the API owns review state and cancellation rules before Discord posts or DMs change. For a competition, the API coordinates entry rows, results, deletion claims, and R2 cleanup.
+
+This ordering keeps a failed Discord request from becoming the only record that something happened. D1 remains the source that can be retried, inspected, or repaired.
+
+## Privacy and exposure boundaries
+
+The storage bindings exist only inside trusted Workers. Public routes return the fields and bytes needed for that page rather than exposing whole tables or bucket listings.
+
+Private account, session, challenge, nonce, receipt, and audit records are not part of public response contracts. Error responses avoid returning SQL text, object keys, secrets, or stack traces. Logs carry operational context, but the shared logging helpers redact common credential fields before structured output.

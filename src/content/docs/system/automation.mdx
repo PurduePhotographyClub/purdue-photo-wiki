@@ -1,0 +1,126 @@
+---
+title: Scheduled Work
+description: How one thirty-minute cron starts six API jobs, how D1 leases stop overlap, and why the scheduler never touches club data or Discord directly.
+accent: amber
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+The Scheduler Worker is intentionally boring. Every thirty minutes it builds six private API requests, sends them in parallel, records a summary, and stops.
+
+It does not know how a membership expires. It does not know which equipment loan needs a reminder. It does not know how to edit a Discord post. Those decisions stay in the API and Discord Worker.
+
+<SystemDiagram type="scheduler" />
+
+## The six jobs
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Job</th><th>Private API path</th><th>What the API owns</th></tr></thead>
+    <tbody>
+      <tr><td>Membership expiry</td><td><code>/internal/jobs/memberships/expire</code></td><td>Find elapsed memberships, update access state, and dispatch any role synchronization.</td></tr>
+      <tr><td>Darkroom schedule sweep</td><td><code>/internal/jobs/darkroom/schedule/sweep</code></td><td>Inspect schedule state, apply time-based transitions, and coordinate Discord messages.</td></tr>
+      <tr><td>Studio schedule sweep</td><td><code>/internal/jobs/studio/schedule/sweep</code></td><td>Advance studio schedule state and publish the resulting updates.</td></tr>
+      <tr><td>Darkroom stats sync</td><td><code>/internal/jobs/darkroom/stats/sync</code></td><td>Recalculate the current stats payload and synchronize its Discord representation.</td></tr>
+      <tr><td>Equipment reminders</td><td><code>/internal/jobs/equipment/reminders/run</code></td><td>Find due reminder work, claim sends, and dispatch the correct member or staff notifications.</td></tr>
+      <tr><td>Photographer request expiry</td><td><code>/internal/jobs/photographer-requests/expire</code></td><td>Expire elapsed requests and update their public or Discord-facing state.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+The scheduler source file keeps the paths in one fixed list. Adding a seventh job requires an explicit code change and deployment; a database row cannot make the Worker call an arbitrary internal URL.
+
+## One trigger, six parallel requests
+
+Cloudflare Cron invokes the Worker's `scheduled` handler with the cron string and scheduled timestamp. The Worker checks for its `INTERNAL_TOKEN` and `API_WORKER` binding, then maps the six paths into `Promise.all`.
+
+Parallel dispatch matters because the jobs are independent. A darkroom stats calculation should not wait for a membership expiry scan, and an equipment reminder should not delay studio schedule work.
+
+Each result records:
+
+- The API path.
+- Whether the HTTP response was successful.
+- The status code.
+- A bounded response body.
+- The duration in milliseconds.
+- A safe error message when the request threw before a response.
+
+The final summary counts successful and failed jobs. One failure does not erase the results of the other five.
+
+## How the API recognizes the scheduler
+
+Each request is a `POST` to an internal URL and carries three pieces of service context:
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-sky-200 uppercase">Source</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-internal-source</code> identifies the caller as <code>scheduler-worker</code>.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-rose-200 uppercase">Token</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-internal-token</code> must match the API's configured shared secret.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-amber-200 uppercase">Scheduled time</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-scheduled-at</code> carries the original Cron timestamp for the job context.</p></article>
+</div>
+
+The source header is not trusted by itself. A browser can invent a header name. The internal token and service-binding path establish the trusted caller context.
+
+The API routes these job paths before normal browser-session authorization. They are private service endpoints, not staff dashboard endpoints and not public cron URLs.
+
+## D1 leases stop overlapping work
+
+Cron systems can deliver again after delays or uncertainty. Deployments can also create a short overlap around a scheduled boundary. The API uses D1 scheduled-job state to claim a lease before a domain job runs.
+
+A lease provides three useful facts:
+
+1. Whether another invocation is already running the same named job.
+2. When the current claim expires if a Worker dies before completion.
+3. The completion or failure status operators can inspect later.
+
+If a second invocation arrives while the lease is valid, it does not run the domain work again. When the owner finishes, it records success or failure and releases or advances the state according to the job helper.
+
+<div className="my-8 border-l-2 border-amber-200 bg-amber-200/[0.04] p-6">
+  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">The scheduler starts the job. The API decides whether this delivery is allowed to own it.</p>
+</div>
+
+## The API still owns idempotency inside a job
+
+A job lease stops two copies of the same scheduled job from running at once. Domain code still needs careful write rules.
+
+An equipment reminder, for example, should record or derive which reminder is due before it dispatches a Discord event. A membership expiry should transition only memberships that are actually elapsed. A photographer request sweep should update only requests in the expirable state.
+
+The lease protects execution. Domain predicates protect individual records.
+
+## Discord work stays on the Discord path
+
+Several scheduled jobs produce Discord-visible changes. The scheduler does not call Discord REST and does not receive a Discord token.
+
+The path remains:
+
+1. Scheduler calls the private API job.
+2. API claims the scheduled-job lease.
+3. API finds and commits the required domain changes.
+4. API signs typed Discord events for the changes that need Discord side effects.
+5. Discord Worker verifies, claims each nonce, and dispatches the REST work.
+
+This keeps scheduled and manually initiated changes on the same event contract.
+
+## Health and rate limits
+
+The Worker exposes a small health response with its service name and configured job count. Health calls have their own rate-limit check so the route cannot be used as an unbounded request sink.
+
+The scheduler configuration also declares a ten-per-minute rate limiter, but the current code applies it only to public `GET /` and `GET /health` requests. The scheduled handler does not pass through that limiter. Cron execution relies on Cloudflare's scheduled trigger, and the resulting API calls rely on the private binding and internal token.
+
+## Scheduler failures
+
+Failures fall into two levels.
+
+### Request-level failure
+
+One API call can return a non-success status or throw before a response. The Worker captures that path's result and continues waiting for the other jobs. The summary logs the failed and successful counts.
+
+### Domain-level failure
+
+The API can acquire a lease and then fail inside a job. The scheduled-job state records failure, the API logs domain context, and the Scheduler Worker sees the non-success response.
+
+Neither level is hidden by a blanket “cron ran” message. A trigger can run successfully while one of six jobs fails, so the summary keeps the paths separate.
+
+## The five-minute email cron is different
+
+The Email Worker also has a Cron trigger, but it is not part of this six-job scheduler.
+
+Its five-minute schedule scans the receipt KV namespace for retryable intake records. That timing belongs to email parsing and delivery recovery, so it stays with the Email Worker. The thirty-minute Scheduler Worker is reserved for API-owned club workflows.

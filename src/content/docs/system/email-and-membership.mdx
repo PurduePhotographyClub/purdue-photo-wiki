@@ -1,0 +1,149 @@
+---
+title: Receipts and Membership
+description: How a routed TooCOOL receipt is validated, parsed, deduplicated, retried, and turned into a membership key, email, or Discord notification.
+accent: amber
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+A purchase receipt arrives as an email, not as a trusted payment webhook. The system has to prove that the message belongs to the configured receipt address, extract a useful order from MIME and PDF content, survive duplicate delivery, and avoid fulfilling the same purchase twice.
+
+That is why receipt handling has two services, separate ownership records, and repeat-safe provider calls. The Email Worker owns intake. The API owns fulfillment.
+
+<SystemDiagram type="receipt" />
+
+## Email Routing is the entry point
+
+Cloudflare Email Routing forwards messages for the configured purchase address to the Email Worker. The Worker receives the envelope and raw message stream through its email handler.
+
+Before parsing the body, it checks the inexpensive envelope boundaries:
+
+- The recipient matches the configured receipt address.
+- The sender is in the allowed forwarding policy.
+- The intake rate limit has not been exceeded.
+
+The raw-message byte limit is enforced while the stream is read. Attachment count, PDF size, and supported-purchase checks happen after MIME parsing. Required API and KV bindings are checked later, when a normalized receipt payload reaches the processing state machine.
+
+Rejecting obvious envelope failures early avoids spending CPU on a message that could never become a valid fulfillment.
+
+## MIME, PDF, and order parsing
+
+The message then moves through three parsing layers.
+
+### 1. `postal-mime`
+
+`postal-mime` decodes the raw email into headers, text, HTML, and attachments. This handles MIME boundaries, encodings, filenames, and the details that should not leak into purchase-specific code.
+
+### 2. `unpdf`
+
+TooCOOL receipts may carry the useful purchase data in a PDF. `unpdf` extracts text from the attachment so the Worker can inspect the receipt without treating arbitrary PDF bytes as plain text.
+
+The current dependency is `unpdf`, not `pdfjs-dist`. That distinction matters when updating parsing behavior or investigating a production bundle.
+
+### 3. The TooCOOL parser
+
+The domain parser turns extracted receipt text into the fields fulfillment needs: an order identity, purchaser details, line items, quantities, and recognized membership, film, or print products.
+
+Parsing does not itself grant anything. It produces a bounded request for the API.
+
+<div className="my-8 border-l-2 border-rose-300 bg-rose-300/[0.04] p-6">
+  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">Email text is input, not authority. The API still validates the parsed fulfillment request before it creates keys or side effects.</p>
+</div>
+
+## First duplicate barrier: KV intake state
+
+Email delivery can repeat. A provider can retry after a timeout, a forwarding rule can redeliver, or the Worker can lose the response after completing part of the parse.
+
+The `RECEIPT_DEDUPE` KV namespace records state around each normalized purchase payload. The Worker reaches this layer after MIME, PDF, and TooCOOL parsing, then uses the payload's stable purchase key to:
+
+- Claim a processing lease.
+- Recognize an already-completed intake.
+- Record a retryable failure with its next eligible time.
+- Record a permanent failure for a normalized payload so it does not loop forever.
+- Keep the state for a bounded TTL rather than indefinitely.
+
+This layer protects normalized-purchase submission and API retries. It does not deduplicate the raw incoming message or claim that the purchase's business side effects have completed.
+
+## Second duplicate barrier: D1 fulfillment claim
+
+The API receives the parsed receipt through a private service-binding route. Before sending an email, generating an activation key, or dispatching Discord work, it claims an idempotency record in D1's `receipt_fulfillment` table.
+
+That claim is the business-level duplicate barrier because it lives next to the resulting data. Two email deliveries can produce the same parsed purchase, but only one request can own the fulfillment transition.
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-sky-200 uppercase">KV asks</p>
+    <h3 className="mt-3! text-2xl!">Did we already submit this normalized purchase?</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Protects API submission, retry scheduling, and repeated payload processing after parsing.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">D1 asks</p>
+    <h3 className="mt-3! text-2xl!">Did this purchase already create its real-world result?</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Protects activation keys, transactional email, membership state, and Discord notifications.</p>
+  </article>
+</div>
+
+## Provider keys close the response-loss window
+
+D1 owns the fulfillment, but an external call can succeed just before the API records that step. The code closes that smaller window with stable downstream identifiers:
+
+- Resend receives an `Idempotency-Key` derived from the D1 fulfillment row.
+- The Discord event receives a deterministic nonce derived from the same fulfillment record.
+
+If the provider accepts a call and the following D1 marker write is lost, a retry uses the same identifier instead of inventing a second email or Discord message.
+
+## Membership fulfillment
+
+When the order contains a recognized membership purchase, the API follows the membership branch:
+
+1. Claim the receipt fulfillment in D1.
+2. Match the purchased product to a membership tier and duration.
+3. Create an activation key with the bounded membership terms.
+4. Send the key through Resend with the fulfillment's stable idempotency key.
+5. Dispatch a signed Discord event with the fulfillment's deterministic nonce.
+6. Record the result so the same purchase cannot repeat the side effects.
+
+The purchaser redeems the activation key through the normal account flow. Redemption, account membership, expiry, and role synchronization remain API-owned operations rather than email parsing shortcuts.
+
+The configured sender uses the club's membership address. The Resend API key is a Worker secret; it is not committed to the repository or sent to the website.
+
+## Film and print fulfillment
+
+Film roll and print purchases do not create a website membership key. The parser classifies those line items, the API claims the fulfillment, and the resulting branch sends the appropriate Discord notification for club operators.
+
+The same duplicate rule applies. A redelivered receipt should not create a second “new film order” message just because the outer email arrived twice.
+
+## Temporary and permanent failures
+
+Not every failure should be retried.
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Failure type</th><th>Example</th><th>Worker behavior</th></tr></thead>
+    <tbody>
+      <tr><td>Temporary</td><td>API binding timeout, provider failure, transient storage error</td><td>Write a KV retry record and try again after the configured delay.</td></tr>
+      <tr><td>Envelope rejection</td><td>Wrong recipient, unsupported sender, missing PDF, or no supported purchase</td><td>Reject the Email Routing message; these paths do not create a KV terminal record.</td></tr>
+      <tr><td>Permanent normalized payload</td><td>A parsed payload cannot be fulfilled after entering the state machine</td><td>Record the terminal KV result and stop automatic retries.</td></tr>
+      <tr><td>Duplicate</td><td>Message or purchase was already completed</td><td>Return the known result without running side effects again.</td></tr>
+      <tr><td>In progress</td><td>Another delivery holds the active lease</td><td>Do not start a competing parse or fulfillment.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+The Email Worker has its own five-minute cron for eligible KV retries. That cron is separate from the platform Scheduler Worker, which wakes every thirty minutes for club-domain jobs. Receipt retry timing stays with the service that owns receipt intake.
+
+## What happens when an outer response is lost
+
+The hardest case is a request that completes but loses its response.
+
+Suppose the API creates an activation key and Resend accepts the email, but the API loses the following `email_sent_at` marker write or the Email Worker loses the final response. A retry returns to the same D1 fulfillment and activation key, then calls Resend with the same idempotency key. The provider can return the original send instead of delivering a second email. Discord retries use the same deterministic nonce for the same reason.
+
+This is the reason ownership cannot live only in KV. KV knows about the delivery attempt; D1 knows about the committed membership result; stable provider identifiers cover the small gap around an external side effect.
+
+## Security boundary
+
+The fulfillment route is private. It expects the Email Worker identity and internal token through the service binding. A public browser cannot post a made-up receipt payload to receive a membership key.
+
+The API validates parsed fields again, uses parameterized database operations, avoids returning secrets in error bodies, and signs any Discord event before it leaves the API boundary.
+
+Live Email Routing rules and production sender configuration are environment state. The repository defines the expected address, binding, parsing flow, and verification code; this guide does not claim that an external mailbox rule was inspected while the page was written.

@@ -1,0 +1,144 @@
+---
+title: How Our System Works
+description: The complete path from the public website to the API, databases, Discord, email intake, scheduled work, and deployment.
+accent: amber
+sidebar:
+  label: System Overview
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+import TechnologyGrid from '../../../components/TechnologyGrid.astro';
+
+<figure className="relative mb-10 grid min-h-[22rem] overflow-hidden border border-white/10 bg-neutral-900 sm:min-h-[28rem] lg:grid-cols-[1.15fr_0.85fr]">
+  <img
+    src="/images/site/hero/hero.webp"
+    width="1080"
+    height="1350"
+    alt="Pixel-art illustration of a seated photographer holding a camera."
+    loading="eager"
+    fetchPriority="high"
+    className="absolute inset-0 h-full w-full object-cover grayscale lg:relative lg:col-start-2"
+  />
+  <div className="relative z-10 flex flex-col justify-end bg-gradient-to-t from-black via-black/80 to-black/20 p-6 sm:p-9 lg:col-start-1 lg:row-start-1 lg:bg-gradient-to-r lg:from-black lg:via-black/95 lg:to-transparent lg:pr-20">
+    <p className="m-0 text-[0.62rem] tracking-[0.2em] text-amber-200 uppercase">One club, several small services</p>
+    <p className="mt-4 max-w-2xl font-['Playfair_Display',Georgia,serif] text-2xl leading-snug text-white sm:text-3xl">
+      The website presents the system. The API owns the data and rules. The other services handle the work that cannot happen inside a normal page request.
+    </p>
+  </div>
+</figure>
+
+The short version: the website talks to one backend. That backend owns the rules and data. When something has to happen in Discord, the API hands it to the bot worker. The scheduler only keeps time, and the email worker only handles incoming receipts.
+
+That split is intentional. A page does not update Discord directly. The scheduler does not edit the database. The email worker does not create memberships by itself. Each service has a narrow job, and the API is the point where those jobs become club data.
+
+<SystemDiagram type="platform" />
+
+## Who owns what
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 xl:grid-cols-3">
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-violet-200 uppercase">Website Worker</p>
+    <h3 className="mt-3! text-2xl!">Presentation</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Renders public pages and the member dashboard, runs React islands, guards dashboard routes, and turns same-origin browser requests into private API service-binding calls.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-amber-200 uppercase">API Worker</p>
+    <h3 className="mt-3! text-2xl!">Rules and records</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Authenticates requests, checks membership and staff permissions, applies rate limits, owns business rules, reads and writes D1, coordinates R2 media, and signs Discord events.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-indigo-200 uppercase">Discord Worker</p>
+    <h3 className="mt-3! text-2xl!">Discord side effects</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Verifies Discord interactions and signed internal events; internal events also receive timestamp and nonce checks before dispatch. The Worker performs REST actions such as roles, DMs, posts, and channel updates.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">Discord Gateway</p>
+    <h3 className="mt-3! text-2xl!">Live connection</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Keeps the long-lived Discord websocket on a VPS, filters and sanitizes selected events, forwards signed messages to the Worker, and accepts private presence updates over Cloudflare VPC.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-rose-200 uppercase">Email Worker</p>
+    <h3 className="mt-3! text-2xl!">Receipt intake</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Receives routed mail, validates the envelope, parses MIME and PDF content, recognizes TooCOOL purchases, controls intake retries in KV, then asks the API to fulfill the result.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-sky-200 uppercase">Scheduler Worker</p>
+    <h3 className="mt-3! text-2xl!">Time</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Wakes every thirty minutes and starts six private API jobs in parallel. It never receives direct database or Discord access.</p>
+  </article>
+</div>
+
+The wiki sits beside that operational chain. It is an independent Astro and Starlight project built into static HTML, indexed with Pagefind, and published to Cloudflare Pages. Reading this guide does not depend on the member API being available.
+
+## One center of gravity
+
+The API Worker is the system's center of gravity because it is the only place that sees the full combination of identity, permissions, club state, and storage. A request may start in the website, Discord, an email, or a timer, but the decision about what should change belongs to the API.
+
+That gives the rest of the platform a simple rule:
+
+<div className="my-8 border-l-2 border-amber-200 bg-amber-200/[0.04] p-6 sm:p-8">
+  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-2xl leading-snug text-white">If a change affects club data, membership, permissions, or a workflow state, it goes through the API.</p>
+</div>
+
+The rule prevents two services from inventing different answers. Discord and the dashboard see the same equipment loan. A receipt and an activation form use the same membership records. A scheduled expiry follows the same domain rules as a manual action.
+
+## Separate repositories, one platform
+
+The workspace is made from nested repositories rather than one deployable package.
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead>
+      <tr><th>Repository</th><th>Runtime</th><th>Primary deployment</th><th>What it can call</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>website</code></td><td>Astro + React on Workers</td><td>Cloudflare Worker</td><td>API Worker service binding</td></tr>
+      <tr><td><code>api</code></td><td>TypeScript Worker</td><td>Cloudflare Worker</td><td>D1, three R2 buckets, Discord Worker, email providers and verification services</td></tr>
+      <tr><td><code>discord</code></td><td>Worker + Node.js Gateway</td><td>Cloudflare Worker + VPS</td><td>API Worker, Discord REST, Discord Gateway, VPC service</td></tr>
+      <tr><td><code>email-worker</code></td><td>TypeScript Worker</td><td>Cloudflare Worker</td><td>Email Routing, KV, API Worker</td></tr>
+      <tr><td><code>scheduler-worker</code></td><td>TypeScript Worker</td><td>Cloudflare Worker</td><td>API Worker only</td></tr>
+      <tr><td><code>wiki</code></td><td>Astro + Starlight</td><td>Cloudflare Pages</td><td>No operational service dependency</td></tr>
+    </tbody>
+  </table>
+</div>
+
+Service bindings keep Worker-to-Worker traffic off the public internet. Shared secrets and signed event envelopes still matter because the receiving service must know who created a request and whether anyone changed it in transit.
+
+<TechnologyGrid />
+
+## Follow a specific chain
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
+  <a href="/system/requests-and-auth/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.58rem] tracking-[0.18em] text-sky-200 uppercase">01 · Browser</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Requests, accounts, and access</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">Same-origin API routing, sessions, Discord linking, verification, membership, roles, and rate limits.</span>
+  </a>
+  <a href="/system/data-and-media/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">02 · Storage</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Data and images</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">D1 domains, R2 buckets, media validation, opaque IDs, and cleanup when a write fails.</span>
+  </a>
+  <a href="/system/discord/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.58rem] tracking-[0.18em] text-indigo-200 uppercase">03 · Discord</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Discord and the Gateway</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">Three inbound lanes, signatures, nonce replay protection, REST work, and private presence control.</span>
+  </a>
+  <a href="/system/email-and-membership/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.58rem] tracking-[0.18em] text-rose-200 uppercase">04 · Receipts</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Receipts and membership</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">Email Routing, MIME/PDF parsing, two layers of duplicate protection, fulfillment, and retries.</span>
+  </a>
+  <a href="/system/automation/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.58rem] tracking-[0.18em] text-amber-200 uppercase">05 · Time</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Scheduled work</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">The six jobs, internal request identity, D1 leases, and partial-failure reporting.</span>
+  </a>
+  <a href="/system/deployment-and-safety/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.58rem] tracking-[0.18em] text-violet-200 uppercase">06 · Operations</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Deployment, safety, and monitoring</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">Per-repository CI, D1 migrations, the API bootstrap path, VPS deployment, secrets, logs, and health checks.</span>
+  </a>
+</div>
+
+This guide describes the architecture declared in the repositories. It does not publish secret values, private IDs, or operational credentials, and it does not assume that every live route or VPS setting matches the checkout at the exact moment you read it.

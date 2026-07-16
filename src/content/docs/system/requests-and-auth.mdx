@@ -1,0 +1,151 @@
+---
+title: Requests, Accounts, and Access
+description: How a browser request reaches the API, how sessions are resolved, and where verification, membership, roles, and rate limits are enforced.
+accent: amber
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+A dashboard button does not call the public API host directly. It calls the website on the same origin, usually through `/api/v1/...`. The website turns that into a private service-binding request to the API Worker.
+
+That extra hop is small, but it gives the system a clean security boundary. The browser can provide cookies and user input. It cannot decide which headers prove that a request came from a trusted Worker.
+
+<SystemDiagram type="request" />
+
+## The website bridge
+
+The catch-all API page in the website receives requests under `/api/*`. Before forwarding anything, it rebuilds the request for the API Worker.
+
+The bridge does four important jobs:
+
+1. It removes hop-by-hop headers that belong to the browser-to-website connection.
+2. It removes internal headers that a browser could try to spoof.
+3. It adds trusted proxy details and the website's internal service token.
+4. It calls the `API_WORKER` service binding instead of making a normal public network request.
+
+Cookies and authorization headers still travel with the request because Better Auth needs them to resolve a session. What changes is the trust around them: the API can tell that the enclosing request came through an approved service path.
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
+  <article className="bg-neutral-950 p-5">
+    <p className="m-0 text-[0.58rem] tracking-[0.16em] text-rose-200 uppercase">Never trusted from the browser</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Internal tokens, internal source identity, signed event metadata, and trusted proxy headers.</p>
+  </article>
+  <article className="bg-neutral-950 p-5">
+    <p className="m-0 text-[0.58rem] tracking-[0.16em] text-sky-200 uppercase">Forwarded when needed</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Session cookies, authorization headers, content type, request body, method, query string, and safe client context.</p>
+  </article>
+  <article className="bg-neutral-950 p-5">
+    <p className="m-0 text-[0.58rem] tracking-[0.16em] text-emerald-200 uppercase">Added by the bridge</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">The shared internal token plus reconstructed host, protocol, and client-IP context. The bridge removes <code>x-pcc-internal-source</code> and does not add a website source label.</p>
+  </article>
+</div>
+
+### Why `/api/v1` and `/api/auth` behave differently
+
+The browser helper versions ordinary application endpoints. `/api/gallery` becomes `/api/v1/gallery`, for example, and the API router normalizes that path back to its internal route.
+
+Better Auth routes are the exception. They keep `/api/auth/...` because Better Auth owns that route contract, its callback URLs, and its cookies. Rewriting those paths would break sign-in and provider callbacks.
+
+The API also declares a custom domain route. That declaration is not a shortcut around the internal checks: when an internal token is configured, the global API pipeline still applies its internal-request authorization rules. This page describes the checked-in route and middleware behavior; it does not claim that a live external route was tested while this guide was written.
+
+## The API request pipeline
+
+The API router is deliberately ordered. A request does not jump straight from a pathname to a handler.
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Order</th><th>Check</th><th>What it prevents</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>CORS preflight and health handling</td><td>Normal browser preflight failure and unnecessary auth work on the health route</td></tr>
+      <tr><td>2</td><td>Internal request authorization</td><td>Untrusted callers pretending to be the website, Discord worker, email worker, or scheduler</td></tr>
+      <tr><td>3</td><td>Route and method matching</td><td>Unknown paths and unsupported methods reaching domain code</td></tr>
+      <tr><td>4</td><td>Private internal-path checks</td><td>Browser sessions entering scheduled jobs, receipt fulfillment, or nonce-claim routes</td></tr>
+      <tr><td>5</td><td>Better Auth session lookup</td><td>Protected work running without a current user and session</td></tr>
+      <tr><td>6</td><td>Suspension check</td><td>A suspended account continuing normal API work</td></tr>
+      <tr><td>7</td><td>General rate limit</td><td>One identity or client overwhelming an endpoint family</td></tr>
+      <tr><td>8</td><td>Public-route or account authorization</td><td>Protected data leaking to anonymous or unverified accounts</td></tr>
+      <tr><td>9</td><td>Action-specific limits</td><td>Upload and event-action bursts passing through the broader limit</td></tr>
+      <tr><td>10</td><td>Domain handler</td><td>Business logic seeing an unchecked request</td></tr>
+    </tbody>
+  </table>
+</div>
+
+The general limiter is configured for 120 requests per minute. Gallery uploads, profile uploads, and event actions have separate ten-per-minute limiters. A rejected request returns `429` with a `Retry-After` header instead of silently dropping work.
+
+## Sessions and accounts
+
+Better Auth runs inside the API Worker and stores its account state in D1. The schema includes users, sessions, linked accounts, verification records, two-factor records, and passkeys.
+
+Email and password sign-in is enabled. Discord OAuth is used for linking a Discord identity to an existing account; provider sign-up is disabled, so Discord is not treated as an alternate unreviewed account-creation lane.
+
+When a request carries a cookie or authorization header, the API asks Better Auth for the session. A valid session returns both the session record and the user record. Before that user reaches domain code, the API can expire an elapsed membership and refresh the effective account state.
+
+If session resolution fails, protected routes see an anonymous caller. The API does not guess, and it does not trust user details sent in JSON as a replacement for a signed session.
+
+### Discord linking and server verification are different
+
+There are two Discord-related account flows, and they solve different problems.
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-indigo-200 uppercase">OAuth account link</p>
+    <h3 className="mt-3! text-2xl!">Connect a website account to Discord</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Better Auth completes Discord OAuth, attaches the provider identity, enforces the guild policy through account hooks, and gives the website a stable <code>discordId</code> for authorization and synchronization.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-amber-200 uppercase">Verification code</p>
+    <h3 className="mt-3! text-2xl!">Verify entry from the Discord server</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">A separate challenge records a short-lived code, expiry, attempt limits, and application context. Completion checks Turnstile, claims the challenge, and dispatches a role and nickname update through the Discord event path.</p>
+  </article>
+</div>
+
+Conflating the two would create confusing edge cases: linking proves which Discord account belongs to a website user; the server verification challenge proves that a specific server-entry flow was completed within its own limits.
+
+## Turnstile and public forms
+
+Turnstile sits at public entry points where a browser can create expensive or persistent work. The Better Auth entry path is protected, as are public forms such as the Discord verification completion and photographer request flow.
+
+The browser receives a challenge token. The API verifies that token with the configured secret and allowed hostnames before it accepts the protected action. A missing or invalid result ends the request before account creation or workflow records are written.
+
+Turnstile is one layer, not the whole access model. Session checks, explicit public-route rules, input validation, rate limits, and domain permissions still run where they apply.
+
+## Membership and roles
+
+A valid session is not automatically a valid member action.
+
+The website middleware uses session and role information to decide whether someone can enter dashboard sections. It requires a linked Discord identity before the normal dashboard experience, then applies membership and staff gates to protected routes.
+
+The API repeats the security-sensitive checks at the data boundary. UI guards make the experience clearer, but an API route never relies on a hidden button as authorization.
+
+Typical decisions include:
+
+- Is the account suspended?
+- Is Discord linked?
+- Is the membership active and at the required tier?
+- Is the user an officer or staff member for an admin route?
+- Does the user own the record being edited?
+- Is the current workflow state allowed to make this transition?
+
+Discord roles are synchronized as a side effect after the API has decided the membership or verification state. The role is an output of the decision, not the database of record for the decision.
+
+## Public API means explicit, not broad
+
+Public reads are enumerated. The router allows known endpoints for public stats, membership information, merchandise, public gallery images, public profiles, competition results, events, and leadership. It also allows a small set of public writes such as newsletter changes, verification completion, and photographer requests.
+
+The check avoids broad prefix rules. `/api/gallery` can be public while `/api/gallery?mine=true` remains user-scoped. Competition results can be public while entry management stays protected. The exact method and path matter.
+
+This is also why new endpoints start private. A developer must add a deliberate public-route rule rather than accidentally inheriting access from a nearby path.
+
+## What failure looks like
+
+The request pipeline returns errors at the boundary that understands them:
+
+- `400` for malformed or invalid input.
+- `401` when a protected resource has no valid session.
+- `403` when the user is signed in but unverified, suspended, or missing permission.
+- `404` when a route or record does not exist.
+- `405` when the route exists but the method does not.
+- `429` when a rate limit is reached.
+- `500` for an unhandled server failure, without returning internal stack details to the browser.
+
+Server logs keep the detailed context. The UI gets a message it can explain without exposing a token, query, or internal service address.

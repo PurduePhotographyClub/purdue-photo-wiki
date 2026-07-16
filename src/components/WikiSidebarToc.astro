@@ -11,13 +11,19 @@ interface Props {
 }
 
 const { items, depth = 0 } = Astro.props;
+const indentClass = ['pl-3', 'pl-6', 'pl-9', 'pl-12'][Math.min(depth, 3)];
 ---
 
 {items.length > 0 && (
-  <ul class="wiki-sidebar-toc" style={`--toc-depth: ${depth}`}>
+  <ul class:list={['my-1 list-none border-l border-white/10 py-1', indentClass]}>
     {items.map((item) => (
-      <li>
-        <a href={`#${item.slug}`}>{item.text}</a>
+      <li class="m-0 p-0">
+        <a
+          href={`#${item.slug}`}
+          class="block min-h-11 py-3 pr-2 text-[0.68rem] leading-5 text-neutral-400 no-underline transition hover:bg-white/[0.03] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+        >
+          {item.text}
+        </a>
         {item.children.length > 0 && <Astro.self items={item.children} depth={depth + 1} />}
       </li>
     ))}

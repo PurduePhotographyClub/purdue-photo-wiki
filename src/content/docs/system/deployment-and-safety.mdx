@@ -1,0 +1,176 @@
+---
+title: Deployment, Safety, and Monitoring
+description: How each repository verifies and ships, why the API has a bootstrap path, how the VPS Gateway differs, and what the current logs and health checks can prove.
+accent: amber
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+The platform does not have one “deploy everything” button. Each nested repository verifies and ships its own artifact. That keeps a wiki copy edit from redeploying the API and keeps an email parser fix from rebuilding the website.
+
+The tradeoff is coordination. A change that crosses service contracts has to keep the API, website, Discord Worker, or scheduler compatible while their deployments move independently.
+
+<SystemDiagram type="deployment" />
+
+## Repository deployment lanes
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Repository</th><th>Verification lane</th><th>Deployment target</th><th>Special step</th></tr></thead>
+    <tbody>
+      <tr><td><code>website</code></td><td>Tests, Astro build, TypeScript, React Doctor, deploy-artifact check</td><td>Cloudflare Worker</td><td>Uses the Astro Cloudflare server entrypoint and API service binding.</td></tr>
+      <tr><td><code>api</code></td><td>Tests, TypeScript, dry-run Worker build, React Doctor</td><td>Cloudflare Worker</td><td>Applies D1 migrations before the normal deploy.</td></tr>
+      <tr><td><code>discord</code></td><td>Worker tests, TypeScript, ESLint, Worker and Gateway builds</td><td>Cloudflare Worker</td><td>The VPS Gateway is not published by this Worker workflow.</td></tr>
+      <tr><td><code>email-worker</code></td><td>Parser tests, TypeScript, dry-run Worker build, React Doctor</td><td>Cloudflare Worker</td><td>Keeps its five-minute receipt retry Cron and KV binding.</td></tr>
+      <tr><td><code>scheduler-worker</code></td><td>TypeScript, dry-run Worker build, React Doctor</td><td>Cloudflare Worker</td><td>Keeps its thirty-minute Cron and API binding.</td></tr>
+      <tr><td><code>wiki</code></td><td>Content/UI tests and Astro static build</td><td>Cloudflare Pages</td><td>Builds Pagefind search data into the static output.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+The Worker pipelines use Node 22 in the current workflow set. The wiki Pages workflow uses Node 24. Runtime compatibility dates and flags remain in each Wrangler configuration rather than being inferred from the CI Node version.
+
+## Pull requests verify; `main` publishes
+
+The common flow is:
+
+1. Open or update a pull request.
+2. Install the locked dependencies.
+3. Run that repository's checks.
+4. Build the exact artifact Wrangler or Pages will publish.
+5. On a successful push to `main`, authenticate to Cloudflare and deploy.
+
+The pipelines also include dependency audits and secret-oriented checks where configured. Those checks reduce obvious mistakes; they do not replace review of authorization, input validation, or new trust boundaries.
+
+## API migrations happen first
+
+The normal API deployment command applies remote D1 migrations before publishing the new Worker.
+
+That order is useful when new code expects a new table or column. It also means migrations must be safe for the currently deployed code during the short interval before the Worker update completes.
+
+Schema changes should therefore follow compatibility rules:
+
+- Add new columns or tables before code requires them.
+- Avoid destructive renames in the same step that introduces new readers.
+- Give independently deployed website and Discord clients a compatible API response during rollout.
+- Keep idempotent migration files so rerunning the deployment command does not corrupt state.
+
+## The API bootstrap path
+
+The API normally binds to the Discord Worker. A new environment can hit a circular dependency: the API deploy expects the `ppc-bot` service, while the Discord Worker expects the API service.
+
+The API repository includes a bootstrap deploy path that writes a temporary Wrangler configuration without the Discord binding. That allows the API to exist first. The Discord Worker can then deploy against it, followed by a normal API deploy with the binding restored.
+
+<div className="my-8 border-l-2 border-rose-300 bg-rose-300/[0.04] p-6">
+  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">Bootstrap is an environment-creation path, not the everyday production configuration.</p>
+</div>
+
+Running the bootstrap configuration indefinitely would make Discord event dispatch unavailable, so the normal binding should be verified after the initial service order is resolved.
+
+## The VPS Gateway ships differently
+
+The Discord repository builds both the Worker and Gateway, but the Cloudflare deployment workflow publishes only the Worker.
+
+The Gateway preparation script and generated hook document a separate server flow:
+
+1. The Gateway is built locally and its compiled `dist` output is copied into a small deployment repository.
+2. That deployment repository is pushed to the VPS bare Git repository.
+3. The post-receive hook checks out the already-built artifact.
+4. The hook installs production-only dependencies and restarts the systemd service.
+5. The long-lived discord.js process reconnects to Discord.
+
+This lane needs different operational checks from a Worker deploy. A successful Cloudflare Worker deployment says nothing about the VPS process, websocket connection, live forwarding allowlist, Tunnel/VPC route, or systemd state.
+
+The reverse is also true: a healthy Gateway can forward events to a Worker that rejects them because a secret, timestamp, nonce claim, or event contract does not match.
+
+## Secrets and bindings
+
+Configuration is split by sensitivity.
+
+<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-3">
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-sky-200 uppercase">Checked-in bindings</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Service names, D1 and R2 bindings, KV bindings, rate-limit namespaces, Cron expressions, routes, compatibility dates, and non-secret public settings.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-rose-200 uppercase">Worker secrets</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Auth secrets, OAuth credentials, internal tokens, signing secrets, Discord tokens, Resend keys, Turnstile keys, and external API credentials.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">Runtime identity</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Service bindings, custom domains, VPC routes, Email Routing, and VPS environment values that connect the deployed pieces.</p>
+  </article>
+</div>
+
+Secrets are set through Wrangler or the server environment, not hardcoded in TypeScript. Shared internal values must match at both ends of a service call, but they should never be copied into a public variable or client bundle.
+
+## Trust boundaries worth checking in review
+
+A normal feature can cross several boundaries. Review should ask concrete questions at each one.
+
+### Browser to website
+
+- Is untrusted form or query input validated?
+- Is the control accessible and does the UI enforce the same visible limit the API enforces?
+- Does any client code accidentally receive an internal token or secret?
+
+### Website to API
+
+- Does the bridge strip spoofable internal headers?
+- Does the route use the versioning exception correctly for Better Auth?
+- Does the API repeat authorization instead of trusting a hidden UI?
+
+### API to storage
+
+- Are queries parameterized?
+- Is the file boundary enforced before R2 writes?
+- Is there compensation when a cross-storage write partially fails?
+
+### API or Gateway to Discord Worker
+
+- Is the event signed with a timestamp and fresh nonce?
+- Is the payload parsed as a known type?
+- Can a retry duplicate the visible side effect?
+
+### Email Worker to API
+
+- Are sender, recipient, size, attachment, and parsed fields bounded?
+- Do KV and D1 idempotency cover both delivery and fulfillment?
+- Is a failure classified as retryable or terminal?
+
+## Observability
+
+The five Worker services enable Cloudflare observability with a 10% head-sampling rate in their current Wrangler files. The API and Discord Worker also use structured logging helpers that redact common credential fields.
+
+Useful signals include:
+
+- Health endpoint status and service name.
+- Request path, safe request or event identifiers, and duration.
+- Scheduled job result summaries by path.
+- Discord event name, nonce-claim outcome, and REST status.
+- Receipt intake key, retry classification, and fulfillment result.
+- Gateway connection, forwarding filter, and presence-control status.
+
+Sampling means not every normal request becomes a trace. Errors should still log enough bounded context to investigate without including cookies, authorization headers, raw secrets, full receipt bodies, or private user data.
+
+The repository does not define one central distributed-tracing product that follows a request from browser through every service. Incident work may require correlating timestamps and safe identifiers across Cloudflare and VPS logs.
+
+## Health is local, not proof of the whole chain
+
+A health endpoint proves that one service can answer its own check. It does not prove every dependency or allowlist.
+
+For example:
+
+- A healthy API can still have a failing Discord binding.
+- A healthy Discord Worker can still receive no Gateway events because the VPS allowlist excludes a channel.
+- A healthy Gateway can still fail presence control because the VPC route or signing secret is wrong.
+- A healthy Email Worker can still receive no messages because an external Email Routing rule changed.
+- A successful Cron trigger can still contain one failed job in its six-result summary.
+
+Operational checks should follow the same chain the user action follows.
+
+## What this repository cannot confirm by itself
+
+Code and checked-in Wrangler files show the intended architecture. They do not reveal current secret values, the live Email Routing rule, the active VPS environment, the deployed Tunnel/VPC state, or whether a domain was changed outside Git.
+
+When those details matter, inspect the deployed resource directly and compare it with the repository contract. Do not turn a checked-in route declaration into a claim that live reachability was tested.
