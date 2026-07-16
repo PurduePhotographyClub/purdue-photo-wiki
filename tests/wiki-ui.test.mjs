@@ -97,6 +97,47 @@ test('the responsive wiki shell is made from explicit Tailwind components', () =
   assert.match(themeProvider, /dataset\.theme\s*=\s*['"]dark['"]/);
 });
 
+test('article rails, headings, and page controls keep a centered readable rhythm', () => {
+  const contentPanel = readProjectFile('src/components/WikiContentPanel.astro');
+  const twoColumnContent = readProjectFile('src/components/WikiTwoColumnContent.astro');
+  const pageTitle = readProjectFile('src/components/WikiPageTitle.astro');
+  const markdown = readProjectFile('src/components/WikiMarkdownContent.astro');
+  const footer = readProjectFile('src/components/WikiFooter.astro');
+  const gettingStarted = readProjectFile('src/content/docs/photography/index.md');
+
+  assert.match(contentPanel, /mx-auto![^\n]+max-w-5xl/);
+  assert.match(twoColumnContent, /sm:\[&>main\]:px-6!/);
+  assert.match(twoColumnContent, /lg:\[&>main\]:px-8!/);
+  assert.match(twoColumnContent, /xl:\[&>main\]:px-10!/);
+  assert.match(pageTitle, /px-5[^\n]+sm:px-7[^\n]+lg:px-9/);
+  assert.match(pageTitle, /text-4xl[^\n]+sm:text-5xl[^\n]+lg:text-6xl/);
+  assert.match(markdown, /sl-markdown-content/);
+  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:mt-16!/);
+  assert.match(markdown, /\[&_\.sl-anchor-link\]:no-underline!/);
+  assert.doesNotMatch(markdown, /\bspace-y-6\b/);
+  assert.match(gettingStarted, /border-l-2[^\n]+px-5[^\n]+sm:px-8/);
+  assert.match(gettingStarted, /mx-auto w-full max-w-4xl min-w-0/);
+  assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
+  assert.match(footer, /mx-auto[^\n]+max-w-5xl[^\n]+py-16[^\n]+sm:py-20/);
+});
+
+test('the wiki footer mirrors the club website footer', () => {
+  const footer = readProjectFile('src/components/WikiFooter.astro');
+
+  assert.match(footer, /max-w-7xl/);
+  assert.match(footer, /Film, digital, darkroom, and club work at Purdue since 1934\./);
+  assert.match(footer, />Quick Links</);
+  for (const label of ['Gallery', 'Competitions', 'Facilities', 'Membership', 'Events', 'Request']) {
+    assert.match(footer, new RegExp(label));
+  }
+  for (const label of ['Instagram', 'Discord', 'Email', 'Linktree', 'BoilerLink']) {
+    assert.match(footer, new RegExp(label));
+  }
+  assert.match(footer, /instagram\.com\/alesgs\.photos/);
+  assert.doesNotMatch(footer, /newsletter|LISTSERV|data-wiki-newsletter/i);
+  assert.doesNotMatch(footer, /text-\[0\.62rem\][^"\n]*text-neutral-500/);
+});
+
 test('the system guide covers the complete service chain with accessible diagrams', () => {
   const systemPages = [
     'src/content/docs/system/index.mdx',
@@ -119,9 +160,20 @@ test('the system guide covers the complete service chain with accessible diagram
   assert.match(config, /How the System Works/);
   assert.match(diagrams, /<figure aria-labelledby=/);
   assert.doesNotMatch(diagrams, /<figure role="img"/);
-  assert.match(diagrams, /aria-labelledby=/);
+  assert.match(diagrams, /aria-describedby=/);
   assert.match(diagrams, /data-no-expand/);
-  assert.match(diagrams, /lane\.nodes\.length\s*<=\s*4/);
+  assert.match(diagrams, /layout\?: 'standard' \| 'compact-flow'/);
+  assert.match(diagrams, /kind\?: 'sequence' \| 'parallel' \| 'collection'/);
+  assert.match(diagrams, /kind: 'parallel'/);
+  assert.match(diagrams, /kind: 'collection'/);
+  assert.ok((diagrams.match(/layout: 'compact-flow'/g) ?? []).length >= 5);
+  assert.match(diagrams, /@container/);
+  assert.match(diagrams, /@4xl:flex-row/);
+  assert.match(diagrams, /@4xl:grid-cols-3/);
+  assert.match(diagrams, /const ListTag = isSequence \? 'ol' : 'ul'/);
+  assert.match(diagrams, /isSequence && index < lane\.nodes\.length - 1/);
+  assert.match(diagrams, /isSequence \? String\(index \+ 1\)\.padStart\(2, '0'\) : '•'/);
+  assert.match(diagrams, /role="list"/);
   assert.match(technologies, /\/images\/tech\//);
 });
 
@@ -146,8 +198,6 @@ test('interactive polish avoids competing viewers and preserves accessible feedb
   assert.match(imageViewer, /classList\.add\(['"]target:flex['"]\)/);
   assert.doesNotMatch(imageViewer, /location\.hash\s*=/);
   assert.doesNotMatch(imageViewer, /previousTrigger\?\.focus\(\{\s*preventScroll/);
-  assert.match(footer, /role=['"]status['"]/);
-  assert.match(footer, /aria-live=['"]polite['"]/);
   assert.match(pageTitle, /route\.id\s*!==\s*['"]404['"]/);
   assert.match(notFound, /<h1\b/);
   assert.doesNotMatch(notFound, /<h2\b[^>]*id=['"]wiki-404-title['"]/);

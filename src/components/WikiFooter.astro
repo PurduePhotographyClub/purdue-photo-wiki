@@ -2,136 +2,108 @@
 import Pagination from 'virtual:starlight/components/Pagination';
 
 const mainSite = 'https://purduephotoclub.org';
-const listservActionUrl = 'https://lists.purdue.edu/scripts/wa.exe';
-const listservManageUrl = 'https://lists.purdue.edu/scripts/wa.exe?SUBED1=PURDUEPHOTOCLUB&A=1';
-const listservListName = 'PURDUEPHOTOCLUB';
 const { prev, next } = Astro.locals.starlightRoute.pagination;
 
-const socialLinks = [
-  { href: 'https://www.instagram.com/purduephotoclub/', label: 'Instagram' },
-  { href: `${mainSite}/discord`, label: 'Discord' },
-  { href: 'mailto:photo@purdue.edu', label: 'Email' },
-  { href: 'https://linktr.ee/purduephotoclub', label: 'Linktree' },
-  { href: 'https://boilerlink.purdue.edu/organization/photoclub', label: 'BoilerLink' },
+const navLinks = [
+  { href: `${mainSite}/gallery`, label: 'Gallery' },
+  { href: `${mainSite}/competitions`, label: 'Competitions' },
+  { href: `${mainSite}/facilities`, label: 'Facilities' },
+  { href: `${mainSite}/membership`, label: 'Membership' },
+  { href: `${mainSite}/events`, label: 'Events' },
+  { href: `${mainSite}/request`, label: 'Request' },
 ];
+
+const socialLinks = [
+  { href: 'https://www.instagram.com/purduephotoclub/', label: 'Instagram', icon: 'instagram', external: true },
+  { href: `${mainSite}/discord`, label: 'Discord', icon: 'discord', external: false },
+  { href: 'mailto:photo@purdue.edu', label: 'Email', icon: 'email', external: false },
+  { href: 'https://linktr.ee/purduephotoclub', label: 'Linktree', icon: 'external', external: true },
+  { href: 'https://boilerlink.purdue.edu/organization/photoclub', label: 'BoilerLink', icon: 'external', external: true },
+];
+
+const footerLinkClasses = 'inline-flex min-h-11 items-center text-xs tracking-wider text-[#8a8a8a] no-underline transition-colors hover:text-white focus-visible:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400 md:min-h-0';
 ---
 
 {(prev || next) && (
-  <div class="mt-14">
+  <div class="mx-auto w-full max-w-5xl py-16 sm:py-20">
     <Pagination />
   </div>
 )}
 
-<footer class="mt-16 border-t border-white/10 pt-10 pb-6">
-  <div class="grid gap-10 lg:grid-cols-[1fr_0.7fr_1.2fr]">
-    <div>
-      <a href={mainSite} class="inline-flex min-h-11 items-center gap-3 text-white no-underline">
-        <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="size-10 rounded-full brightness-[1.7] invert mix-blend-screen" />
-        <span class="font-['Playfair_Display',Georgia,serif] text-lg font-bold">Purdue Photography Club</span>
-      </a>
-      <p class="mt-4 max-w-md text-sm leading-7 text-neutral-400">
-        Where analog tradition meets digital innovation. Capturing moments in silver halide and silicon since 1934.
+<footer class="border-t border-neutral-800 py-16">
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-3">
+      <div>
+        <a href={mainSite} class="inline-flex min-h-11 items-center gap-3 text-white no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">
+          <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="size-8 rounded-full" />
+          <span class="font-['Playfair_Display',Georgia,serif] text-xs tracking-[0.3em] text-neutral-400 uppercase">
+            Purdue Photography Club
+          </span>
+        </a>
+        <p class="mt-4 max-w-sm text-xs leading-relaxed tracking-wider text-[#8a8a8a]">
+          Film, digital, darkroom, and club work at Purdue since 1934.
+        </p>
+      </div>
+
+      <div>
+        <p class="mb-4 text-[0.62rem] tracking-[0.3em] text-neutral-400 uppercase">Quick Links</p>
+        <nav class="grid grid-cols-2 gap-2" aria-label="Club website links">
+          {navLinks.map((link) => (
+            <a href={link.href} class={footerLinkClasses}>{link.label}</a>
+          ))}
+        </nav>
+      </div>
+
+      <div>
+        <p class="mb-4 text-[0.62rem] tracking-[0.3em] text-neutral-400 uppercase">Connect</p>
+        <nav class="flex flex-col gap-3" aria-label="Club social links">
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class:list={[footerLinkClasses, 'gap-2.5']}
+            >
+              {link.icon === 'instagram' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <rect width="18" height="18" x="3" y="3" rx="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <path d="M17.5 6.5h.01"></path>
+                </svg>
+              )}
+              {link.icon === 'discord' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <path d="M9.09 9a3 3 0 0 1 5.83 0"></path>
+                  <path d="M20.27 6.73a19.6 19.6 0 0 0-4.84-1.5 14.68 14.68 0 0 0-.64 1.31 18.16 18.16 0 0 0-5.57 0 14.68 14.68 0 0 0-.65-1.31 19.55 19.55 0 0 0-4.84 1.5A20.09 20.09 0 0 0 .29 18.07a19.72 19.72 0 0 0 6.03 3.05 14.82 14.82 0 0 0 1.3-2.1 12.74 12.74 0 0 1-2.05-.99l.49-.38a14.08 14.08 0 0 0 12 0l.49.38c-.66.39-1.35.72-2.06.99a14.82 14.82 0 0 0 1.3 2.1 19.65 19.65 0 0 0 6.02-3.05A20.06 20.06 0 0 0 20.27 6.73z"></path>
+                </svg>
+              )}
+              {link.icon === 'email' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                  <path d="m22 7-10 6L2 7"></path>
+                </svg>
+              )}
+              {link.icon === 'external' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14 21 3"></path>
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                </svg>
+              )}
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-4 border-t border-neutral-800 pt-8 text-center text-[0.62rem] leading-5 tracking-wider text-[#7f7f7f] md:flex-row md:justify-between md:text-left">
+      <p>Est. 1934 · Purdue Photography Club · West Lafayette, IN</p>
+      <p>
+        Made with love by
+        <a href="https://www.instagram.com/alesgs.photos/" target="_blank" rel="noopener noreferrer" class="text-neutral-300 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">Alejandro Griffith</a>
+        · © 2026
       </p>
     </div>
-
-    <div>
-      <p class="mb-3 text-[0.62rem] font-bold tracking-[0.18em] text-neutral-300 uppercase">Connect with us</p>
-      <nav class="grid" aria-label="Club social links">
-        {socialLinks.map((link) => (
-          <a
-            href={link.href}
-            target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-            rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-            class="inline-flex min-h-11 items-center border-b border-white/10 text-xs text-neutral-400 no-underline transition hover:border-white/25 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
-          >
-            {link.label}
-            <span aria-hidden="true" class="ml-auto text-neutral-600">↗</span>
-          </a>
-        ))}
-      </nav>
-    </div>
-
-    <div>
-      <p class="mb-3 text-[0.62rem] font-bold tracking-[0.18em] text-neutral-300 uppercase">Newsletter</p>
-      <form data-wiki-newsletter-form action={listservActionUrl} method="post" target="purdue-listserv-footer" class="grid gap-2 sm:grid-cols-[1fr_1.25fr_auto]">
-        <input type="hidden" name="SUBED2" value={listservListName} />
-        <input type="hidden" name="A" value="1" />
-        <input type="hidden" name="L" value={listservListName} />
-        <label class="sr-only" for="wiki-footer-name">Your name</label>
-        <input
-          id="wiki-footer-name"
-          type="text"
-          name="p"
-          autocomplete="name"
-          placeholder="Your name"
-          required
-          class="min-h-11 min-w-0 rounded-none border border-white/15 bg-white/[0.03] px-3 text-sm text-white placeholder:text-neutral-500 focus:border-amber-200/60 focus:outline-none"
-        />
-        <input type="hidden" name="q" value="" />
-        <label class="sr-only" for="wiki-footer-email">Email address</label>
-        <input
-          id="wiki-footer-email"
-          type="email"
-          name="s"
-          autocomplete="email"
-          placeholder="your@email.com"
-          required
-          class="min-h-11 min-w-0 rounded-none border border-white/15 bg-white/[0.03] px-3 text-sm text-white placeholder:text-neutral-500 focus:border-amber-200/60 focus:outline-none"
-        />
-        <input type="hidden" name="t" value="" />
-        <input type="hidden" name="_charset_" value="UTF-8" />
-        <button data-wiki-newsletter-submit type="submit" name="b" value="Subscribe" class="min-h-11 border border-white bg-white px-5 text-[0.65rem] font-bold tracking-[0.14em] text-black uppercase transition hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 disabled:cursor-wait disabled:opacity-60">
-          Subscribe
-        </button>
-      </form>
-      <iframe data-wiki-newsletter-frame name="purdue-listserv-footer" title="Purdue LISTSERV footer signup" hidden></iframe>
-      <p data-wiki-newsletter-status role="status" aria-live="polite" class="mt-3 hidden text-xs leading-5 text-amber-100"></p>
-      <p class="mt-3 text-xs leading-5 text-neutral-400">
-        Want to unsubscribe?
-        <a href={listservManageUrl} target="_blank" rel="noopener noreferrer" class="text-neutral-200 underline decoration-white/30 underline-offset-4">Open Purdue LISTSERV</a>.
-      </p>
-    </div>
-  </div>
-
-  <div class="mt-10 flex flex-col gap-2 border-t border-white/10 pt-5 text-[0.62rem] leading-5 text-neutral-400 sm:flex-row sm:items-center sm:justify-between">
-    <p>Est. 1934 · Purdue Photography Club · West Lafayette, IN</p>
-    <p>
-      Made with love by
-      <a href="https://alesgsanudoo.com" target="_blank" rel="noopener noreferrer" class="text-neutral-200 underline decoration-white/30 underline-offset-4">Alejandro Griffith</a>
-      · © 2026
-    </p>
   </div>
 </footer>
-
-<script>
-  const newsletterForm = document.querySelector<HTMLFormElement>('[data-wiki-newsletter-form]');
-  const newsletterFrame = document.querySelector<HTMLIFrameElement>('[data-wiki-newsletter-frame]');
-  const newsletterStatus = document.querySelector<HTMLElement>('[data-wiki-newsletter-status]');
-  const newsletterSubmit = document.querySelector<HTMLButtonElement>('[data-wiki-newsletter-submit]');
-  let newsletterSubmitted = false;
-
-  newsletterForm?.addEventListener('submit', () => {
-    newsletterSubmitted = true;
-    if (newsletterStatus) {
-      newsletterStatus.textContent = 'Sending your request to Purdue LISTSERV…';
-      newsletterStatus.classList.remove('hidden');
-    }
-    if (newsletterSubmit) {
-      newsletterSubmit.disabled = true;
-      newsletterSubmit.textContent = 'Sending…';
-    }
-  });
-
-  newsletterFrame?.addEventListener('load', () => {
-    if (!newsletterSubmitted) return;
-    newsletterSubmitted = false;
-    newsletterForm?.reset();
-    if (newsletterStatus) {
-      newsletterStatus.textContent = 'Request sent. Check your inbox for Purdue LISTSERV confirmation.';
-    }
-    if (newsletterSubmit) {
-      newsletterSubmit.disabled = false;
-      newsletterSubmit.textContent = 'Subscribe';
-    }
-  });
-</script>

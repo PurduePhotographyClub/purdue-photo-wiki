@@ -5,7 +5,7 @@ const { prev, next } = pagination;
 
 <nav class="grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2" dir={dir} aria-label="Page navigation">
   {prev ? (
-    <a href={prev.href} rel="prev" class="group flex min-h-28 items-center gap-4 bg-neutral-950 p-5 text-left no-underline transition hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200">
+    <a href={prev.href} rel="prev" class="group flex min-h-24 items-center gap-4 bg-neutral-950 px-4 py-5 text-left no-underline transition hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 sm:px-6">
       <span aria-hidden="true" class="text-xl text-neutral-500 transition group-hover:-translate-x-1 group-hover:text-amber-200">←</span>
       <span>
         <span class="block text-[0.58rem] tracking-[0.18em] text-neutral-400 uppercase">Previous</span>
@@ -14,7 +14,7 @@ const { prev, next } = pagination;
     </a>
   ) : <span class="hidden sm:block"></span>}
   {next && (
-    <a href={next.href} rel="next" class="group flex min-h-28 items-center justify-end gap-4 bg-neutral-950 p-5 text-right no-underline transition hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200">
+    <a href={next.href} rel="next" class="group flex min-h-24 items-center justify-end gap-4 bg-neutral-950 px-4 py-5 text-right no-underline transition hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 sm:px-6">
       <span>
         <span class="block text-[0.58rem] tracking-[0.18em] text-neutral-400 uppercase">Next</span>
         <span class="mt-2 block font-['Playfair_Display',Georgia,serif] text-xl leading-tight text-white">{next.label}</span>

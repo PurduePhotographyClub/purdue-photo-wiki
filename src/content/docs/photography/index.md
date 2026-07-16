@@ -27,8 +27,8 @@ sidebar:
     </figure>
   </section>
 
-  <section class="grid grid-cols-1 items-center gap-8 border-l-2 border-amber-200/30 pl-5 sm:pl-8 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,0.42fr)] lg:gap-12" id="gs-practice" aria-label="What to practice first">
-    <div class="min-w-0">
+  <section class="border-l-2 border-amber-200/30 px-5 sm:px-8" id="gs-practice" aria-label="What to practice first">
+    <div class="mx-auto w-full max-w-4xl min-w-0">
       <p class="m-0! mb-7! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-snug! font-semibold text-neutral-100 sm:text-3xl!">
         Your first few goals are simple: notice <em class="not-italic text-amber-200">light</em>, pick a <em class="not-italic text-neutral-100">frame</em>, and make the photo feel <em class="not-italic text-neutral-100">intentional</em>.
       </p>
@@ -54,7 +54,6 @@ sidebar:
         </div>
       </div>
     </div>
-    <div class="hidden min-h-80 border border-white/10 bg-neutral-950 shadow-[inset_0_0_0_1rem_rgb(255_255_255/0.015)] lg:block" aria-hidden="true"></div>
   </section>
 
   <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-8 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-10" id="gs-gear">

@@ -44,15 +44,15 @@ const accentStyle = accentClasses[accent] ?? accentClasses.silver;
 ---
 
 {route.id !== '404' && (
-  <header class:list={['relative mb-9 overflow-hidden border-y border-white/10 bg-gradient-to-r to-transparent py-8 sm:mb-12 sm:py-11', accentStyle.wash]}>
+  <header class:list={['relative mb-9 overflow-hidden border-y border-white/10 bg-gradient-to-r to-transparent px-5 py-7 sm:mb-12 sm:px-7 sm:py-9 lg:px-9', accentStyle.wash]}>
     <div class:list={['mb-4 flex items-center gap-3 text-[0.62rem] tracking-[0.22em] uppercase', accentStyle.text]}>
       <span class:list={['h-px w-9', accentStyle.line]}></span>
       {kicker}
     </div>
-    <h1 id="_top" class="m-0 max-w-[18ch] scroll-mt-24 font-['Playfair_Display',Georgia,serif] text-5xl leading-[0.98] font-black tracking-tight text-balance text-white sm:text-6xl lg:text-7xl">
+    <h1 id="_top" class="m-0 max-w-[18ch] scroll-mt-24 font-['Playfair_Display',Georgia,serif] text-4xl leading-[0.98] font-black tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
       {title}
     </h1>
-    {description && <p class="mt-5 max-w-3xl text-sm leading-7 text-neutral-300 sm:text-base">{description}</p>}
+    {description && <p class="mt-5 max-w-[70ch] text-sm leading-7 text-neutral-300 sm:text-[0.95rem]">{description}</p>}
     {(author || formattedDate) && (
       <div class="mt-5 flex flex-wrap items-center gap-3 text-[0.65rem] tracking-[0.14em] text-neutral-300 uppercase" aria-label="Article details">
         {author && <span>{author}</span>}
