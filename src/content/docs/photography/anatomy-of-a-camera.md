@@ -9,7 +9,7 @@ accent: cyan
     <div class="anatomy-hero__copy">
       <p class="anatomy-kicker">Camera parts without the menu fog.</p>
       <p class="anatomy-lead">
-        A camera gets much less intimidating once every dial, button, and major part has a job.
+        HELLO WORLD!
       </p>
       <p>
         This page uses the Sony A7 IV as a reference because it is a common modern mirrorless layout, but the ideas apply to most cameras. Your camera may move a button, rename a control, or hide a setting in a different menu.
