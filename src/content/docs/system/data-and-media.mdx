@@ -6,9 +6,9 @@ accent: emerald
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
 
-D1 is Cloudflare's SQL database and stores the club's records. R2 is Cloudflare's file storage and holds images, which do not belong in database rows. The Email Worker uses KV, a simple key-and-value store, for short-lived receipt locks and retry records.
+**D1 stores the club's records.** **R2 stores images.** The Email Worker uses **KV for short-lived receipt locks and retries**.
 
-The API Worker is the only service with access to the main D1 database and R2 storage. The Email Worker has its own KV area named `RECEIPT_DEDUPE`. The website, Discord Worker, and Scheduler Worker cannot access D1 or R2 directly.
+**The API Worker is the only service with access to the main D1 database and R2 storage.** The Email Worker has its own KV area named `RECEIPT_DEDUPE`. The website, Discord Worker, and Scheduler Worker cannot access D1 or R2 directly.
 
 ## D1 stores club records
 
@@ -61,7 +61,7 @@ Limits differ by feature. Gallery and competition submissions send a full image 
 7. Save both files to R2.
 8. Save the D1 record that links the public item to those files.
 
-The browser can show a file limit before upload, but the API checks it again. A caller can bypass the browser interface.
+The browser can show a file limit before upload, but **the API checks it again**. A caller can bypass the browser interface.
 
 ### Why the file is saved before the record
 
@@ -116,7 +116,7 @@ The API changes a record before it asks another service to send a message or mak
 
 For an equipment loan, the API checks the borrower and item, saves the new loan status and audit details, then sends any needed Discord update. For a film or studio request, the API applies review and cancellation rules before changing Discord posts or DMs. For a competition, the API manages entries, results, deletion claims, and R2 cleanup.
 
-This order means a failed Discord request is never the only record of a change. D1 keeps the saved state, so staff can inspect, retry, or repair the work.
+This order means a failed Discord request is never the only record of a change. **D1 keeps the saved state**, so staff can inspect, retry, or repair the work.
 
 ## What public pages can access
 

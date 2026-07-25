@@ -6,9 +6,9 @@ accent: rose
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
 
-A purchase receipt arrives by email, not through a trusted payment webhook. The system checks the sender and recipient, reads the email and its PDF, and makes sure the same purchase is not processed twice.
+A purchase receipt arrives by email, not through a trusted payment webhook. The system checks the sender and recipient, reads the email and its PDF, and makes sure **the same purchase is not processed twice**.
 
-Two services share the work. The Email Worker reads the message. The API processes the order. Both save progress so a retry does not repeat finished work.
+Two services share the work. **The Email Worker reads the message.** **The API processes the order.** Both save progress so a retry does not repeat finished work.
 
 <SystemDiagram type="receipt" />
 
@@ -68,7 +68,7 @@ KV protects submission of the normalized purchase and retries to the API. It doe
 
 The API receives the parsed receipt through a private service-binding route. Before it sends an email, creates an activation key, or starts Discord work, it claims an idempotency record in D1's `receipt_fulfillment` table. Idempotency means a retry can use the same request without creating the result twice.
 
-This D1 record sits next to the order result, so it is the final duplicate check. Two emails can produce the same parsed purchase, but only one request can own the fulfillment.
+This D1 record sits next to the order result, so **it is the final duplicate check**. Two emails can produce the same parsed purchase, but only one request can own the fulfillment.
 
 <div className="my-10 grid gap-4 lg:grid-cols-2 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-6">
@@ -142,7 +142,7 @@ KV only tracks the delivery attempt. D1 tracks the saved membership result. Stab
 
 ## Who can submit a receipt
 
-The fulfillment route is private. It requires the Email Worker's identity and internal token through the service binding. A public browser cannot submit a fake receipt to get a membership key.
+**The fulfillment route is private.** It requires the Email Worker's identity and internal token through the service binding. A public browser cannot submit a fake receipt to get a membership key.
 
 The API checks the parsed fields again. It uses parameterized database operations, keeps secrets out of error responses, and signs each Discord event before sending it.
 

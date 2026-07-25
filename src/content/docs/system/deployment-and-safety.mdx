@@ -6,9 +6,9 @@ accent: cyan
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
 
-Each repository tests and deploys its own code. Changing the wiki does not deploy the API. Fixing email does not rebuild the website.
+**Each repository tests and deploys its own code.** Changing the wiki does not deploy the API. Fixing email does not rebuild the website.
 
-When a change affects more than one service, both sides must work while they are deployed at different times.
+When a change affects more than one service, **both sides must work while they are deployed at different times**.
 
 <SystemDiagram type="deployment" />
 
@@ -85,7 +85,7 @@ A healthy Gateway can also send an event that the Worker rejects because its sec
 
 ## Where configuration lives
 
-Public settings can stay in the repository. Secrets cannot.
+Public settings can stay in the repository. **Secrets cannot.**
 
 <div className="my-10 grid gap-4 lg:grid-cols-3 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-6">
@@ -158,7 +158,7 @@ There is no single trace that follows a request through every service. To invest
 
 ## A health check tests one service
 
-A health endpoint shows that one service can answer. It does not test every dependency or allowlist.
+**A health endpoint tests one service, not the full flow.** It does not test every dependency or allowlist.
 
 For example:
 

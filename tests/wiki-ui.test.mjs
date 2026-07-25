@@ -18,14 +18,19 @@ function sourceFiles(directory, extensions) {
 
 test('the homepage offers two clear paths without a decorative hero image', () => {
   const homepage = readProjectFile('src/content/docs/index.md');
+  const sidebar = readProjectFile('src/components/WikiSidebar.astro');
 
-  assert.match(homepage, /What do you want to learn\?/);
+  assert.match(homepage, /Choose a guide/);
   assert.match(homepage, /href="\/photography\/"/);
   assert.match(homepage, /href="\/system\/"/);
   assert.match(homepage, /Photography topics/);
   assert.match(homepage, /See how the club's online tools work/);
+  assert.match(homepage, /text-amber-200[^>]*>light and framing<\/strong>/);
+  assert.match(homepage, /text-sky-200[^>]*>website, API, and Discord<\/strong>/);
   assert.match(homepage, /tag: title\s+content: PPC Wiki/);
   assert.doesNotMatch(homepage, /images\/site\/hero\/hero\.webp/);
+  assert.doesNotMatch(homepage, /Learn photography or see how the club's online tools work\./);
+  assert.doesNotMatch(sidebar, /Learn photography or how the club's online tools work\./);
   assert.doesNotMatch(homepage, /everything in between|complete beginner|feel free to explore/i);
   assert.doesNotMatch(homepage, /<\/a>\n\s*\n\s*<a/, 'blank lines between HTML cards render later cards as source text');
 });
@@ -42,6 +47,7 @@ test('the wiki keeps shared theme tokens in its Tailwind entry with no component
   assert.match(tailwindEntry, /html\[data-theme=['"]dark['"]\] \.wiki-brand-logo[\s\S]+filter:\s*none/);
   assert.match(tailwindEntry, /html\[data-theme=['"]light['"]\] \.wiki-brand-logo[\s\S]+filter:\s*invert\(1\)/);
   assert.match(tailwindEntry, /\.wiki-prose\[data-wiki-accent=['"]purple['"]\]/);
+  assert.match(tailwindEntry, /\.wiki-prose strong:not\(\[class\]\)/);
   assert.match(tailwindEntry, /\.wiki-prose mark/);
 
   const authoredUi = sourceFiles('src', ['.astro', '.md', '.mdx', '.ts', '.js'])
@@ -119,9 +125,14 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(twoColumnContent, /sm:\[&>main\]:px-7!/);
   assert.match(twoColumnContent, /lg:\[&>main\]:px-10!/);
   assert.match(twoColumnContent, /xl:\[&>main\]:px-12!/);
-  assert.match(pageTitle, /px-4[^\n]+sm:px-7[^\n]+lg:px-10[^\n]+xl:px-12/);
   assert.match(pageTitle, /max-w-6xl/);
-  assert.match(pageTitle, /border-l-2/);
+  assert.match(pageTitle, /border-b/);
+  assert.match(pageTitle, /h-px w-10/);
+  assert.match(pageTitle, /!isHomepage && description/);
+  assert.match(pageTitle, /mt-4 max-w-\[62ch\]/);
+  assert.doesNotMatch(pageTitle, /\bpx-4\b|\bsm:px-7\b|\blg:px-10\b|\bxl:px-12\b/);
+  assert.doesNotMatch(pageTitle, /lg:grid-cols-\[minmax\(0,1fr\)/);
+  assert.doesNotMatch(pageTitle, /border-l-2|absolute top-0|-left-0\.5/);
   assert.doesNotMatch(pageTitle, /bg-gradient-to-r|border-y/);
   assert.match(markdown, /sl-markdown-content/);
   assert.match(markdown, /wiki-prose/);
@@ -139,6 +150,8 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(markdown, /\[&_ol\]:list-decimal/);
   assert.match(markdown, /\[&_ol\]:space-y-3/);
   assert.match(markdown, /\[&_ul\]:list-disc/);
+  assert.match(markdown, /\[&_strong\]:font-bold/);
+  assert.doesNotMatch(markdown, /\[&_strong\]:text-neutral-100/);
   assert.doesNotMatch(markdown, /\bspace-y-6\b/);
   assert.match(homepage, /@3xl:grid-cols-2/);
   assert.match(homepage, /@5xl:grid-cols-3/);
@@ -208,10 +221,11 @@ test('the homepage has a compact, page-specific introduction', () => {
   const pageTitle = readProjectFile('src/components/WikiPageTitle.astro');
   const homepage = readProjectFile('src/content/docs/index.md');
 
-  assert.match(pageTitle, /const isHomepage = route\.id === ['"]index['"]/);
+  assert.match(pageTitle, /const isHomepage = Astro\.url\.pathname === ['"]\/['"]/);
   assert.match(pageTitle, /Photography and club guides/);
   assert.match(pageTitle, /isHomepage \?/);
   assert.match(pageTitle, /max-w-6xl/);
+  assert.doesNotMatch(pageTitle, /\bpx-4\b|\bsm:px-7\b|\blg:px-10\b|\bxl:px-12\b/);
   assert.match(homepage, /title: Photography and club guides/);
 });
 
@@ -320,6 +334,20 @@ test('the system guide uses direct, plain language', () => {
     systemCopy,
     /Queues or Durable Objects could be added later\. This guide only describes the current repository\./,
   );
+});
+
+test('every system page uses selective accent-colored emphasis', () => {
+  const tailwindEntry = readProjectFile('src/styles/tailwind.css');
+
+  assert.match(tailwindEntry, /\.wiki-prose strong:not\(\[class\]\)\s*\{[\s\S]*color:\s*var\(--wiki-accent\)/);
+
+  for (const path of sourceFiles('src/content/docs/system', ['.mdx'])) {
+    const source = readFileSync(path, 'utf8');
+    const emphasizedPhrases = source.match(/\*\*[^*\n]+\*\*/g) ?? [];
+    const relativePath = path.slice(projectRoot.length + 1);
+
+    assert.ok(emphasizedPhrases.length >= 2, `${relativePath} needs at least two useful emphasized phrases`);
+  }
 });
 
 test('getting started keeps photo credits attached to the photos they describe', () => {

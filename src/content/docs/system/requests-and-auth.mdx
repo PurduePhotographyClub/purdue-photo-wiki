@@ -6,9 +6,9 @@ accent: violet
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
 
-A dashboard button sends its request to the website, usually through `/api/v1/...`. It does not call the public API address. The website then sends the request to the API Worker through a private Cloudflare link called a service binding.
+A dashboard button sends its request to the website, usually through `/api/v1/...`. It does not call the public API address. The website then sends the request to the API Worker through a private Cloudflare link called a **service binding**.
 
-This extra step separates browser data from trusted service data. The browser can send cookies and form values. It cannot add the private headers that prove a trusted Worker sent the request.
+This extra step separates browser data from trusted service data. The browser can send cookies and form values. It cannot add the **private headers** that prove a trusted Worker sent the request.
 
 <SystemDiagram type="request" />
 
@@ -115,7 +115,7 @@ Signing in does not give a member permission to do everything.
 
 The website checks the session and role before showing protected dashboard sections. A member must link Discord to use the normal dashboard. Membership and staff rules then control protected pages.
 
-The API checks these permissions again before it reads or changes data. Hiding a button can make the interface clearer, but it is never the permission check.
+**The API checks these permissions again** before it reads or changes data. Hiding a button can make the interface clearer, but it is never the permission check.
 
 The API may ask:
 
@@ -134,7 +134,7 @@ The router lists every public read. These routes cover public stats, membership 
 
 The router does not make every route under a shared prefix public. `/api/gallery` can be public while `/api/gallery?mine=true` still requires the current user. Competition results can be public while entry management stays protected. The request method and full path both matter.
 
-New routes start as private. A developer must list a route before it becomes public.
+**New routes start as private.** A developer must list a route before it becomes public.
 
 ## What failure looks like
 

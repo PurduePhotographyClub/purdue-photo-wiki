@@ -6,9 +6,9 @@ accent: amber
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
 
-Every thirty minutes, the Scheduler Worker sends seven private requests to the API at the same time. It records each result and then stops.
+**Every thirty minutes**, the Scheduler Worker sends seven private requests to the API at the same time. It records each result and then stops.
 
-The scheduler only starts the jobs. The API decides what to change, and the Discord Worker handles Discord updates.
+**The scheduler starts the jobs. The API decides what changes.** The Discord Worker handles Discord updates.
 
 <SystemDiagram type="scheduler" />
 
@@ -58,13 +58,13 @@ Each request is a `POST` to an internal URL. It includes three headers:
   <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-amber-200 uppercase">Scheduled time</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-scheduled-at</code> holds the original Cron timestamp.</p></article>
 </div>
 
-The source header is not proof by itself because a browser can make the same header. The internal token and service binding prove that the request came from a trusted service.
+The source header is not proof by itself because a browser can make the same header. **The internal token and service binding prove that the request came from a trusted service.**
 
 The API handles these job paths before normal browser session checks. They are private service endpoints, not staff dashboard routes or public Cron URLs.
 
 ## D1 leases prevent overlap
 
-Cron may send the same trigger again after a delay. A deployment may also overlap with a scheduled run. Before a job starts, the API claims a D1 lease for that job.
+Cron may send the same trigger again after a delay. A deployment may also overlap with a scheduled run. Before a job starts, **the API claims a D1 lease** for that job.
 
 A lease records:
 

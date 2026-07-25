@@ -7,24 +7,23 @@ head:
     content: PPC Wiki
 ---
 
-<section class="my-8 overflow-hidden border border-white/10 bg-neutral-950 sm:my-10" aria-labelledby="home-start-title">
+<section class="my-6 overflow-hidden border border-white/10 bg-neutral-950 sm:my-8" aria-labelledby="home-start-title">
   <div class="border-b border-white/10 p-5 sm:p-7">
     <p class="m-0! font-['Space_Mono',monospace] text-[0.72rem]! leading-5! tracking-[0.16em] text-sky-200 uppercase">Start here</p>
-    <h2 id="home-start-title" class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-white sm:text-4xl!">What do you want to learn?</h2>
-    <p class="mt-4! mb-0! max-w-2xl! text-neutral-400">Learn photography or see how the club's online tools work.</p>
+    <h2 id="home-start-title" class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-white sm:text-4xl!">Choose a guide</h2>
   </div>
 
   <div class="grid gap-px bg-white/10 @4xl:grid-cols-2">
     <a class="group flex min-h-48 flex-col bg-neutral-950 p-5 text-neutral-100! no-underline! transition hover:bg-neutral-900 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 sm:p-7" href="/photography/">
       <span class="font-['Space_Mono',monospace] text-[0.72rem] tracking-[0.16em] text-amber-200 uppercase">Photography</span>
       <strong class="mt-4 font-['Playfair_Display',Georgia,serif] text-2xl leading-tight text-white sm:text-3xl">Learn photography</strong>
-      <span class="mt-3 max-w-md text-sm leading-6 text-neutral-400">Start with light and framing. Then learn camera settings, editing, film, and gear.</span>
+      <span class="mt-3 max-w-md text-sm leading-6 text-neutral-400">Start with <strong class="font-semibold text-amber-200">light and framing</strong>. Then learn camera settings, editing, film, and gear.</span>
       <span class="mt-auto pt-6 text-sm text-amber-200 transition group-hover:translate-x-1" aria-hidden="true">Open photography guides →</span>
     </a>
     <a class="group flex min-h-48 flex-col bg-neutral-950 p-5 text-neutral-100! no-underline! transition hover:bg-neutral-900 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-200 sm:p-7" href="/system/">
       <span class="font-['Space_Mono',monospace] text-[0.72rem] tracking-[0.16em] text-sky-200 uppercase">Club system</span>
       <strong class="mt-4 font-['Playfair_Display',Georgia,serif] text-2xl leading-tight text-white sm:text-3xl">See how the club's online tools work</strong>
-      <span class="mt-3 max-w-md text-sm leading-6 text-neutral-400">See how the website, API, Discord, storage, email, and scheduled tasks work together.</span>
+      <span class="mt-3 max-w-md text-sm leading-6 text-neutral-400">See how the <strong class="font-semibold text-sky-200">website, API, and Discord</strong> work with storage, email, and scheduled tasks.</span>
       <span class="mt-auto pt-6 text-sm text-sky-200 transition group-hover:translate-x-1" aria-hidden="true">Open the system guide →</span>
     </a>
   </div>

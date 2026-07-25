@@ -16,9 +16,9 @@ import TechnologyGrid from '../../../components/TechnologyGrid.astro';
   </p>
 </section>
 
-The API is the only service that changes club records. The website shows the interface, the Discord Worker handles Discord actions, the Email Worker reads receipts, and the Scheduler Worker starts timed jobs.
+**The API is the only service that changes club records.** The website shows the interface, the Discord Worker handles Discord actions, the Email Worker reads receipts, and the Scheduler Worker starts timed jobs.
 
-Each service has one job. A web page cannot change Discord directly. The Scheduler Worker cannot write to the database. The Email Worker cannot create a membership by itself.
+Each service has **one job**. A web page cannot change Discord directly. The Scheduler Worker cannot write to the database. The Email Worker cannot create a membership by itself.
 
 <SystemDiagram type="platform" />
 
@@ -91,7 +91,7 @@ The workspace uses several repositories. Each repository is deployed on its own.
   </table>
 </div>
 
-Service bindings are private links between Cloudflare Workers, so their traffic does not use a public address. The services still use shared secrets and signed messages. These checks tell the receiving service who sent a request and whether it changed on the way.
+**Service bindings are private links between Cloudflare Workers**, so their traffic does not use a public address. The services still use shared secrets and signed messages. These checks tell the receiving service who sent a request and whether it changed on the way.
 
 <TechnologyGrid />
 
