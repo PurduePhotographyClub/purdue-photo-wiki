@@ -198,6 +198,37 @@ test('custom photography pages use a compact section rhythm', () => {
   assert.match(basics, /aspect-\[4\/3\][^"\n]*object-cover/);
 });
 
+test('the editing color lesson groups controls by purpose and keeps previews centered', () => {
+  const editing = readProjectFile('src/content/docs/photography/editing.md');
+  const colorSection = editing.indexOf('id="color"');
+  const basicControls = editing.indexOf('id="color-basics"');
+  const advancedControls = editing.indexOf('id="color-tools"');
+  const softwareSection = editing.indexOf('id="software"');
+
+  assert.ok(colorSection >= 0, 'the color section is missing');
+  assert.ok(colorSection < basicControls, 'basic color controls should follow the color introduction');
+  assert.ok(basicControls < advancedControls, 'advanced color tools should follow the basic controls');
+  assert.ok(advancedControls < softwareSection, 'color tools should stay inside the color lesson');
+  assert.match(editing, /<section[^>]+id="color-basics">/);
+  assert.match(editing, /mx-auto! w-full max-w-5xl/);
+  assert.match(editing, /max-h-\[34rem\][^"\n]*object-contain[^"\n]*object-top/);
+  assert.doesNotMatch(
+    editing,
+    /id="color"[^>]+lg:grid-cols-\[minmax\(0,0\.9fr\)_minmax\(20rem,1\.1fr\)\]/,
+  );
+});
+
+test('helpful resources is a compact, purpose-led directory', () => {
+  const resources = readProjectFile('src/content/docs/photography/helpful-resources.md');
+
+  assert.match(resources, /Pick the source that matches your question/);
+  assert.match(resources, /aria-label="How to use these resources"/);
+  assert.match(resources, /sm:grid-cols-2[^"\n]*xl:grid-cols-4/);
+  assert.equal((resources.match(/data-resource-card/g) ?? []).length, 16);
+  assert.doesNotMatch(resources, /\baspect-square\b/);
+  assert.doesNotMatch(resources, />Open<\/a>/);
+});
+
 test('the wiki footer mirrors the club website footer', () => {
   const footer = readProjectFile('src/components/WikiFooter.astro');
 
@@ -428,6 +459,11 @@ test('interactive polish avoids competing viewers and preserves accessible feedb
   assert.match(imageViewer, /history\.replaceState/);
   assert.match(imageViewer, /history\.back\(\)/);
   assert.match(imageViewer, /hashViewerOpenedFromTrigger/);
+  assert.match(imageViewer, /\btop-1\/2\b/);
+  assert.match(imageViewer, /\bleft-1\/2\b/);
+  assert.match(imageViewer, /-translate-x-1\/2/);
+  assert.match(imageViewer, /-translate-y-1\/2/);
+  assert.doesNotMatch(imageViewer, /\binset-0\b[^"\n]*\bm-auto\b/);
   assert.match(imageViewer, /classList\.remove\(['"]target:flex['"]\)/);
   assert.match(imageViewer, /classList\.add\(['"]target:flex['"]\)/);
   assert.doesNotMatch(imageViewer, /location\.hash\s*=/);

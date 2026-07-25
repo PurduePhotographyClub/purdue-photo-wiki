@@ -153,52 +153,86 @@ accent: violet
     </div>
   </section>
 
-  <section class="grid scroll-mt-24 gap-8 border-t border-white/10 pt-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(20rem,1.1fr)] lg:items-start lg:gap-12" id="color">
-    <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Color</p>
-      <h2 class="mt-0! border-0! pt-0!">Use color to support the photo</h2>
-      <p>
-        Start with white balance, tint, vibrance, and saturation. Temperature makes the image warmer or cooler. Tint moves it toward green or magenta.
-      </p>
-      <p>
-        <span class="font-bold text-amber-200">Saturation</span> changes every color. <span class="font-bold text-emerald-300">Vibrance</span> tends to change muted colors first, so it often looks gentler.
-      </p>
-      <div class="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-1">
-        <figure class="bg-neutral-900">
-          <img class="h-auto w-full" src="/images/pages/editing/white-balance-sliders.webp" width="546" height="162" alt="Lightroom white balance sliders for temperature and tint." loading="lazy" decoding="async" />
-          <figcaption class="mt-0! border-t border-white/10 px-4 py-3">White balance</figcaption>
-        </figure>
-        <figure class="bg-neutral-900">
-          <img class="h-auto w-full" src="/images/pages/editing/vibrance-saturation-sliders.webp" width="502" height="88" alt="Lightroom vibrance and saturation sliders." loading="lazy" decoding="async" />
-          <figcaption class="mt-0! border-t border-white/10 px-4 py-3">Vibrance and saturation</figcaption>
-        </figure>
+  <section class="scroll-mt-24 space-y-8 border-t border-white/10 pt-10" id="color">
+    <div class="grid items-start gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(22rem,1.2fr)] lg:gap-12">
+      <div class="space-y-5">
+        <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Color</p>
+        <h2 class="mt-0! border-0! pt-0!">Use color to support the photo</h2>
+        <p>
+          Start by matching the scene. Temperature makes the photo warmer or cooler. Tint moves it toward green or magenta.
+        </p>
+        <p>
+          <span class="font-bold text-amber-200">Saturation</span> changes every color. <span class="font-bold text-emerald-300">Vibrance</span> changes muted colors first, so it usually looks gentler.
+        </p>
+        <div class="space-y-2 border-l-2 border-violet-300/60 bg-violet-300/[0.04] p-5">
+          <strong class="block font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100!">Edit with a reason</strong>
+          <p>The example keeps the building warm while leaving the sky soft and blue.</p>
+        </div>
       </div>
-    </div>
-    <div class="overflow-hidden border border-white/10 bg-neutral-900">
-      <figure>
+      <figure class="overflow-hidden border border-white/10 bg-neutral-900">
         <img class="aspect-[4/3] w-full object-cover" src="/images/pages/editing/color-example-building.webp" width="1920" height="2400" alt="Edited street photo of an ornate building with warm highlights, soft blue sky, and people in the foreground." loading="lazy" decoding="async" />
-        <figcaption class="mt-0! border-y border-white/10 px-4 py-3">The edit uses warm highlights and a soft blue sky.</figcaption>
+        <figcaption class="mt-0! border-t border-white/10 px-4 py-3">Warm highlights separate the building from the blue sky.</figcaption>
       </figure>
-      <div class="space-y-4 p-6 sm:p-8">
-        <h3 class="mt-0!">Useful color tools</h3>
-        <ul class="my-0! space-y-3 pl-5">
-          <li><strong>Color grading:</strong> changes the color of highlights, midtones, and shadows separately.</li>
-          <li><strong>Color mixer:</strong> changes the hue, saturation, and luminance of one color at a time.</li>
-          <li><strong>Luminance:</strong> controls the brightness of a color.</li>
-        </ul>
-      </div>
     </div>
   </section>
 
-  <section class="grid scroll-mt-24 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2" id="color-tools">
-    <figure class="bg-neutral-900">
-      <img class="h-auto w-full" src="/images/pages/editing/color-grading-panel.webp" width="552" height="934" alt="Lightroom color grading wheels for midtones, shadows, and highlights." loading="lazy" decoding="async" />
-      <figcaption class="mt-0! border-t border-white/10 px-4 py-3">Color grading changes shadows, midtones, and highlights separately.</figcaption>
-    </figure>
-    <figure class="bg-neutral-900">
-      <img class="h-auto w-full" src="/images/pages/editing/color-mixer-panel.webp" width="550" height="606" alt="Lightroom color mixer panel with hue, saturation, and luminance controls for individual colors." loading="lazy" decoding="async" />
-      <figcaption class="mt-0! border-t border-white/10 px-4 py-3">The color mixer adjusts each color separately.</figcaption>
-    </figure>
+  <section class="scroll-mt-24 space-y-5 border-t border-white/10 pt-10" id="color-basics">
+    <div class="max-w-3xl">
+      <h3 class="mt-0!">Start with the basic sliders</h3>
+      <p>Set white balance first. Then adjust vibrance or saturation only as much as the photo needs.</p>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <figure class="flex flex-col overflow-hidden border border-white/10 bg-neutral-900">
+        <div class="flex min-h-40 flex-1 items-center justify-center p-4">
+          <img class="mx-auto! h-auto w-full max-w-xl" src="/images/pages/editing/white-balance-sliders.webp" width="546" height="162" alt="Lightroom white balance sliders for temperature and tint." loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="mt-0! border-t border-white/10 px-4 py-3">Temperature and tint set the color balance.</figcaption>
+      </figure>
+      <figure class="flex flex-col overflow-hidden border border-white/10 bg-neutral-900">
+        <div class="flex min-h-40 flex-1 items-center justify-center p-4">
+          <img class="mx-auto! h-auto w-full max-w-xl" src="/images/pages/editing/vibrance-saturation-sliders.webp" width="502" height="88" alt="Lightroom vibrance and saturation sliders." loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="mt-0! border-t border-white/10 px-4 py-3">Vibrance is often the gentler starting point.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="scroll-mt-24 border-t border-white/10 pt-10" id="color-tools">
+    <div class="mx-auto! w-full max-w-5xl space-y-6">
+      <div class="max-w-3xl space-y-4">
+        <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Targeted color</p>
+        <h3 class="mt-0!">Refine one part of the palette</h3>
+        <p>Use these tools after the basic sliders. They give you more control without changing every color at once.</p>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-3">
+        <div class="border border-white/10 bg-neutral-950 p-5">
+          <strong class="text-violet-300!">Color grading</strong>
+          <p class="mt-2!">Tints the highlights, midtones, and shadows separately.</p>
+        </div>
+        <div class="border border-white/10 bg-neutral-950 p-5">
+          <strong class="text-emerald-300!">Color mixer</strong>
+          <p class="mt-2!">Changes the hue, saturation, or brightness of one color.</p>
+        </div>
+        <div class="border border-white/10 bg-neutral-950 p-5">
+          <strong class="text-amber-200!">Luminance</strong>
+          <p class="mt-2!">Makes one color brighter or darker.</p>
+        </div>
+      </div>
+      <div class="grid items-start gap-4 sm:grid-cols-2">
+        <figure class="overflow-hidden border border-white/10 bg-neutral-900">
+          <div class="flex items-start justify-center p-4">
+            <img class="mx-auto! max-h-[34rem] w-auto max-w-full object-contain object-top" src="/images/pages/editing/color-grading-panel.webp" width="552" height="934" alt="Lightroom color grading wheels for midtones, shadows, and highlights." loading="lazy" decoding="async" />
+          </div>
+          <figcaption class="mt-0! border-t border-white/10 px-4 py-3">Color grading works across brightness ranges.</figcaption>
+        </figure>
+        <figure class="overflow-hidden border border-white/10 bg-neutral-900">
+          <div class="flex items-start justify-center p-4">
+            <img class="mx-auto! max-h-[34rem] w-auto max-w-full object-contain object-top" src="/images/pages/editing/color-mixer-panel.webp" width="550" height="606" alt="Lightroom color mixer panel with hue, saturation, and luminance controls for individual colors." loading="lazy" decoding="async" />
+          </div>
+          <figcaption class="mt-0! border-t border-white/10 px-4 py-3">The color mixer adjusts one color at a time.</figcaption>
+        </figure>
+      </div>
+    </div>
   </section>
 
   <section class="scroll-mt-24 space-y-5 border-t border-white/10 pt-10" id="software">
