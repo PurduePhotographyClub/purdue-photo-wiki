@@ -10,7 +10,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'PPC Wiki',
-      description: 'Purdue Photography Club knowledge base, updates, and operating notes.',
+      description: "Learn photography and see how the club's online tools work.",
       favicon: '/favicon.svg',
       customCss: ['./src/styles/tailwind.css'],
       components: {
@@ -35,7 +35,7 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'Homepage',
+          label: 'Home',
           items: ['index'],
         },
         {
@@ -54,7 +54,7 @@ export default defineConfig({
           ],
         },
         {
-          label: 'How the System Works',
+          label: 'Club system',
           items: [
             'system',
             'system/requests-and-auth',

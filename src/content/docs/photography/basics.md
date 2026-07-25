@@ -1,25 +1,25 @@
 ---
 title: Basics
-description: Exposure, camera settings, dynamic range, and the first technical foundations to learn.
+description: How camera settings control light, focus, motion, and image files.
 accent: sky
 ---
 
-<div class="basics-page not-content space-y-16 font-['Space_Mono',ui-monospace,monospace] text-[0.94rem] leading-7 text-neutral-300 sm:space-y-20 [&_a]:text-sky-200 [&_a]:underline [&_a]:decoration-sky-400/30 [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:text-neutral-100 [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-sky-400 [&_figcaption]:mt-3 [&_figcaption]:text-xs [&_figcaption]:leading-5 [&_figcaption]:text-neutral-400 [&_figure]:m-0 [&_h2]:m-0 [&_h2]:font-['Playfair_Display',Georgia,serif] [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:tracking-[-0.02em] [&_h2]:text-neutral-100 sm:[&_h2]:text-4xl [&_h3]:m-0 [&_h3]:font-['Playfair_Display',Georgia,serif] [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:leading-tight [&_h3]:text-neutral-100 [&_img]:block [&_p]:m-0" id="basics-start">
-  <section class="basics-hero grid grid-cols-1 gap-6 border border-neutral-800 bg-neutral-950 p-5 sm:p-7 lg:grid-cols-2 lg:items-end lg:gap-10 lg:p-8">
+<div class="basics-page not-content space-y-12 font-['Space_Mono',ui-monospace,monospace] text-[0.94rem] leading-7 text-neutral-300 sm:space-y-14 [&_a]:text-sky-200 [&_a]:underline [&_a]:decoration-sky-400/30 [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:text-neutral-100 [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-sky-400 [&_figcaption]:mt-3 [&_figcaption]:text-xs [&_figcaption]:leading-5 [&_figcaption]:text-neutral-400 [&_figure]:m-0 [&_h2]:m-0 [&_h2]:font-['Playfair_Display',Georgia,serif] [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:tracking-[-0.02em] [&_h2]:text-neutral-100 sm:[&_h2]:text-4xl [&_h3]:m-0 [&_h3]:font-['Playfair_Display',Georgia,serif] [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:leading-tight [&_h3]:text-neutral-100 [&_img]:block [&_p]:m-0" id="basics-start">
+  <section class="basics-hero grid grid-cols-1 gap-6 border border-neutral-800 bg-neutral-950 p-5 sm:p-7 lg:grid-cols-2 lg:items-center lg:gap-10 lg:p-8">
     <div class="basics-hero__copy space-y-5">
-      <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-sky-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-sky-200">Camera settings without the soup.</p>
+      <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-sky-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-sky-200">Learn the main settings</p>
       <p class="basics-lead font-['Playfair_Display',Georgia,serif] text-2xl leading-snug text-neutral-100 sm:text-3xl">
-        Exposure is the first technical idea that makes a camera feel less mysterious.
+        Exposure is simply how bright or dark your photo is.
       </p>
       <p>
-        This page covers the exposure triangle, stops of light, aperture, shutter speed, ISO, dynamic range, noise, raw files, and the camera modes that help you control all of it without getting overwhelmed.
+        Aperture, shutter speed, and ISO control exposure. They also change focus, motion, and image quality.
       </p>
       <p>
-        It is dense by design. Read it once, go shoot, then come back when the settings start to feel connected.
+        Read a section, try the setting on your camera, then compare the photos.
       </p>
     </div>
-    <figure class="basics-hero__image border border-neutral-800 bg-neutral-900 p-2">
-      <img class="aspect-[1086/1454] w-full bg-neutral-900 object-cover" src="/images/pages/basics/hero-light-beam.webp" alt="A bright orange beam of light breaking through clouds over water and mountains." width="1086" height="1454" loading="eager" decoding="async" fetchpriority="high" />
+    <figure class="basics-hero__image overflow-hidden border border-neutral-800 bg-neutral-900 p-2">
+      <img class="aspect-[4/3] w-full bg-neutral-900 object-cover" src="/images/pages/basics/hero-light-beam.webp" alt="A bright orange beam of light breaking through clouds over water and mountains." width="1086" height="1454" loading="eager" decoding="async" fetchpriority="high" />
       <figcaption>Photo by <a href="https://www.instagram.com/adrisangui" target="_blank" rel="noopener noreferrer">@adrisangui</a></figcaption>
     </figure>
   </section>
@@ -27,40 +27,40 @@ accent: sky
   <nav class="basics-map grid grid-cols-1 border-l border-t border-neutral-800 lg:grid-cols-2" aria-label="Basics page sections">
     <a class="group flex min-h-11 flex-col justify-center gap-2 border-b border-r border-neutral-800 bg-neutral-950 p-5 no-underline transition-colors hover:bg-neutral-900 focus-visible:relative focus-visible:z-10" href="#exposure-triangle">
       <span class="text-[0.7rem] font-bold tracking-[0.2em] text-sky-300">01</span>
-      <strong class="font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100">Exposure Triangle</strong>
-      <p class="text-sm leading-6 text-neutral-400">Aperture, shutter speed, ISO, and stops of light.</p>
+      <strong class="font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100">Exposure triangle</strong>
+      <p class="text-sm leading-6 text-neutral-400">How aperture, shutter speed, and ISO work together.</p>
     </a>
     <a class="group flex min-h-11 flex-col justify-center gap-2 border-b border-r border-neutral-800 bg-neutral-950 p-5 no-underline transition-colors hover:bg-neutral-900 focus-visible:relative focus-visible:z-10" href="#aperture">
       <span class="text-[0.7rem] font-bold tracking-[0.2em] text-amber-300">02</span>
       <strong class="font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100">Aperture</strong>
-      <p class="text-sm leading-6 text-neutral-400">Light, depth of field, bokeh, and f-numbers.</p>
+      <p class="text-sm leading-6 text-neutral-400">Control light and how much of the photo looks sharp.</p>
     </a>
     <a class="group flex min-h-11 flex-col justify-center gap-2 border-b border-r border-neutral-800 bg-neutral-950 p-5 no-underline transition-colors hover:bg-neutral-900 focus-visible:relative focus-visible:z-10" href="#shutter-speed">
       <span class="text-[0.7rem] font-bold tracking-[0.2em] text-emerald-300">03</span>
-      <strong class="font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100">Shutter Speed</strong>
-      <p class="text-sm leading-6 text-neutral-400">Freezing action, motion blur, and long exposures.</p>
+      <strong class="font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100">Shutter speed</strong>
+      <p class="text-sm leading-6 text-neutral-400">Freeze action or show motion blur.</p>
     </a>
     <a class="group flex min-h-11 flex-col justify-center gap-2 border-b border-r border-neutral-800 bg-neutral-950 p-5 no-underline transition-colors hover:bg-neutral-900 focus-visible:relative focus-visible:z-10" href="#iso">
       <span class="text-[0.7rem] font-bold tracking-[0.2em] text-rose-300">04</span>
       <strong class="font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100">ISO</strong>
-      <p class="text-sm leading-6 text-neutral-400">Digital gain, noise, and when to raise it.</p>
+      <p class="text-sm leading-6 text-neutral-400">Brighten the photo when aperture and shutter speed are set.</p>
     </a>
   </nav>
 
   <section class="basics-triangle scroll-mt-24 grid grid-cols-1 gap-8 border-t border-neutral-800 pt-10 lg:grid-cols-2 lg:items-center" id="exposure-triangle">
     <div class="basics-triangle__copy space-y-5">
-      <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-sky-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-sky-200">The foundation</p>
-      <h2>The Exposure Triangle</h2>
+      <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-sky-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-sky-200">How exposure works</p>
+      <h2>The exposure triangle</h2>
       <p>
-        <span class="basics-term basics-term--amber font-bold text-amber-300">Aperture</span>, <span class="basics-term basics-term--sky font-bold text-sky-300">shutter speed</span>, and <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> are the three settings photographers talk about most because they all change how bright the final image becomes. Your phone and camera can adjust them automatically, but learning what each one does gives you creative control.
+        <span class="basics-term basics-term--amber font-bold text-amber-300">Aperture</span>, <span class="basics-term basics-term--sky font-bold text-sky-300">shutter speed</span>, and <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> all change the photo's brightness. A phone or camera can set them for you. Learning them lets you choose how the photo looks.
       </p>
       <p>
-        Think of <span class="basics-term basics-term--green font-bold text-emerald-300">exposure as a balance</span>. If one setting lets in less light, another setting usually needs to give some back unless you intentionally want a darker image.
+        Think of <span class="basics-term basics-term--green font-bold text-emerald-300">exposure as a balance</span>. If one setting reduces the light, another must add it back to keep the same brightness.
       </p>
       <div class="basics-stop-row grid grid-cols-1 border-l border-t border-neutral-800 lg:grid-cols-2" aria-label="Stop examples">
         <span class="border-b border-r border-neutral-800 bg-neutral-950 p-4 text-sm text-neutral-400"><strong class="block text-neutral-100">+1 stop</strong> doubles the light</span>
         <span class="border-b border-r border-neutral-800 bg-neutral-950 p-4 text-sm text-neutral-400"><strong class="block text-neutral-100">-1 stop</strong> halves the light</span>
-        <span class="border-b border-r border-neutral-800 bg-neutral-950 p-4 text-sm text-neutral-400 lg:col-span-2"><strong class="block text-neutral-100">Same exposure</strong> can come from different settings</span>
+        <span class="border-b border-r border-neutral-800 bg-neutral-950 p-4 text-sm text-neutral-400 lg:col-span-2"><strong class="block text-neutral-100">Same brightness</strong> can come from different settings</span>
       </div>
     </div>
     <figure class="basics-triangle__figure border border-neutral-800 bg-neutral-950 p-5">
@@ -71,23 +71,23 @@ accent: sky
   <section class="basics-section basics-section--split scroll-mt-24 grid grid-cols-1 gap-8 border-t border-neutral-800 pt-10 lg:grid-cols-2 lg:items-center" id="aperture">
     <div class="basics-section__copy space-y-5">
       <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-amber-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-amber-200">Aperture</p>
-      <h2>How Wide the Lens Opens</h2>
+      <h2>How wide the lens opens</h2>
       <p>
-        <span class="basics-term basics-term--amber font-bold text-amber-300">Aperture</span> is the size of the opening inside the lens. It is written as an <span class="basics-term basics-term--green font-bold text-emerald-300">f-number</span>, such as f/1.4, f/2.8, f/5.6, or f/11. The confusing part is that a smaller f-number means a larger physical opening.
+        <span class="basics-term basics-term--amber font-bold text-amber-300">Aperture</span> is the opening inside the lens. It is shown as an <span class="basics-term basics-term--green font-bold text-emerald-300">f-number</span>, such as f/1.4, f/2.8, f/5.6, or f/11. A smaller number means a wider opening.
       </p>
       <p>
-        A large opening lets in <span class="basics-term basics-term--amber font-bold text-amber-300">more light</span> and creates a <span class="basics-term basics-term--rose font-bold text-rose-300">shallower depth of field</span>. That means less of the scene is in focus, which is why portraits often have soft, blurry backgrounds. A smaller opening lets in less light but keeps more of the scene sharp.
+        A wide opening lets in <span class="basics-term basics-term--amber font-bold text-amber-300">more light</span> and creates a <span class="basics-term basics-term--rose font-bold text-rose-300">shallow depth of field</span>. Less of the scene looks sharp, so a portrait can have a blurry background. A narrow opening lets in less light and keeps more of the scene sharp.
       </p>
       <div class="basics-summary-grid grid grid-cols-1 border-l border-t border-neutral-800 lg:grid-cols-2" aria-label="Aperture summary">
         <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
           <span class="text-xs font-bold uppercase tracking-wider text-amber-300">f/1.4 - f/2.8</span>
           <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">Wide / fast</strong>
-          <p class="text-sm leading-6 text-neutral-400">More light, more background blur, easier low-light shooting.</p>
+          <p class="text-sm leading-6 text-neutral-400">More light and more background blur. Useful in low light.</p>
         </div>
         <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">f/8 - f/11</span>
           <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">Stopped down</strong>
-          <p class="text-sm leading-6 text-neutral-400">Less light, deeper focus, useful for landscapes and context.</p>
+          <p class="text-sm leading-6 text-neutral-400">Less light and more of the scene in focus. Useful for landscapes.</p>
         </div>
       </div>
     </div>
@@ -103,14 +103,14 @@ accent: sky
       <figcaption>Source: <a href="https://www.juliatrotti.com/portfolio1" target="_blank" rel="noopener noreferrer">Julia Trotti</a></figcaption>
     </figure>
     <div class="basics-panel space-y-5 border border-neutral-800 bg-neutral-950 p-6">
-      <h3>What Aperture Changes</h3>
+      <h3>What aperture changes</h3>
       <ul class="m-0 space-y-3 pl-5 text-sm leading-6 text-neutral-300 marker:text-amber-300">
         <li><strong class="text-neutral-100">Exposure:</strong> wider apertures let in more light.</li>
-        <li><strong class="text-neutral-100">Depth of field:</strong> wider apertures make the focused zone thinner.</li>
-        <li><strong class="text-neutral-100">Lens size and price:</strong> very fast lenses are harder to design, so they are often bigger, heavier, and more expensive.</li>
+        <li><strong class="text-neutral-100">Depth of field:</strong> wider apertures make less of the scene look sharp.</li>
+        <li><strong class="text-neutral-100">Lens size and price:</strong> very wide apertures often make a lens larger, heavier, and more expensive.</li>
       </ul>
       <p>
-        Use wider apertures when you need light or want separation. Stop down when you need more of the scene to stay sharp.
+        Open the aperture when you need more light or want a blurry background. Close it when more of the scene should look sharp.
       </p>
     </div>
     <figure class="basics-figure basics-figure--diagram border border-neutral-800 bg-neutral-950 p-3 lg:col-span-2">
@@ -122,29 +122,29 @@ accent: sky
   <section class="basics-section basics-section--split basics-section--reverse scroll-mt-24 grid grid-cols-1 gap-8 border-t border-neutral-800 pt-10 lg:grid-cols-2 lg:items-center" id="shutter-speed">
     <div class="basics-section__copy space-y-5 lg:order-2">
       <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-sky-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-sky-200">Shutter speed</p>
-      <h2>How Long the Sensor Sees</h2>
+      <h2>How long the sensor records light</h2>
       <p>
-        <span class="basics-term basics-term--sky font-bold text-sky-300">Shutter speed</span> is measured in seconds or fractions of a second. It controls how long the camera collects light from the scene. A shutter speed of <span class="basics-term basics-term--green font-bold text-emerald-300">1/500s lets in twice as much light as 1/1000s</span> because the sensor is exposed for twice as long.
+        <span class="basics-term basics-term--sky font-bold text-sky-300">Shutter speed</span> is measured in seconds or fractions of a second. It sets how long the sensor records light. <span class="basics-term basics-term--green font-bold text-emerald-300">1/500s lets in twice as much light as 1/1000s</span> because it lasts twice as long.
       </p>
       <p>
-        It also changes how motion looks. <span class="basics-term basics-term--sky font-bold text-sky-300">Fast shutter speeds freeze movement</span>. <span class="basics-term basics-term--rose font-bold text-rose-300">Slow shutter speeds let movement smear</span> into the frame.
+        Shutter speed also changes motion. <span class="basics-term basics-term--sky font-bold text-sky-300">Fast speeds freeze movement</span>. <span class="basics-term basics-term--rose font-bold text-rose-300">Slow speeds create blur</span>.
       </p>
       <div class="basics-summary-grid grid grid-cols-1 border-l border-t border-neutral-800 lg:grid-cols-2" aria-label="Shutter speed summary">
         <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
           <span class="text-xs font-bold uppercase tracking-wider text-sky-300">Fast</span>
           <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">1/1000s+</strong>
-          <p class="text-sm leading-6 text-neutral-400">Sports, wildlife, fast action, and sharp handheld moments.</p>
+          <p class="text-sm leading-6 text-neutral-400">Use for sports, wildlife, and other fast action.</p>
         </div>
         <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
           <span class="text-xs font-bold uppercase tracking-wider text-rose-300">Slow</span>
           <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">1/30s or longer</strong>
-          <p class="text-sm leading-6 text-neutral-400">Intentional motion blur, moving water, light trails, and abstraction.</p>
+          <p class="text-sm leading-6 text-neutral-400">Use for motion blur, moving water, and light trails.</p>
         </div>
       </div>
     </div>
     <figure class="basics-figure basics-figure--photo border border-neutral-800 bg-neutral-950 p-3 lg:order-1">
       <img class="aspect-[1464/968] w-full bg-neutral-900 object-cover" src="/images/pages/basics/motion-blur-birds.webp" alt="Flying birds rendered as soft motion blur against a blue background." width="1464" height="968" loading="lazy" decoding="async" />
-      <figcaption>Slow shutter speeds can make motion feel fluid instead of frozen. Source: <a href="https://www.instagram.com/p/BuZsN2pHiKF" target="_blank" rel="noopener noreferrer">@natgeoyourshot</a></figcaption>
+      <figcaption>A slow shutter speed turns the birds into motion blur. Source: <a href="https://www.instagram.com/p/BuZsN2pHiKF" target="_blank" rel="noopener noreferrer">@natgeoyourshot</a></figcaption>
     </figure>
   </section>
 
@@ -154,10 +154,10 @@ accent: sky
       <figcaption>Photo by <a href="https://www.instagram.com/teo_crawford" target="_blank" rel="noopener noreferrer">@teo_crawford</a></figcaption>
     </figure>
     <div class="space-y-5 p-6 sm:p-8">
-      <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-rose-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-rose-200">Try it on purpose</p>
-      <h3>Blur Is Not Always a Mistake</h3>
+      <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-rose-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-rose-200">Use blur on purpose</p>
+      <h3>Blur can show movement</h3>
       <p>
-        Sharpness is useful, but blur can be expressive. If you are photographing concerts, street scenes, cars, water, or people moving through light, try a slower shutter speed and see what kind of rhythm appears.
+        A photo does not always need to be sharp. Try a slower shutter speed at a concert, on the street, or near moving water. Compare the shapes and streaks it creates.
       </p>
     </div>
   </section>
@@ -165,12 +165,12 @@ accent: sky
   <section class="basics-section basics-section--image-below scroll-mt-24 grid grid-cols-1 gap-8 border-t border-neutral-800 pt-10 lg:grid-cols-2 lg:items-center" id="iso">
     <div class="basics-section__copy space-y-5">
       <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-rose-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-rose-200">ISO</p>
-      <h2>Brightness After the Sensor</h2>
+      <h2>Brightening the sensor signal</h2>
       <p>
-        <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> is a holdover term from film speed. In digital photography, it behaves like <span class="basics-term basics-term--amber font-bold text-amber-300">gain</span>: the camera amplifies the signal from the sensor so the image becomes brighter.
+        <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> comes from film speed. On a digital camera, it works like <span class="basics-term basics-term--amber font-bold text-amber-300">gain</span>: the camera amplifies the sensor signal to make the image brighter.
       </p>
       <p>
-        Raising ISO is useful when you cannot open the aperture more or slow the shutter speed without ruining the shot. The tradeoff is <span class="basics-term basics-term--rose font-bold text-rose-300">noise</span>, especially in darker areas.
+        Raise ISO when you cannot open the aperture or slow the shutter. Higher ISO adds <span class="basics-term basics-term--rose font-bold text-rose-300">noise</span>, especially in dark areas.
       </p>
       <div class="basics-summary-grid grid grid-cols-1 border-l border-t border-neutral-800 lg:grid-cols-2" aria-label="ISO summary">
         <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
@@ -181,7 +181,7 @@ accent: sky
         <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
           <span class="text-xs font-bold uppercase tracking-wider text-rose-300">Higher ISO</span>
           <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">More noise</strong>
-          <p class="text-sm leading-6 text-neutral-400">Useful when the shot matters more than a perfectly clean file.</p>
+          <p class="text-sm leading-6 text-neutral-400">Use it when getting the photo matters more than avoiding noise.</p>
         </div>
       </div>
     </div>
@@ -193,12 +193,12 @@ accent: sky
 
   <section class="basics-section scroll-mt-24 space-y-6 border-t border-neutral-800 pt-10" id="dynamic-range">
     <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-emerald-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-emerald-200">Dynamic range and noise</p>
-    <h2>Why Cameras Handle Harsh Light Differently</h2>
+    <h2>Keeping detail in bright and dark areas</h2>
     <p>
-      <span class="basics-term basics-term--green font-bold text-emerald-300">Dynamic range</span> is the distance between the darkest and brightest parts of a scene before detail starts getting lost. It is measured in <span class="basics-term basics-term--amber font-bold text-amber-300">stops</span>. A camera with more dynamic range gives you more room to <span class="basics-term basics-term--sky font-bold text-sky-300">recover shadows and highlights</span> later.
+      <span class="basics-term basics-term--green font-bold text-emerald-300">Dynamic range</span> is the range from dark to bright that a camera can record before it loses detail. It is measured in <span class="basics-term basics-term--amber font-bold text-amber-300">stops</span>. More dynamic range gives you more room to <span class="basics-term basics-term--sky font-bold text-sky-300">recover shadows and highlights</span> while editing.
     </p>
     <p>
-      This is one reason larger dedicated cameras often handle difficult light better than phones, even though phones have improved dramatically through larger sensors and computational processing.
+      Dedicated cameras often handle difficult light better than phones. Phones narrow the gap with larger sensors and computational processing.
     </p>
     <div class="basics-chart-grid grid grid-cols-1 gap-6 lg:grid-cols-2">
       <figure class="basics-figure basics-figure--light basics-figure--chart border border-neutral-800 bg-neutral-950 p-3">
@@ -207,22 +207,22 @@ accent: sky
       </figure>
       <figure class="basics-figure basics-figure--photo border border-neutral-800 bg-neutral-950 p-3">
         <img class="aspect-[781/454] w-full bg-neutral-900 object-cover" src="/images/pages/basics/shadow-noise-example.webp" alt="Coastal image with visible noise in dark underexposed shadows." width="1562" height="908" loading="lazy" decoding="async" />
-        <figcaption>Underexposed shadows can become noisy when lifted in editing.</figcaption>
+        <figcaption>Brightening an underexposed shadow can reveal noise.</figcaption>
       </figure>
     </div>
     <div class="basics-note scroll-mt-24 space-y-5 border-l-2 border-emerald-400 bg-neutral-950 p-5 sm:p-7" id="raw-vs-jpg">
-      <strong class="block font-['Playfair_Display',Georgia,serif] text-2xl text-neutral-100">Raw vs. JPG</strong>
+      <strong class="block font-['Playfair_Display',Georgia,serif] text-2xl text-neutral-100">Raw or JPEG?</strong>
       <p>
-        One of the best ways to squeeze more out of your camera is to shoot in Raw, which you can usually enable in the camera's image-quality settings. Many cameras let you choose JPEG, Raw, or Raw + JPEG.
+        Most cameras can save JPEG, Raw, or both. You can change this in the image-quality settings.
       </p>
       <p>
-        Rendered image files such as JPG, PNG, and HEIF are already processed. JPEGs are compressed, lossy files that mostly contain the finished look the camera creates when you open the image in a viewer. <span class="basics-term basics-term--green font-bold text-emerald-300">Raw files keep more sensor information</span>, which gives you more room to adjust exposure, recover shadow detail, tame bright highlights, and make color decisions later in Lightroom or another editor. If you use an iPhone that supports it, you can also shoot <a href="https://support.apple.com/es-es/guide/iphone/iphae1e882a3/ios" target="_blank" rel="noopener noreferrer">Apple ProRAW</a>.
+        JPG, PNG, and HEIF files are already processed. JPEG uses lossy compression and keeps the finished look made by the camera. <span class="basics-term basics-term--green font-bold text-emerald-300">Raw files keep more sensor data</span>. This gives you more room to change exposure, shadows, highlights, and color in Lightroom or another editor. Supported iPhones can also shoot <a href="https://support.apple.com/es-es/guide/iphone/iphae1e882a3/ios" target="_blank" rel="noopener noreferrer">Apple ProRAW</a>.
       </p>
       <p>
-        The tradeoff is that Raw files can look flatter before editing because they bypass much of the camera's internal JPEG color processing, and they are usually much larger. Shoot Raw if you like to edit, or JPEG if you prefer to leave your photos mostly untouched. It is also perfectly fine to edit JPEGs; you can easily get by without Raw unless you need heavier post-processing in high dynamic range scenes.
+        Raw files are larger and may look flat before editing because they skip much of the camera's JPEG processing. Choose Raw when you want more editing room. Choose JPEG when you want smaller files that already look finished. You can still edit a JPEG.
       </p>
       <p>
-        Raw is not magic, though. In extreme contrast, you still need to decide whether highlights, shadows, or a middle exposure matter most. For a deeper walkthrough, watch <a href="https://www.youtube.com/watch?v=wrckVlY5vwU" target="_blank" rel="noopener noreferrer">Raw vs. JPEG</a>.
+        Raw cannot save every scene. In very harsh light, decide whether the highlights or shadows matter most. For a longer explanation, watch <a href="https://www.youtube.com/watch?v=wrckVlY5vwU" target="_blank" rel="noopener noreferrer">Raw vs. JPEG</a>.
       </p>
       <div class="basics-video aspect-video border border-neutral-800 bg-neutral-900">
         <iframe
@@ -239,42 +239,42 @@ accent: sky
   </section>
 
   <section class="basics-section scroll-mt-24 space-y-6 border-t border-neutral-800 pt-10" id="putting-it-together">
-    <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-amber-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-amber-200">Putting it together</p>
-    <h2>Many Settings Can Create the Same Brightness</h2>
+    <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-amber-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-amber-200">Balance the settings</p>
+    <h2>Different settings can make the same exposure</h2>
     <p>
-      Suppose a scene looks properly exposed at <span class="basics-term basics-term--amber font-bold text-amber-300">f/2.8</span>, <span class="basics-term basics-term--sky font-bold text-sky-300">1/1000s</span>, <span class="basics-term basics-term--rose font-bold text-rose-300">ISO 200</span>. You can keep the same overall brightness with different tradeoffs:
+      Suppose a photo has the right brightness at <span class="basics-term basics-term--amber font-bold text-amber-300">f/2.8</span>, <span class="basics-term basics-term--sky font-bold text-sky-300">1/1000s</span>, and <span class="basics-term basics-term--rose font-bold text-rose-300">ISO 200</span>. These settings keep the same brightness but change the result:
     </p>
     <div class="basics-equivalents grid grid-cols-1 border-l border-t border-neutral-800 lg:grid-cols-2" aria-label="Equivalent exposure examples">
       <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
         <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Starting point</span>
         <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">f/2.8 - 1/1000s - ISO 200</strong>
-        <p class="text-sm leading-6 text-neutral-400">Wide aperture, fast shutter, clean ISO.</p>
+        <p class="text-sm leading-6 text-neutral-400">Wide aperture, fast shutter, and low ISO.</p>
       </div>
       <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5">
         <span class="text-xs font-bold uppercase tracking-wider text-sky-300">Same exposure</span>
         <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">f/4 - 1/500s - ISO 200</strong>
-        <p class="text-sm leading-6 text-neutral-400">One stop less aperture light, one stop more shutter time.</p>
+        <p class="text-sm leading-6 text-neutral-400">One stop less light from the aperture and one stop more from the shutter.</p>
       </div>
       <div class="space-y-2 border-b border-r border-neutral-800 bg-neutral-950 p-5 lg:col-span-2">
         <span class="text-xs font-bold uppercase tracking-wider text-rose-300">Same exposure</span>
         <strong class="block font-['Playfair_Display',Georgia,serif] text-lg text-neutral-100">f/11 - 1/1000s - ISO 3200</strong>
-        <p class="text-sm leading-6 text-neutral-400">Much deeper focus, but ISO rises to compensate.</p>
+        <p class="text-sm leading-6 text-neutral-400">More of the scene is sharp, but the higher ISO adds noise.</p>
       </div>
     </div>
     <p>
-      <span class="basics-term basics-term--amber font-bold text-amber-300">Aperture</span> and <span class="basics-term basics-term--sky font-bold text-sky-300">shutter speed</span> change the creative character of the photo. <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> mostly helps you reach the exposure when the other two settings are already constrained.
+      <span class="basics-term basics-term--amber font-bold text-amber-300">Aperture</span> changes depth of field. <span class="basics-term basics-term--sky font-bold text-sky-300">Shutter speed</span> changes motion. <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> helps reach the needed brightness after you choose the other two.
     </p>
   </section>
 
   <section class="basics-section basics-section--image-below scroll-mt-24 space-y-8 border-t border-neutral-800 pt-10" id="camera-modes">
     <div class="basics-section__copy space-y-5">
       <p class="basics-kicker inline-flex min-h-11 items-center border-l-2 border-sky-400 pl-4 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-sky-200">Camera modes</p>
-      <h2>You Do Not Need Full Manual</h2>
+      <h2>You do not need manual mode</h2>
       <p>
-        Many cameras have <span class="basics-mode-letter basics-mode-letter--program inline-grid size-7 place-items-center border border-amber-400/60 bg-amber-400/10 text-xs font-bold text-amber-200">P</span>, <span class="basics-mode-letter basics-mode-letter--aperture inline-grid size-7 place-items-center border border-emerald-400/60 bg-emerald-400/10 text-xs font-bold text-emerald-200">A</span>, <span class="basics-mode-letter basics-mode-letter--shutter inline-grid size-7 place-items-center border border-sky-400/60 bg-sky-400/10 text-xs font-bold text-sky-200">S</span>, and <span class="basics-mode-letter basics-mode-letter--manual inline-grid size-7 place-items-center border border-rose-400/60 bg-rose-400/10 text-xs font-bold text-rose-200">M</span> on the mode dial. These stand for <span class="basics-term basics-term--amber font-bold text-amber-300">Program</span>, <span class="basics-term basics-term--green font-bold text-emerald-300">Aperture Priority</span>, <span class="basics-term basics-term--sky font-bold text-sky-300">Shutter Priority</span>, and <span class="basics-term basics-term--rose font-bold text-rose-300">Manual</span>. They decide which settings you control and which settings the camera meters automatically.
+        Many cameras have <span class="basics-mode-letter basics-mode-letter--program inline-grid size-7 place-items-center border border-amber-400/60 bg-amber-400/10 text-xs font-bold text-amber-200">P</span>, <span class="basics-mode-letter basics-mode-letter--aperture inline-grid size-7 place-items-center border border-emerald-400/60 bg-emerald-400/10 text-xs font-bold text-emerald-200">A</span>, <span class="basics-mode-letter basics-mode-letter--shutter inline-grid size-7 place-items-center border border-sky-400/60 bg-sky-400/10 text-xs font-bold text-sky-200">S</span>, and <span class="basics-mode-letter basics-mode-letter--manual inline-grid size-7 place-items-center border border-rose-400/60 bg-rose-400/10 text-xs font-bold text-rose-200">M</span> on the mode dial. They mean <span class="basics-term basics-term--amber font-bold text-amber-300">Program</span>, <span class="basics-term basics-term--green font-bold text-emerald-300">Aperture Priority</span>, <span class="basics-term basics-term--sky font-bold text-sky-300">Shutter Priority</span>, and <span class="basics-term basics-term--rose font-bold text-rose-300">Manual</span>. Each mode changes which settings you choose and which ones the camera sets.
       </p>
       <p>
-        A great beginner setup is <span class="basics-term basics-term--green font-bold text-emerald-300">Aperture Priority with Auto ISO</span>. You choose the <span class="basics-term basics-term--amber font-bold text-amber-300">aperture</span> for the look you want, and the camera handles <span class="basics-term basics-term--sky font-bold text-sky-300">shutter speed</span> and <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> within the limits you set.
+        Start with <span class="basics-term basics-term--green font-bold text-emerald-300">Aperture Priority and Auto ISO</span>. You choose the <span class="basics-term basics-term--amber font-bold text-amber-300">aperture</span>. The camera sets <span class="basics-term basics-term--sky font-bold text-sky-300">shutter speed</span> and <span class="basics-term basics-term--rose font-bold text-rose-300">ISO</span> within your limits.
       </p>
     </div>
     <div class="basics-table-wrap overflow-x-auto border border-neutral-800 bg-neutral-950">
@@ -282,8 +282,8 @@ accent: sky
         <thead>
           <tr>
             <th>Mode</th>
-            <th>You Control</th>
-            <th>Camera Controls</th>
+            <th>You set</th>
+            <th>Camera sets</th>
           </tr>
         </thead>
         <tbody>
@@ -314,7 +314,7 @@ accent: sky
 
   <section class="basics-callout scroll-mt-24 border border-sky-400/40 bg-sky-400/10 p-5 text-neutral-200 sm:p-7" id="next">
     <p>
-      The technical details are here to serve the photo, not swallow the hobby. Take what helps, then go make pictures. Next, read <a href="/photography/anatomy-of-a-camera/">Anatomy of a Camera</a> to learn what the body, lens, sensor, viewfinder, and controls actually do.
+      Use the settings that help and ignore the rest for now. Next, read <a href="/photography/anatomy-of-a-camera/">Anatomy of a Camera</a> to learn the main parts and controls.
     </p>
   </section>
 </div>

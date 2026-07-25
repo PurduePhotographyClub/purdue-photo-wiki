@@ -1,36 +1,36 @@
 ---
 const technologies = [
-  { name: 'Astro', detail: 'Server-rendered site shell and static wiki build', icon: 'astro', group: 'Interface' },
-  { name: 'React', detail: 'Interactive islands in the public site and dashboard', icon: 'react', group: 'Interface' },
-  { name: 'TypeScript', detail: 'Shared language across every Worker and web app', icon: 'typescript', group: 'Foundation' },
-  { name: 'Tailwind CSS', detail: 'Utility-first visual system and responsive layout', icon: 'tailwindcss', group: 'Interface' },
-  { name: 'Starlight + Pagefind', detail: 'Documentation structure and static search index', icon: 'astro', group: 'Interface' },
-  { name: 'Cloudflare Workers', detail: 'Website, API, Discord, email, and scheduler compute', icon: 'cloudflareworkers', group: 'Cloudflare' },
-  { name: 'Cloudflare Pages', detail: 'Static hosting and deployment for this wiki', icon: 'cloudflarepages', group: 'Cloudflare' },
-  { name: 'D1', detail: 'Relational system of record behind the API', icon: 'cloudflare', group: 'Cloudflare' },
-  { name: 'R2', detail: 'Gallery, competition, avatar, merch, and leadership media', icon: 'cloudflare', group: 'Cloudflare' },
-  { name: 'KV', detail: 'Receipt intake dedupe, leases, and retry records', icon: 'cloudflare', group: 'Cloudflare' },
-  { name: 'Email Routing', detail: 'Inbound TooCOOL receipt delivery to the Email Worker', icon: 'cloudflare', group: 'Cloudflare' },
-  { name: 'Wrangler', detail: 'Worker builds, bindings, migrations, secrets, and deployments', icon: 'cloudflareworkers', group: 'Operations' },
-  { name: 'Better Auth', detail: 'Sessions, accounts, passkeys, 2FA, and Discord linking', icon: 'betterauth', group: 'Identity' },
-  { name: 'Turnstile', detail: 'Bot challenge at public account and request boundaries', icon: 'cloudflare', group: 'Identity' },
-  { name: 'Drizzle ORM', detail: 'Typed database access inside the API Worker', icon: 'drizzle', group: 'Data' },
-  { name: 'Discord', detail: 'Commands, roles, DMs, channels, and server events', icon: 'discord', group: 'Automation' },
-  { name: 'discord.js', detail: 'Long-lived Gateway client on the VPS', icon: 'discorddotjs', group: 'Automation' },
-  { name: 'Node.js', detail: 'VPS Discord Gateway runtime and development tooling', icon: 'nodedotjs', group: 'Foundation' },
-  { name: 'postal-mime + unpdf', detail: 'MIME decoding and PDF text extraction for receipt intake', icon: 'package-library', group: 'Data' },
-  { name: 'Resend', detail: 'Transactional membership and activation email', icon: 'resend', group: 'Communication' },
-  { name: 'GitHub Actions', detail: 'Verification and Cloudflare deployment pipelines', icon: 'githubactions', group: 'Operations' },
+  { name: 'Astro', detail: 'Builds the website shell and the static wiki', icon: 'astro', group: 'Interface' },
+  { name: 'React', detail: 'Runs interactive parts of the public site and dashboard', icon: 'react', group: 'Interface' },
+  { name: 'TypeScript', detail: 'Provides one language for every Worker and web app', icon: 'typescript', group: 'Foundation' },
+  { name: 'Tailwind CSS', detail: 'Styles the pages and their responsive layouts', icon: 'tailwindcss', group: 'Interface' },
+  { name: 'Starlight + Pagefind', detail: 'Organizes the wiki and builds its search index', icon: 'astro', group: 'Interface' },
+  { name: 'Cloudflare Workers', detail: 'Runs the website, API, Discord, email, and scheduler services', icon: 'cloudflareworkers', group: 'Cloudflare' },
+  { name: 'Cloudflare Pages', detail: 'Hosts and deploys this static wiki', icon: 'cloudflarepages', group: 'Cloudflare' },
+  { name: 'D1', detail: 'Stores the club records used by the API', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'R2', detail: 'Stores gallery, competition, avatar, merchandise, and leadership media', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'KV', detail: 'Tracks receipt intake, leases, and retries', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'Email Routing', detail: 'Sends TooCOOL receipts to the Email Worker', icon: 'cloudflare', group: 'Cloudflare' },
+  { name: 'Wrangler', detail: 'Builds and deploys Workers, and manages bindings, migrations, and secrets', icon: 'cloudflareworkers', group: 'Operations' },
+  { name: 'Better Auth', detail: 'Manages sessions, accounts, passkeys, 2FA, and Discord links', icon: 'betterauth', group: 'Identity' },
+  { name: 'Turnstile', detail: 'Checks for bots on public account and request forms', icon: 'cloudflare', group: 'Identity' },
+  { name: 'Drizzle ORM', detail: 'Provides typed database access in the API Worker', icon: 'drizzle', group: 'Data' },
+  { name: 'Discord', detail: 'Provides commands, roles, DMs, channels, and server events', icon: 'discord', group: 'Automation' },
+  { name: 'discord.js', detail: 'Keeps the Discord Gateway connection open on the VPS', icon: 'discorddotjs', group: 'Automation' },
+  { name: 'Node.js', detail: 'Runs the VPS Gateway and local development tools', icon: 'nodedotjs', group: 'Foundation' },
+  { name: 'postal-mime + unpdf', detail: 'Reads email messages and extracts text from receipt PDFs', icon: 'package-library', group: 'Data' },
+  { name: 'Resend', detail: 'Sends membership and activation emails', icon: 'resend', group: 'Communication' },
+  { name: 'GitHub Actions', detail: 'Runs checks and deploys services to Cloudflare', icon: 'githubactions', group: 'Operations' },
 ];
 ---
 
 <section aria-labelledby="technology-grid-title" class="my-10 border border-white/10 bg-white/10">
   <div class="flex flex-col gap-2 border-b border-white/10 bg-neutral-950 p-5 sm:flex-row sm:items-end sm:justify-between">
     <div>
-      <p class="m-0 text-[0.6rem] tracking-[0.2em] text-amber-200 uppercase">Technology map</p>
-      <h2 id="technology-grid-title" class="mt-2! border-0! pt-0! text-3xl!">What the system runs on</h2>
+      <p class="m-0 text-[0.6rem] tracking-[0.2em] text-amber-200 uppercase">Technology</p>
+      <h2 id="technology-grid-title" class="mt-2! border-0! pt-0! text-3xl!">Tools used by the platform</h2>
     </div>
-    <p class="m-0 max-w-md text-xs leading-5 text-neutral-400">One stack, split into small services with narrow jobs.</p>
+    <p class="m-0 max-w-md text-xs leading-5 text-neutral-400">Each service has a small, specific job.</p>
   </div>
   <div class="grid gap-px sm:grid-cols-2 xl:grid-cols-3">
     {technologies.map((technology) => (

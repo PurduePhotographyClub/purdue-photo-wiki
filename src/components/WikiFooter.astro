@@ -25,13 +25,13 @@ const footerLinkClasses = 'inline-flex min-h-11 items-center text-xs tracking-wi
 ---
 
 {(prev || next) && (
-  <div class="mx-auto! w-full max-w-7xl 2xl:max-w-[90rem] py-16 sm:py-20">
+  <div class="mx-auto! w-full max-w-6xl px-4 py-12 sm:px-7 sm:py-16 lg:px-10 xl:px-12">
     <Pagination />
   </div>
 )}
 
-<footer class="border-t border-neutral-800 py-16">
-  <div class="mx-auto! w-full max-w-7xl">
+<footer class="border-t border-neutral-800 px-4 py-12 sm:px-7 sm:py-14 lg:px-10 xl:px-12">
+  <div class="mx-auto! w-full max-w-6xl">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-3">
       <div>
         <a href={mainSite} class="inline-flex min-h-11 items-center gap-3 text-white no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">
@@ -41,12 +41,12 @@ const footerLinkClasses = 'inline-flex min-h-11 items-center text-xs tracking-wi
           </span>
         </a>
         <p class="mt-4 max-w-sm text-xs leading-relaxed tracking-wider text-[#8a8a8a]">
-          Film, digital, darkroom, and club work at Purdue since 1934.
+          Purdue photographers have learned and worked together since 1934.
         </p>
       </div>
 
       <div>
-        <p class="mb-4 text-[0.62rem] tracking-[0.3em] text-neutral-400 uppercase">Quick Links</p>
+        <p class="mb-4 text-[0.62rem] tracking-[0.3em] text-neutral-400 uppercase">Club links</p>
         <nav class="grid grid-cols-2 gap-2" aria-label="Club website links">
           {navLinks.map((link) => (
             <a href={link.href} class={footerLinkClasses}>{link.label}</a>
@@ -100,7 +100,7 @@ const footerLinkClasses = 'inline-flex min-h-11 items-center text-xs tracking-wi
     <div class="flex flex-col items-center gap-4 border-t border-neutral-800 pt-8 text-center text-[0.62rem] leading-5 tracking-wider text-[#7f7f7f] md:flex-row md:justify-between md:text-left">
       <p>Est. 1934 · Purdue Photography Club · West Lafayette, IN</p>
       <p>
-        Made with love by
+        Made by
         <a href="https://www.instagram.com/alesgs.photos/" target="_blank" rel="noopener noreferrer" class="text-neutral-300 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">Alejandro Griffith</a>
         · © 2026
       </p>

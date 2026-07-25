@@ -1,20 +1,20 @@
 ---
-title: Getting Started
-description: Start photography with what you already have, then learn what to practice next.
+title: Getting started
+description: Start taking photos with the camera you already have.
 accent: purple
 sidebar:
-  label: Getting Started
+  label: Getting started
 ---
 
-<div class="flex flex-col gap-16 sm:gap-24" id="gs-start">
-  <section class="grid grid-cols-1 items-end gap-7 border border-white/10 bg-neutral-950 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-12 lg:p-10">
+<div class="flex flex-col gap-12 sm:gap-16" id="gs-start">
+  <section class="grid grid-cols-1 items-center gap-7 border border-white/10 bg-neutral-950 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-10 lg:p-10">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">No gatekeeping, no gear panic.</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Your first photo walk</p>
       <p class="m-0! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100 sm:text-3xl! lg:text-4xl!">
-        So you want to get into photography, huh? Perfect. Start with the camera you already have, take a walk, and give yourself permission to make a few weird photos.
+        Take the camera you already have. Go for a walk and follow the light.
       </p>
       <p class="m-0! max-w-3xl! text-neutral-300">
-        You do not need a "real" camera to join the club. Plenty of good photos begin on a phone. What matters first is noticing things: the color of late afternoon light, a reflection in a window, the way someone stands in a doorway, the little frame hiding inside a normal day.
+        A phone is enough. Look for reflections, gestures, and anything happening near the edge of the frame.
       </p>
     </div>
     <figure class="relative m-0 overflow-hidden border border-white/10 bg-black">
@@ -29,42 +29,42 @@ sidebar:
 
   <section class="border-l-2 border-amber-200/30 px-5 py-4 sm:px-8 sm:py-6" id="gs-practice" aria-label="What to practice first">
     <div class="mx-auto! w-full max-w-6xl min-w-0">
-      <p class="m-0! mb-10! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-snug! font-semibold text-neutral-100 sm:mb-12! sm:text-3xl!">
-        Your first few goals are simple: notice <em class="not-italic text-amber-200">light</em>, pick a <em class="not-italic text-neutral-100">frame</em>, and make the photo feel <em class="not-italic text-neutral-100">intentional</em>.
+      <p class="m-0! mb-8! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-snug! font-semibold text-neutral-100 sm:mb-10! sm:text-3xl!">
+        Watch the <em class="not-italic text-amber-200">light</em>. Choose the <em class="not-italic text-neutral-100">frame</em>. Leave out anything that does not help.
       </p>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-7 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-8">
+      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-6 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-7">
         <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">01</span>
         <div class="space-y-3">
-          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Use What You Have</h2>
-          <p class="m-0! text-sm! leading-7! text-neutral-400">Your phone is enough. Learn how it sees highlights, shadows, motion, and color before you worry about lenses.</p>
+          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Use what you have</h2>
+          <p class="m-0! text-sm! leading-7! text-neutral-400">Use your phone or camera. Learn how it handles bright light, shadows, motion, and color before buying a lens.</p>
         </div>
       </div>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-7 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-8">
+      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-6 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-7">
         <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">02</span>
         <div class="space-y-3">
-          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Chase Light</h2>
-          <p class="m-0! text-sm! leading-7! text-neutral-400">Good light does a lot of the heavy lifting. Try windows, sunsets, neon, cloudy days, and harsh noon light just to see what happens.</p>
+          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Try different light</h2>
+          <p class="m-0! text-sm! leading-7! text-neutral-400">Shoot near a window, at sunset, under neon, on a cloudy day, and at noon. Compare the results.</p>
         </div>
       </div>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-y border-white/10 py-7 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-8">
+      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-y border-white/10 py-6 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-7">
         <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">03</span>
         <div class="space-y-3">
-          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Make It Intentional</h2>
-          <p class="m-0! text-sm! leading-7! text-neutral-400">Move your feet. Crop with your body. Ask what belongs in the frame and what can leave.</p>
+          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Choose the frame</h2>
+          <p class="m-0! text-sm! leading-7! text-neutral-400">Move closer or farther away. Check the corners. Remove anything that pulls attention from the subject.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-10 sm:pt-12 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-12" id="gs-gear">
+  <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-8 sm:pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-10" id="gs-gear">
     <div class="space-y-5">
       <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Before buying gear</p>
-      <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Figure Out What You Like Shooting</h2>
+      <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Find what you like to photograph</h2>
       <p class="m-0! text-neutral-300">
-        Cameras get expensive fast, and specs can turn into soup if you do not know what you want yet. Spend a little time noticing your taste first. Portraits? Cars? Concerts? Campus at night? Random sidewalk details? That answer tells you more than a YouTube gear tier list.
+        Cameras get expensive fast. First, notice what you enjoy photographing: portraits, cars, concerts, campus at night, or small details. That will tell you what gear you need.
       </p>
       <p class="m-0! text-neutral-400">
-        When you are ready, the <a href="/photography/buying-guide-gear/">Buying Guide / Gear</a> page can help. Until then, the better upgrade is usually practice.
+        When you are ready to buy, read the <a href="/photography/buying-guide-gear/">gear guide</a>. Until then, keep practicing.
       </p>
     </div>
     <figure class="relative m-0 overflow-hidden border border-white/10 bg-black">
@@ -77,11 +77,11 @@ sidebar:
     </figure>
   </section>
 
-  <section class="border-t border-white/10 pt-10 sm:pt-12" id="gs-gallery">
-    <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Club member work</p>
-    <h2 class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Phone, Camera, Whatever. Train Your Eye.</h2>
+  <section class="border-t border-white/10 pt-8 sm:pt-10" id="gs-gallery">
+    <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Photos from club members</p>
+    <h2 class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">The camera matters less than your attention</h2>
     <p class="mt-5! mb-0! text-neutral-300">
-      Photography is different from drawing a blank canvas into existence. Most of the time, the world is already doing something interesting. Your job is to notice it, choose a frame, and press the button at the right moment.
+      The world is already full of photos. Look closely, choose a frame, and press the button when the moment feels right.
     </p>
     <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Photos by Linzzi Ji and Dylan Chu">
       <a class="group block overflow-hidden border border-white/10 bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200 sm:col-span-2 lg:col-span-3" href="#gs-view-linzzi" aria-label="View Linzzi Ji photo full size">
@@ -158,10 +158,10 @@ sidebar:
 
   <section class="border-y border-amber-200/30 bg-amber-200/[0.04] p-5 sm:p-7" id="gs-next">
     <p class="m-0! text-neutral-200">
-      Ready for the camera-settings part? Go to <a href="/photography/basics/">Basics</a> next. That is where aperture, shutter speed, ISO, focus, and practice habits start making sense.
+      Next, read <a href="/photography/basics/">Basics</a> to learn aperture, shutter speed, ISO, and camera modes.
     </p>
     <p class="mt-4! mb-0! font-['Space_Mono',monospace] text-xs! leading-6! text-neutral-500">
-      Special thanks to <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">Dylan Chu</a> for putting this content together.
+      Thanks to <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">Dylan Chu</a> for creating this guide.
     </p>
   </section>
 </div>

@@ -1,26 +1,10 @@
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-
-const preservedContentHashes = {
-  'src/content/docs/index.md': 'cfb7b33ac16576c6fa3b615ecaa9834d4b43390797477483359d06d361ec3f5d',
-  'src/content/docs/404.mdx': '4c4f52950848637bfa95d10aca41523f9fd6a048d227ed84bb36edcfe798e608',
-  'src/content/docs/photography/index.md': '28c91c87cf340478a93de9c52b51b211e04067a2684fe179b66beb2c79dd0640',
-  'src/content/docs/photography/anatomy-of-a-camera.md': '0348b15cd8374082f3861e55a760eb18f91a72e409a695e704656b84716751a7',
-  'src/content/docs/photography/astrophotography.md': '11aa57b000cb4801d3f4828ed3f9d42f0170e1f464d2813b824a45eccc3754b3',
-  'src/content/docs/photography/basics.md': 'e59add09fffb3da20fb32586f50c4cd1d6c7dc9a632ab7a256646244c4422046',
-  'src/content/docs/photography/buying-guide-gear.md': '82690cd166a5d086ba3eb9b03faec81c2fe8f9a011c096f2e6722ef6f42b2e29',
-  'src/content/docs/photography/composition.md': '0a246c0f9eafad591f6953aabae79f4b41c153cffa8b608c71b627df3d4b94c2',
-  'src/content/docs/photography/editing.md': '99d513a13e333490f7802acdbbf01fccc64af89afab51ffe47f5f4caf1ef8d20',
-  'src/content/docs/photography/film.md': 'ce43cb2bde50f9fd94767dc1efd6aa13aa025d6f2ab19a457e871f26bcef3c21',
-  'src/content/docs/photography/helpful-resources.md': 'c8c704fcc2201d9526803cfe1314433898f53be3a3d9441d9e54a10d0d8af1d2',
-  'src/content/docs/photography/technical.md': '2ff80a031d0d526eb472f9614b99d787253f865a92936aa64c78a2dcb8cb3fb6',
-};
 
 function readProjectFile(relativePath) {
   return readFileSync(join(projectRoot, relativePath), 'utf8');
@@ -32,21 +16,18 @@ function sourceFiles(directory, extensions) {
     .map((entry) => join(entry.parentPath, entry.name));
 }
 
-function normalizeVisibleContent(source) {
-  return source
-    .replace(/^---\n[\s\S]*?\n---\n/, '')
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+test('the homepage offers two clear paths without a decorative hero image', () => {
+  const homepage = readProjectFile('src/content/docs/index.md');
 
-test('the existing wiki prose remains unchanged during the UI migration', () => {
-  for (const [relativePath, expectedHash] of Object.entries(preservedContentHashes)) {
-    const visibleContent = normalizeVisibleContent(readProjectFile(relativePath));
-    const actualHash = createHash('sha256').update(visibleContent).digest('hex');
-    assert.equal(actualHash, expectedHash, `${relativePath} content changed`);
-  }
+  assert.match(homepage, /What do you want to learn\?/);
+  assert.match(homepage, /href="\/photography\/"/);
+  assert.match(homepage, /href="\/system\/"/);
+  assert.match(homepage, /Photography topics/);
+  assert.match(homepage, /See how the club's online tools work/);
+  assert.match(homepage, /tag: title\s+content: PPC Wiki/);
+  assert.doesNotMatch(homepage, /images\/site\/hero\/hero\.webp/);
+  assert.doesNotMatch(homepage, /everything in between|complete beginner|feel free to explore/i);
+  assert.doesNotMatch(homepage, /<\/a>\n\s*\n\s*<a/, 'blank lines between HTML cards render later cards as source text');
 });
 
 test('the wiki uses a minimal Tailwind entry with no authored style blocks', () => {
@@ -112,41 +93,72 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   const homepage = readProjectFile('src/content/docs/index.md');
   const gettingStarted = readProjectFile('src/content/docs/photography/index.md');
 
-  assert.match(contentPanel, /@container[^\n]+mx-auto![^\n]+max-w-7xl[^\n]+2xl:max-w-\[90rem\]/);
-  assert.match(twoColumnContent, /sm:\[&>main\]:px-6!/);
-  assert.match(twoColumnContent, /lg:\[&>main\]:px-8!/);
-  assert.match(twoColumnContent, /xl:\[&>main\]:px-10!/);
-  assert.match(pageTitle, /px-5[^\n]+sm:px-7[^\n]+lg:px-9/);
+  assert.match(contentPanel, /@container[^\n]+mx-auto![^\n]+max-w-6xl/);
+  assert.match(twoColumnContent, /sm:\[&>main\]:px-7!/);
+  assert.match(twoColumnContent, /lg:\[&>main\]:px-10!/);
+  assert.match(twoColumnContent, /xl:\[&>main\]:px-12!/);
+  assert.match(pageTitle, /px-4[^\n]+sm:px-7[^\n]+lg:px-10[^\n]+xl:px-12/);
   assert.match(pageTitle, /text-4xl[^\n]+sm:text-5xl[^\n]+lg:text-6xl/);
   assert.match(markdown, /sl-markdown-content/);
-  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:mt-20!/);
-  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:pt-10!/);
+  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:mt-14!/);
+  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:pt-8!/);
+  assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h3\]:mt-10!/);
   assert.match(markdown, /\[&_\.sl-anchor-link\]:no-underline!/);
+  assert.match(markdown, /\[&>\*\+\*\]:mt-6!/);
   assert.match(markdown, /\[&_p\+p\]:mt-5!/);
-  assert.match(markdown, /\[&_ol\]:my-8/);
-  assert.match(markdown, /\[&_ol\]:space-y-4/);
+  assert.match(markdown, /\[&_ol\]:my-6/);
+  assert.match(markdown, /\[&_ol\]:list-decimal/);
+  assert.match(markdown, /\[&_ol\]:space-y-3/);
+  assert.match(markdown, /\[&_ul\]:list-disc/);
   assert.doesNotMatch(markdown, /\bspace-y-6\b/);
   assert.match(homepage, /@3xl:grid-cols-2/);
   assert.match(homepage, /@5xl:grid-cols-3/);
-  assert.match(homepage, /@7xl:grid-cols-4/);
-  assert.match(homepage, /grid grid-cols-1 gap-4/);
-  assert.match(homepage, /flex aspect-square[^\n]+border border-white\/10[^\n]+p-6/);
-  assert.match(gettingStarted, /flex flex-col gap-16 sm:gap-24/);
+  assert.match(homepage, /grid gap-3/);
+  assert.doesNotMatch(homepage, /aspect-square/);
+  assert.match(gettingStarted, /flex flex-col gap-12 sm:gap-16/);
   assert.match(gettingStarted, /border-l-2[^\n]+px-5[^\n]+sm:px-8/);
   assert.match(gettingStarted, /mx-auto! w-full max-w-6xl min-w-0/);
-  assert.match(gettingStarted, /mb-10![^\n]+sm:mb-12!/);
-  assert.match(gettingStarted, /gap-5[^\n]+py-7[^\n]+sm:gap-7[^\n]+sm:py-8/);
+  assert.match(gettingStarted, /mb-8![^\n]+sm:mb-10!/);
+  assert.match(gettingStarted, /gap-5[^\n]+py-6[^\n]+sm:gap-7[^\n]+sm:py-7/);
   assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
-  assert.match(footer, /mx-auto![^\n]+max-w-7xl[^\n]+2xl:max-w-\[90rem\][^\n]+py-16[^\n]+sm:py-20/);
-  assert.match(footer, /mx-auto! w-full max-w-7xl/);
+  assert.match(footer, /mx-auto![^\n]+max-w-6xl[^\n]+py-12[^\n]+sm:py-16/);
+  assert.match(footer, /mx-auto! w-full max-w-6xl/);
+});
+
+test('custom photography pages use a compact section rhythm', () => {
+  const compactPages = [
+    'src/content/docs/photography/index.md',
+    'src/content/docs/photography/anatomy-of-a-camera.md',
+    'src/content/docs/photography/basics.md',
+    'src/content/docs/photography/buying-guide-gear.md',
+    'src/content/docs/photography/editing.md',
+    'src/content/docs/photography/helpful-resources.md',
+  ];
+
+  for (const relativePath of compactPages) {
+    const page = readProjectFile(relativePath);
+    assert.doesNotMatch(page, /\bspace-y-16\b|\bsm:space-y-20\b/, `${relativePath} keeps oversized page gaps`);
+  }
+
+  for (const relativePath of [
+    'src/content/docs/photography/anatomy-of-a-camera.md',
+    'src/content/docs/photography/basics.md',
+  ]) {
+    const page = readProjectFile(relativePath);
+    assert.doesNotMatch(page, /\blg:items-end\b/, `${relativePath} bottom-aligns a portrait hero`);
+  }
+
+  const basics = readProjectFile('src/content/docs/photography/basics.md');
+  assert.match(basics, /basics-hero__image[^"\n]*overflow-hidden/);
+  assert.match(basics, /aspect-\[4\/3\][^"\n]*object-cover/);
 });
 
 test('the wiki footer mirrors the club website footer', () => {
   const footer = readProjectFile('src/components/WikiFooter.astro');
 
-  assert.match(footer, /max-w-7xl/);
-  assert.match(footer, /Film, digital, darkroom, and club work at Purdue since 1934\./);
-  assert.match(footer, />Quick Links</);
+  assert.match(footer, /max-w-6xl/);
+  assert.match(footer, /Purdue photographers have learned and worked together since 1934\./);
+  assert.match(footer, />Club links</);
   for (const label of ['Gallery', 'Competitions', 'Facilities', 'Membership', 'Events', 'Request']) {
     assert.match(footer, new RegExp(label));
   }
@@ -177,7 +189,7 @@ test('the system guide covers the complete service chain with accessible diagram
   const diagrams = readProjectFile('src/components/SystemDiagram.astro');
   const technologies = readProjectFile('src/components/TechnologyGrid.astro');
 
-  assert.match(config, /How the System Works/);
+  assert.match(config, /label: 'Club system'/);
   assert.match(diagrams, /<figure aria-labelledby=/);
   assert.doesNotMatch(diagrams, /<figure role="img"/);
   assert.match(diagrams, /aria-describedby=/);
@@ -194,7 +206,106 @@ test('the system guide covers the complete service chain with accessible diagram
   assert.match(diagrams, /isSequence && index < lane\.nodes\.length - 1/);
   assert.match(diagrams, /isSequence \? String\(index \+ 1\)\.padStart\(2, '0'\) : '•'/);
   assert.match(diagrams, /role="list"/);
+  assert.match(diagrams, /label: 'Darkroom schedule'[^\n]+detail: 'Applies scheduled darkroom changes'/);
+  assert.match(diagrams, /label: 'Darkroom stats'[^\n]+detail: 'Updates the current totals'/);
   assert.match(technologies, /\/images\/tech\//);
+});
+
+test('the scheduler guide documents every configured job', () => {
+  const expectedPaths = [
+    '/internal/jobs/memberships/expire',
+    '/internal/jobs/memberships/roles/reconcile',
+    '/internal/jobs/darkroom/schedule/sweep',
+    '/internal/jobs/studio/schedule/sweep',
+    '/internal/jobs/darkroom/stats/sync',
+    '/internal/jobs/equipment/reminders/run',
+    '/internal/jobs/photographer-requests/expire',
+  ];
+  const automation = readProjectFile('src/content/docs/system/automation.mdx');
+  const diagrams = readProjectFile('src/components/SystemDiagram.astro');
+  const schedulerSourcePath = join(projectRoot, '..', 'scheduler-worker', 'src', 'index.ts');
+
+  assert.match(automation, /seven API jobs/i);
+  assert.match(diagrams, /label: 'Seven jobs'/);
+  assert.match(diagrams, /label: 'Membership roles'/);
+
+  for (const path of expectedPaths) {
+    assert.match(automation, new RegExp(path.replaceAll('/', '\\/')));
+  }
+
+  if (existsSync(schedulerSourcePath)) {
+    const schedulerSource = readFileSync(schedulerSourcePath, 'utf8');
+    for (const path of expectedPaths) {
+      assert.match(schedulerSource, new RegExp(path.replaceAll('/', '\\/')));
+    }
+    assert.equal((schedulerSource.match(/"\/internal\/jobs\//g) ?? []).length, expectedPaths.length);
+  }
+});
+
+test('the system guide uses direct, plain language', () => {
+  const systemCopy = sourceFiles('src/content/docs/system', ['.mdx'])
+    .map((path) => readFileSync(path, 'utf8'))
+    .join('\n');
+
+  assert.doesNotMatch(
+    systemCopy,
+    /center of gravity|That is why|This is also why|The hardest case|deliberately ordered|at the exact moment you read it/i,
+  );
+  assert.match(systemCopy, /The API is the only service that changes club records/);
+  assert.match(systemCopy, /If club data changes, the request goes through the API/);
+});
+
+test('reader-facing copy stays simple and direct', () => {
+  const copyPaths = [
+    ...sourceFiles('src/content/docs', ['.md', '.mdx']),
+    ...[
+      'src/components/SystemDiagram.astro',
+      'src/components/TechnologyGrid.astro',
+      'src/components/WikiFooter.astro',
+      'src/components/WikiHeader.astro',
+      'src/components/WikiPageTitle.astro',
+      'src/components/WikiSidebar.astro',
+      'astro.config.mjs',
+    ].map((path) => join(projectRoot, path)),
+  ];
+  const readerCopy = copyPaths.map((path) => readFileSync(path, 'utf8')).join('\n');
+
+  assert.doesNotMatch(
+    readerCopy,
+    /operational chain|conflating|public reads are enumerated|domain predicates|response-loss window|compensation paths?|logical idempotency identity|establish the trusted caller context/i,
+  );
+  assert.doesNotMatch(
+    readerCopy,
+    /\b(additionally|delve|intricate|pivotal|robust|showcase|tapestry|testament|underscore)\b/i,
+  );
+
+  const longSentences = copyPaths.flatMap((path) => {
+    const relativePath = path.slice(projectRoot.length + 1);
+    return readFileSync(path, 'utf8')
+      .split('\n')
+      .flatMap((line, index) => {
+        const prose = line.trim();
+        if (
+          !prose ||
+          prose.startsWith('#') ||
+          prose.startsWith('-') ||
+          prose.startsWith('<') ||
+          prose.startsWith('|') ||
+          prose.startsWith('import ') ||
+          prose.includes('class=') ||
+          prose.includes('className=')
+        ) {
+          return [];
+        }
+
+        return prose
+          .split(/(?<=[.!?])\s+/)
+          .filter((sentence) => (sentence.match(/\b[\w’'-]+\b/g) ?? []).length > 34)
+          .map((sentence) => `${relativePath}:${index + 1}: ${sentence}`);
+      });
+  });
+
+  assert.deepEqual(longSentences, []);
 });
 
 test('interactive polish avoids competing viewers and preserves accessible feedback', () => {
@@ -219,6 +330,8 @@ test('interactive polish avoids competing viewers and preserves accessible feedb
   assert.doesNotMatch(imageViewer, /location\.hash\s*=/);
   assert.doesNotMatch(imageViewer, /previousTrigger\?\.focus\(\{\s*preventScroll/);
   assert.match(pageTitle, /route\.id\s*!==\s*['"]404['"]/);
+  assert.match(notFound, /href: https:\/\/wiki\.purduephotoclub\.org\/404\.html/);
+  assert.match(notFound, /name: robots[\s\S]+content: noindex/);
   assert.match(notFound, /<h1\b/);
   assert.doesNotMatch(notFound, /<h2\b[^>]*id=['"]wiki-404-title['"]/);
   assert.equal((gettingStarted.match(/data-wiki-hash-viewer/g) ?? []).length, 6);

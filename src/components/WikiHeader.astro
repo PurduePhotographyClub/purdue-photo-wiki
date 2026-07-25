@@ -20,7 +20,7 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
     </span>
     <span class="hidden min-w-0 sm:block">
       <span class="block font-['Playfair_Display',Georgia,serif] text-base leading-none font-bold tracking-wide text-neutral-100">PPC Wiki</span>
-      <span class="mt-1 block text-[0.55rem] leading-none tracking-[0.2em] text-neutral-400 uppercase">Photo club field notes</span>
+      <span class="mt-1 block text-[0.55rem] leading-none tracking-[0.2em] text-neutral-400 uppercase">Photo and club guides</span>
     </span>
   </a>
 
@@ -71,7 +71,7 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
       data-wiki-menu
       aria-controls="starlight__sidebar"
       aria-expanded="false"
-      aria-label="Open wiki navigation"
+      aria-label="Open wiki menu"
       class="inline-flex min-h-11 min-w-11 items-center justify-center border border-white/15 bg-white/[0.03] text-neutral-200 transition hover:border-white/35 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 lg:hidden"
     >
       <svg data-menu-open-icon viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2">
@@ -104,7 +104,7 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
     const pageMain = document.querySelector<HTMLElement>('main');
 
     menuButton.setAttribute('aria-expanded', String(isOpen));
-    menuButton.setAttribute('aria-label', isOpen ? 'Close wiki navigation' : 'Open wiki navigation');
+    menuButton.setAttribute('aria-label', isOpen ? 'Close wiki menu' : 'Open wiki menu');
     sidebar.classList.toggle('hidden', !isOpen);
     document.body.classList.toggle('overflow-hidden', isOpen);
     openIcon?.classList.toggle('hidden', isOpen);

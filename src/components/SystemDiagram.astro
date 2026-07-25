@@ -29,190 +29,192 @@ interface Props {
 
 const diagrams: Record<DiagramType, Diagram> = {
   platform: {
-    title: 'The complete platform map',
-    description: 'The browser reaches the Website Worker, which calls the API Worker. The API owns D1 and R2 and dispatches signed Discord work. Email and scheduled jobs also enter through the API. The wiki deploys separately.',
-    caption: 'The API is the center of the operational system. Other services either present it, feed it, or carry out side effects for it.',
+    title: 'How the services connect',
+    description: 'The website, Email Worker, and scheduler call the API. The API owns D1 and R2, and it signs events for Discord. The wiki deploys separately.',
+    caption: 'The API owns club data and rules. The other services display data, send requests, or complete outside work.',
     lanes: [
-      { label: 'Member request', nodes: [
-        { label: 'Browser', detail: 'Pages, forms, dashboard', tone: 'sky' },
-        { label: 'Website Worker', detail: 'Astro + React, same-origin bridge', icon: 'astro', tone: 'violet' },
-        { label: 'API Worker', detail: 'Rules, auth, routing', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: 'D1 + R2', detail: 'Records and media objects', icon: 'cloudflare', tone: 'emerald' },
+      { label: 'A member uses the website', nodes: [
+        { label: 'Browser', detail: 'Shows pages, forms, and the dashboard', tone: 'sky' },
+        { label: 'Website Worker', detail: 'Runs Astro, React, and the same-origin API bridge', icon: 'astro', tone: 'violet' },
+        { label: 'API Worker', detail: 'Checks access, applies rules, and routes requests', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'D1 + R2', detail: 'Store records and media files', icon: 'cloudflare', tone: 'emerald' },
       ] },
-      { label: 'Discord side effect', nodes: [
-        { label: 'API Worker', detail: 'Signs a typed internal event', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: 'Discord Worker', detail: 'Verifies, claims nonce, dispatches', icon: 'discord', tone: 'discord' },
-        { label: 'Discord REST', detail: 'Roles, DMs, posts, channels', icon: 'discord', tone: 'discord' },
+      { label: 'A change reaches Discord', nodes: [
+        { label: 'API Worker', detail: 'Signs a typed event for the Discord Worker', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Discord Worker', detail: 'Checks the event, claims its nonce, and runs it', icon: 'discord', tone: 'discord' },
+        { label: 'Discord REST', detail: 'Updates roles, DMs, posts, or channels', icon: 'discord', tone: 'discord' },
       ] },
-      { label: 'Receipt intake', nodes: [
-        { label: 'Email Routing', detail: 'Forwards a purchase receipt', icon: 'cloudflare', tone: 'sky' },
-        { label: 'Email Worker', detail: 'Parses, dedupes, retries', icon: 'cloudflareworkers', tone: 'rose' },
-        { label: 'API Worker', detail: 'Claims fulfillment and applies it', icon: 'cloudflareworkers', tone: 'amber' },
+      { label: 'A purchase receipt arrives', nodes: [
+        { label: 'Email Routing', detail: 'Sends the purchase receipt to the Email Worker', icon: 'cloudflare', tone: 'sky' },
+        { label: 'Email Worker', detail: 'Reads the receipt, removes duplicates, and retries failures', icon: 'cloudflareworkers', tone: 'rose' },
+        { label: 'API Worker', detail: 'Claims the purchase and records the result', icon: 'cloudflareworkers', tone: 'amber' },
       ] },
-      { label: 'Scheduled work', nodes: [
-        { label: 'Cron', detail: 'Every thirty minutes', icon: 'cloudflare', tone: 'neutral' },
-        { label: 'Scheduler Worker', detail: 'Starts six API jobs in parallel', icon: 'cloudflareworkers', tone: 'sky' },
-        { label: 'API Worker', detail: 'Leases and runs domain logic', icon: 'cloudflareworkers', tone: 'amber' },
+      { label: 'Timed jobs run', nodes: [
+        { label: 'Cron', detail: 'Runs every thirty minutes', icon: 'cloudflare', tone: 'neutral' },
+        { label: 'Scheduler Worker', detail: 'Starts seven API jobs at the same time', icon: 'cloudflareworkers', tone: 'sky' },
+        { label: 'API Worker', detail: 'Claims a lease and runs each job', icon: 'cloudflareworkers', tone: 'amber' },
       ] },
-      { label: 'Knowledge base', nodes: [
-        { label: 'GitHub Actions', detail: 'Builds the Starlight project', icon: 'githubactions', tone: 'sky' },
-        { label: 'Cloudflare Pages', detail: 'Hosts static wiki output', icon: 'cloudflarepages', tone: 'amber' },
-        { label: 'Reader', detail: 'No API dependency required', tone: 'neutral' },
+      { label: 'The wiki deploys', nodes: [
+        { label: 'GitHub Actions', detail: 'Builds the Starlight wiki', icon: 'githubactions', tone: 'sky' },
+        { label: 'Cloudflare Pages', detail: 'Hosts the static wiki files', icon: 'cloudflarepages', tone: 'amber' },
+        { label: 'Reader', detail: 'Reads the wiki without calling the API', tone: 'neutral' },
       ] },
     ],
   },
   request: {
-    title: 'A request from click to database',
-    description: 'A same-origin browser request crosses the website bridge, receives an internal token and reconstructed proxy context, passes API authentication and authorization, reaches a domain handler, and returns through the same path.',
-    caption: 'Ordinary endpoints are exposed to the browser as /api/v1. Better Auth keeps its own /api/auth routes, so the bridge does not rewrite those paths.',
+    title: 'How a request reaches the database',
+    description: 'The website sends the browser request to the API. The API checks it, runs the right handler, and sends the response back.',
+    caption: 'The browser uses /api/v1 for normal API routes. Better Auth keeps /api/auth, so the website bridge does not rewrite those routes.',
     lanes: [
       { label: 'Request path', layout: 'compact-flow', nodes: [
-        { label: '1 · Browser', detail: 'Fetch /api/v1/... with cookies', tone: 'sky' },
-        { label: '2 · Website bridge', detail: 'Strip spoofable headers', icon: 'astro', tone: 'violet' },
-        { label: '3 · Service binding', detail: 'Add internal token and proxy context', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: '4 · API pipeline', detail: 'Route, session, suspension, rate limits', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: '5 · Domain handler', detail: 'Validate and apply business rules', tone: 'emerald' },
-        { label: '6 · D1 / R2', detail: 'Read or commit data', icon: 'cloudflare', tone: 'emerald' },
-        { label: '7 · Response', detail: 'Status, envelope, browser UI', tone: 'sky' },
+        { label: 'Browser', detail: 'Calls /api/v1/... with its cookies', tone: 'sky' },
+        { label: 'Website bridge', detail: 'Removes internal headers that a browser could fake', icon: 'astro', tone: 'violet' },
+        { label: 'Service binding', detail: 'Adds the internal token and proxy details', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'API checks', detail: 'Checks the route, session, suspension, and rate limit', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Request handler', detail: 'Checks the input and applies the business rules', tone: 'emerald' },
+        { label: 'D1 / R2', detail: 'Reads or saves the data', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'Response', detail: 'Returns the status and data to the browser', tone: 'sky' },
       ] },
     ],
   },
   media: {
-    title: 'Gallery and competition media lifecycle',
-    description: 'The caller submits a full image and thumbnail. The API bounds both files, writes them to R2, records their relationship in D1, and compensates if these database inserts fail.',
-    caption: 'Gallery and competition reads use opaque record IDs. Other media routes differ: merchandise exposes its stored key, and leadership creation does not currently have the same insert-failure cleanup.',
+    title: 'How an image upload is saved',
+    description: 'The API checks the full image and thumbnail, saves both in R2, and links them in D1. If the D1 write fails, it deletes both new files.',
+    caption: 'Gallery and competition routes use opaque record IDs. Merchandise routes expose imageR2Key. Leadership uploads do not yet delete the new file when the D1 insert fails.',
     lanes: [
-      { label: 'Paired upload', layout: 'compact-flow', nodes: [
-        { label: 'Permission', detail: 'Membership or staff gate', tone: 'amber' },
-        { label: 'Submitted pair', detail: 'Full image plus caller-made thumbnail', tone: 'violet' },
-        { label: 'Multipart bounds', detail: 'Type, byte, and dimension checks', tone: 'rose' },
-        { label: 'R2 objects', detail: 'Store both accepted files', icon: 'cloudflare', tone: 'emerald' },
-        { label: 'D1 record', detail: 'Opaque relationship committed', icon: 'cloudflare', tone: 'sky' },
+      { label: 'Save the image and thumbnail', layout: 'compact-flow', nodes: [
+        { label: 'Permission check', detail: 'Requires the right membership or staff access', tone: 'amber' },
+        { label: 'Two files', detail: 'Receives the full image and a thumbnail made by the caller', tone: 'violet' },
+        { label: 'File checks', detail: 'Checks file types, sizes, and image dimensions', tone: 'rose' },
+        { label: 'R2 files', detail: 'Saves both accepted files', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'D1 record', detail: 'Links the record to both files', icon: 'cloudflare', tone: 'sky' },
       ] },
-      { label: 'Gallery / competition compensation', nodes: [
-        { label: 'D1 write fails', detail: 'The record never becomes visible', tone: 'rose' },
-        { label: 'Delete new objects', detail: 'Both R2 keys are removed', icon: 'cloudflare', tone: 'amber' },
-        { label: 'Return error', detail: 'No orphaned successful upload', tone: 'neutral' },
+      { label: 'If a gallery or competition record fails', nodes: [
+        { label: 'D1 write fails', detail: 'The new record is not saved', tone: 'rose' },
+        { label: 'Delete the new files', detail: 'Removes both R2 objects', icon: 'cloudflare', tone: 'amber' },
+        { label: 'Return an error', detail: 'Does not leave unused upload files behind', tone: 'neutral' },
       ] },
-      { label: 'Public read', nodes: [
-        { label: 'Opaque record ID', detail: 'Gallery or competition route', tone: 'sky' },
-        { label: 'D1 lookup', detail: 'Resolve the permitted object key', icon: 'cloudflare', tone: 'amber' },
-        { label: 'R2 stream', detail: 'Return the image bytes', icon: 'cloudflare', tone: 'emerald' },
+      { label: 'Show a public image', nodes: [
+        { label: 'Opaque record ID', detail: 'Identifies a gallery or competition record', tone: 'sky' },
+        { label: 'D1 lookup', detail: 'Finds the R2 key the route may use', icon: 'cloudflare', tone: 'amber' },
+        { label: 'R2 response', detail: 'Sends the image bytes', icon: 'cloudflare', tone: 'emerald' },
       ] },
-      { label: 'Other media domains', kind: 'collection', nodes: [
-        { label: 'Avatar / event', detail: 'Separate single-object flows', tone: 'neutral' },
-        { label: 'Merchandise', detail: 'Public route contains imageR2Key', tone: 'rose' },
-        { label: 'Leadership', detail: 'No equivalent insert compensation yet', tone: 'amber' },
+      { label: 'Other image routes', kind: 'collection', nodes: [
+        { label: 'Avatars and events', detail: 'Each uses its own single-file upload flow', tone: 'neutral' },
+        { label: 'Merchandise', detail: 'The public route includes imageR2Key', tone: 'rose' },
+        { label: 'Leadership', detail: 'Does not yet clean up the file after a failed insert', tone: 'amber' },
       ] },
     ],
   },
   discord: {
-    title: 'Discord has three inbound lanes',
-    description: 'Interactions, API events, and Gateway events arrive differently. They converge only after the Discord Worker has verified the message and, for internal events, claimed its nonce.',
-    caption: 'The VPS Gateway is deliberately narrow. It owns the long-lived websocket; the Worker owns verification, typed dispatch, and Discord side effects.',
+    title: 'Three ways events reach the Discord Worker',
+    description: 'Discord interactions, API events, and Gateway events arrive on separate routes. The Worker checks each message. It also claims the nonce for internal events.',
+    caption: 'The VPS Gateway keeps the Discord websocket open. The Discord Worker checks events and completes Discord actions.',
     lanes: [
-      { label: 'Slash commands', nodes: [
-        { label: 'Discord interaction', detail: 'Exact raw request body', icon: 'discord', tone: 'discord' },
-        { label: 'Ed25519 check', detail: 'Reject invalid signatures', tone: 'rose' },
-        { label: 'Command handler', detail: 'Call API binding when data is needed', tone: 'sky' },
-        { label: 'Discord REST', detail: 'Send the response or side effect', icon: 'discord', tone: 'discord' },
+      { label: 'A slash command', nodes: [
+        { label: 'Discord interaction', detail: 'Sends the exact raw request body', icon: 'discord', tone: 'discord' },
+        { label: 'Ed25519 check', detail: 'Rejects an invalid signature', tone: 'rose' },
+        { label: 'Command handler', detail: 'Calls the API binding when it needs club data', tone: 'sky' },
+        { label: 'Discord REST', detail: 'Sends the response or completes the action', icon: 'discord', tone: 'discord' },
       ] },
-      { label: 'API event', nodes: [
-        { label: 'API Worker', detail: 'Timestamp + HMAC + nonce', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: 'Discord Worker', detail: 'Verify signature and age', icon: 'discord', tone: 'discord' },
-        { label: 'D1 nonce claim', detail: 'Stop replayed events', icon: 'cloudflare', tone: 'rose' },
-        { label: 'Typed dispatcher', detail: 'Run the named domain service', tone: 'emerald' },
+      { label: 'An API event', nodes: [
+        { label: 'API Worker', detail: 'Adds a timestamp, HMAC signature, and nonce', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Discord Worker', detail: 'Checks the signature and timestamp', icon: 'discord', tone: 'discord' },
+        { label: 'D1 nonce claim', detail: 'Stops the same event from running again', icon: 'cloudflare', tone: 'rose' },
+        { label: 'Event handler', detail: 'Runs the service named by the typed event', tone: 'emerald' },
       ] },
-      { label: 'Gateway event', nodes: [
-        { label: 'Discord websocket', detail: 'Members, messages, reactions', icon: 'discord', tone: 'discord' },
-        { label: 'VPS Gateway', detail: 'Allowlist, filter, sanitize', icon: 'nodedotjs', tone: 'emerald' },
-        { label: 'Signed forward', detail: 'HMAC, timestamp, nonce', tone: 'amber' },
-        { label: 'Worker dispatcher', detail: 'Verify, claim, handle', icon: 'cloudflareworkers', tone: 'sky' },
+      { label: 'A Gateway event', nodes: [
+        { label: 'Discord websocket', detail: 'Receives member, message, and reaction events', icon: 'discord', tone: 'discord' },
+        { label: 'VPS Gateway', detail: 'Checks the allowlist, filters the event, and removes unsafe fields', icon: 'nodedotjs', tone: 'emerald' },
+        { label: 'Signed request', detail: 'Adds an HMAC signature, timestamp, and nonce', tone: 'amber' },
+        { label: 'Worker handler', detail: 'Checks, claims, and handles the event', icon: 'cloudflareworkers', tone: 'sky' },
       ] },
-      { label: 'Reverse control', nodes: [
-        { label: 'Discord Worker', detail: 'Presence change request', icon: 'cloudflareworkers', tone: 'sky' },
-        { label: 'VPC service', detail: 'Private route to /presence', icon: 'cloudflare', tone: 'amber' },
-        { label: 'VPS Gateway', detail: 'Verify HMAC and update discord.js', icon: 'nodedotjs', tone: 'emerald' },
+      { label: 'A presence update', nodes: [
+        { label: 'Discord Worker', detail: 'Requests a new Discord presence', icon: 'cloudflareworkers', tone: 'sky' },
+        { label: 'VPC service', detail: 'Sends it through the private /presence route', icon: 'cloudflare', tone: 'amber' },
+        { label: 'VPS Gateway', detail: 'Checks the HMAC signature and updates discord.js', icon: 'nodedotjs', tone: 'emerald' },
       ] },
     ],
   },
   receipt: {
-    title: 'A receipt reaches fulfillment without duplicate side effects',
-    description: 'The Email Worker controls intake and retries. D1 owns the fulfillment, while stable Resend and Discord identifiers cover retries around external calls.',
-    caption: 'KV protects intake, D1 owns the business result, and deterministic provider identifiers close the response-loss window.',
+    title: 'How a receipt becomes a purchase',
+    description: 'The Email Worker reads receipts and retries temporary failures. D1 records the result. Stable provider IDs make repeated calls safe.',
+    caption: 'KV prevents duplicate intake work. D1 owns the purchase result. Stable provider IDs prevent a lost response from causing a duplicate message or email.',
     lanes: [
-      { label: 'Parse and claim', layout: 'compact-flow', nodes: [
-        { label: 'Email Routing', detail: 'Purchase receipt arrives', icon: 'cloudflare', tone: 'sky' },
-        { label: 'Ingress checks', detail: 'Recipient, sender, raw-size limit', tone: 'rose' },
-        { label: 'postal-mime', detail: 'Decode message and attachments', tone: 'violet' },
-        { label: 'unpdf', detail: 'Extract receipt PDF text', tone: 'violet' },
-        { label: 'TooCOOL parser', detail: 'Read order and line items', tone: 'amber' },
-        { label: 'KV lease', detail: 'Dedupe the intake attempt', icon: 'cloudflare', tone: 'sky' },
-        { label: 'D1 claim', detail: 'Claim fulfillment idempotency key', icon: 'cloudflare', tone: 'emerald' },
+      { label: 'Read and claim the receipt', layout: 'compact-flow', nodes: [
+        { label: 'Email Routing', detail: 'Delivers a purchase receipt', icon: 'cloudflare', tone: 'sky' },
+        { label: 'Email checks', detail: 'Checks the recipient, sender, and raw message size', tone: 'rose' },
+        { label: 'postal-mime', detail: 'Reads the message and its attachments', tone: 'violet' },
+        { label: 'unpdf', detail: 'Reads text from the receipt PDF', tone: 'violet' },
+        { label: 'TooCOOL parser', detail: 'Finds the order and each item', tone: 'amber' },
+        { label: 'KV lease', detail: 'Stops duplicate receipt processing', icon: 'cloudflare', tone: 'sky' },
+        { label: 'D1 claim', detail: 'Claims the fulfillment idempotency key', icon: 'cloudflare', tone: 'emerald' },
       ] },
-      { label: 'Fulfillment', nodes: [
-        { label: 'Membership', detail: 'Create activation key', tone: 'emerald' },
-        { label: 'Resend', detail: 'Stable Idempotency-Key', icon: 'resend', tone: 'neutral' },
-        { label: 'Discord event', detail: 'Deterministic message nonce', icon: 'discord', tone: 'discord' },
+      { label: 'Complete a membership purchase', nodes: [
+        { label: 'Membership', detail: 'Creates an activation key', tone: 'emerald' },
+        { label: 'Resend', detail: 'Uses a stable Idempotency-Key', icon: 'resend', tone: 'neutral' },
+        { label: 'Discord event', detail: 'Uses a predictable message nonce', icon: 'discord', tone: 'discord' },
       ] },
-      { label: 'Other purchase', nodes: [
-        { label: 'Film or print', detail: 'Recognize item type', tone: 'amber' },
-        { label: 'Discord event', detail: 'Notify club operators', icon: 'discord', tone: 'discord' },
+      { label: 'Complete another purchase', nodes: [
+        { label: 'Film or print', detail: 'Finds the purchased item type', tone: 'amber' },
+        { label: 'Discord event', detail: 'Notifies the club staff', icon: 'discord', tone: 'discord' },
       ] },
-      { label: 'Failure', nodes: [
-        { label: 'Temporary', detail: 'Store retry record in KV', tone: 'sky' },
-        { label: 'Five-minute cron', detail: 'Try the intake again', icon: 'cloudflare', tone: 'amber' },
-        { label: 'Permanent normalized payload', detail: 'Record and stop looping', tone: 'rose' },
+      { label: 'Handle a failure', nodes: [
+        { label: 'Temporary failure', detail: 'Saves a retry record in KV', tone: 'sky' },
+        { label: 'Five-minute Cron', detail: 'Tries to process the receipt again', icon: 'cloudflare', tone: 'amber' },
+        { label: 'Final failure', detail: 'Saves the normalized result and stops retrying', tone: 'rose' },
       ] },
     ],
   },
   scheduler: {
-    title: 'The scheduler owns time, not business logic',
-    description: 'Every thirty minutes the Scheduler Worker starts six private API jobs in parallel. The API claims a D1 lease and decides what each job changes.',
-    caption: 'A repeated cron delivery is safe because the API owns the lease. Anything visible in Discord still goes through a signed internal event.',
+    title: 'How the seven scheduled jobs run',
+    description: 'Every thirty minutes, the Scheduler Worker starts seven private API jobs at the same time. The API claims a D1 lease and decides what each job changes.',
+    caption: 'The D1 lease prevents a repeated Cron trigger from running the same job twice. Discord changes still use signed internal events.',
     lanes: [
-      { label: 'Trigger', layout: 'compact-flow', nodes: [
+      { label: 'Start each job', layout: 'compact-flow', nodes: [
         { label: 'Cloudflare Cron', detail: '*/30 * * * *', icon: 'cloudflare', tone: 'sky' },
-        { label: 'Scheduler Worker', detail: 'Build six POST requests', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: 'Internal auth', detail: 'Source, token, scheduled time', tone: 'rose' },
-        { label: 'D1 lease', detail: 'One active run per job', icon: 'cloudflare', tone: 'emerald' },
-        { label: 'Domain logic', detail: 'API performs the actual work', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Scheduler Worker', detail: 'Builds seven POST requests', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Internal check', detail: 'Checks the source, token, and scheduled time', tone: 'rose' },
+        { label: 'D1 lease', detail: 'Allows one active run for each job', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'API job', detail: 'Makes the required changes', icon: 'cloudflareworkers', tone: 'amber' },
       ] },
-      { label: 'Six jobs', kind: 'parallel', layout: 'compact-flow', nodes: [
-        { label: 'Memberships', detail: 'Expire elapsed access', tone: 'neutral' },
-        { label: 'Darkroom', detail: 'Schedule sweep + stats sync', tone: 'neutral' },
-        { label: 'Studio', detail: 'Schedule sweep', tone: 'neutral' },
-        { label: 'Equipment', detail: 'Send reminder work', tone: 'neutral' },
-        { label: 'Photographers', detail: 'Expire old requests', tone: 'neutral' },
+      { label: 'Seven jobs', kind: 'parallel', layout: 'compact-flow', nodes: [
+        { label: 'Memberships', detail: 'Expires memberships that have ended', tone: 'neutral' },
+        { label: 'Membership roles', detail: 'Updates Discord roles from receipt memberships', tone: 'neutral' },
+        { label: 'Darkroom schedule', detail: 'Applies scheduled darkroom changes', tone: 'neutral' },
+        { label: 'Studio schedule', detail: 'Applies scheduled studio changes', tone: 'neutral' },
+        { label: 'Darkroom stats', detail: 'Updates the current totals', tone: 'neutral' },
+        { label: 'Equipment', detail: 'Sends reminders that are due', tone: 'neutral' },
+        { label: 'Photographer requests', detail: 'Expires old requests', tone: 'neutral' },
       ] },
     ],
   },
   deployment: {
-    title: 'Code moves through separate deployment lanes',
-    description: 'Each repository verifies itself before deployment. Most services deploy from main to Cloudflare. The VPS Gateway follows a separate Git and systemd path.',
-    caption: 'The API migration runs before its Worker deploy. A bootstrap config can omit the Discord binding when the bot Worker does not exist yet.',
+    title: 'How each service deploys',
+    description: 'Each repository runs its own checks. Most services deploy from main to Cloudflare. The VPS Gateway deploys through Git and systemd.',
+    caption: 'D1 migrations run before the API Worker deploys. When the Discord Worker does not exist yet, the bootstrap setup leaves out its binding.',
     lanes: [
-      { label: 'Cloudflare Workers', nodes: [
-        { label: 'Push to main', detail: 'Website, API, Discord, email, scheduler', icon: 'githubactions', tone: 'sky' },
-        { label: 'Configured checks', detail: 'Types and build; tests where included', tone: 'emerald' },
+      { label: 'Deploy a Cloudflare Worker', nodes: [
+        { label: 'Push to main', detail: 'Starts the website, API, Discord, email, or scheduler workflow', icon: 'githubactions', tone: 'sky' },
+        { label: 'Run checks', detail: 'Checks types and the build, plus tests where configured', tone: 'emerald' },
         { label: 'Deploy', detail: 'Wrangler publishes the Worker', icon: 'cloudflareworkers', tone: 'amber' },
-        { label: 'Observability', detail: '10% head sampling enabled', icon: 'cloudflare', tone: 'neutral' },
+        { label: 'Logs and traces', detail: 'Uses 10% head sampling', icon: 'cloudflare', tone: 'neutral' },
       ] },
-      { label: 'API special case', nodes: [
-        { label: 'D1 migrations', detail: 'Apply schema changes first', icon: 'cloudflare', tone: 'emerald' },
-        { label: 'Bootstrap check', detail: 'Omit bot binding when necessary', tone: 'rose' },
-        { label: 'API deploy', detail: 'Publish current router and handlers', icon: 'cloudflareworkers', tone: 'amber' },
+      { label: 'Deploy the API', nodes: [
+        { label: 'D1 migrations', detail: 'Applies database changes first', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'Bootstrap check', detail: 'Leaves out the Discord binding when needed', tone: 'rose' },
+        { label: 'API deploy', detail: 'Publishes the current routes and handlers', icon: 'cloudflareworkers', tone: 'amber' },
       ] },
-      { label: 'Wiki', nodes: [
-        { label: 'Push to main', detail: 'Static Astro project', icon: 'githubactions', tone: 'sky' },
-        { label: 'Build + Pagefind', detail: 'Generate HTML and search index', icon: 'astro', tone: 'violet' },
-        { label: 'Cloudflare Pages', detail: 'Publish dist', icon: 'cloudflarepages', tone: 'amber' },
+      { label: 'Deploy the wiki', nodes: [
+        { label: 'Push to main', detail: 'Starts the static Astro build', icon: 'githubactions', tone: 'sky' },
+        { label: 'Astro + Pagefind', detail: 'Builds the HTML and search index', icon: 'astro', tone: 'violet' },
+        { label: 'Cloudflare Pages', detail: 'Publishes the dist folder', icon: 'cloudflarepages', tone: 'amber' },
       ] },
-      { label: 'VPS Gateway', nodes: [
-        { label: 'Local preparation', detail: 'Build Gateway and package dist', icon: 'nodedotjs', tone: 'emerald' },
-        { label: 'Push deploy repo', detail: 'Send prebuilt artifact to bare Git', tone: 'sky' },
-        { label: 'Post-receive hook', detail: 'Checkout and install production deps', tone: 'amber' },
-        { label: 'systemd restart', detail: 'Replace the live process', tone: 'rose' },
+      { label: 'Deploy the VPS Gateway', nodes: [
+        { label: 'Build locally', detail: 'Builds the Gateway and packages the dist folder', icon: 'nodedotjs', tone: 'emerald' },
+        { label: 'Push the deploy repo', detail: 'Sends the built files to the bare Git repository', tone: 'sky' },
+        { label: 'Post-receive hook', detail: 'Checks out the files and installs production dependencies', tone: 'amber' },
+        { label: 'Restart systemd', detail: 'Replaces the running Gateway process', tone: 'rose' },
       ] },
     ],
   },
@@ -233,9 +235,9 @@ const diagram = diagrams[type];
 const diagramId = `system-diagram-${type}`;
 ---
 
-<figure aria-labelledby={`${diagramId}-title`} aria-describedby={`${diagramId}-description`} class="my-12 overflow-hidden border border-white/10 bg-neutral-950 sm:my-16">
+<figure aria-labelledby={`${diagramId}-title`} aria-describedby={`${diagramId}-description`} class="my-8 overflow-hidden border border-white/10 bg-neutral-950 sm:my-10">
   <div class="border-b border-white/10 bg-white/[0.025] p-5 sm:p-6">
-    <p class="m-0 text-[0.58rem] tracking-[0.2em] text-amber-200 uppercase">System diagram</p>
+    <p class="m-0 text-[0.58rem] tracking-[0.2em] text-amber-200 uppercase">System flow</p>
     <h2 id={`${diagramId}-title`} class="mt-2! border-0! pt-0! text-3xl!">{diagram.title}</h2>
     <p id={`${diagramId}-description`} class="mt-3 mb-0 max-w-3xl text-sm leading-6 text-neutral-400">{diagram.description}</p>
   </div>

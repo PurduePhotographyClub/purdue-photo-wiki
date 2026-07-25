@@ -8,10 +8,10 @@ const data = route.entry.data as typeof route.entry.data & {
 
 const { title, description, author, date, accent = 'silver' } = data;
 const sectionLabels: Record<string, string> = {
-  index: 'PPC Wiki',
-  photography: 'Photography field guide',
-  system: 'How the system works',
-  '404': 'Lost frame',
+  index: 'Purdue Photography Club',
+  photography: 'Photography guides',
+  system: 'Club system guide',
+  '404': 'Page not found',
 };
 const section = route.id.split('/')[0] || 'index';
 const kicker = sectionLabels[section] ?? section.replaceAll('-', ' ');
@@ -44,17 +44,17 @@ const accentStyle = accentClasses[accent] ?? accentClasses.silver;
 ---
 
 {route.id !== '404' && (
-  <header class:list={['relative mb-9 overflow-hidden border-y border-white/10 bg-gradient-to-r to-transparent px-5 py-7 sm:mb-12 sm:px-7 sm:py-9 lg:px-9', accentStyle.wash]}>
-    <div class:list={['mb-4 flex items-center gap-3 text-[0.62rem] tracking-[0.22em] uppercase', accentStyle.text]}>
+  <header class:list={['relative mb-8 overflow-hidden border-y border-white/10 bg-gradient-to-r to-transparent px-4 py-7 sm:px-7 sm:py-8 lg:px-10 xl:px-12', accentStyle.wash]}>
+    <div class:list={['mb-3 flex items-center gap-3 text-[0.62rem] tracking-[0.2em] uppercase', accentStyle.text]}>
       <span class:list={['h-px w-9', accentStyle.line]}></span>
       {kicker}
     </div>
     <h1 id="_top" class="m-0 max-w-[18ch] scroll-mt-24 font-['Playfair_Display',Georgia,serif] text-4xl leading-[0.98] font-black tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
       {title}
     </h1>
-    {description && <p class="mt-5 max-w-[70ch] text-sm leading-7 text-neutral-300 sm:text-[0.95rem]">{description}</p>}
+    {description && <p class="mt-4 max-w-[65ch] text-sm leading-7 text-neutral-300 sm:text-[0.95rem]">{description}</p>}
     {(author || formattedDate) && (
-      <div class="mt-5 flex flex-wrap items-center gap-3 text-[0.65rem] tracking-[0.14em] text-neutral-300 uppercase" aria-label="Article details">
+      <div class="mt-5 flex flex-wrap items-center gap-3 text-[0.65rem] tracking-[0.14em] text-neutral-300 uppercase" aria-label="Page details">
         {author && <span>{author}</span>}
         {author && formattedDate && <span aria-hidden="true" class:list={['h-px w-7', accentStyle.line]}></span>}
         {formattedDate && <time datetime={new Date(date as Date | string).toISOString()}>{formattedDate}</time>}

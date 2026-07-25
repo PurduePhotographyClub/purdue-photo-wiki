@@ -1,9 +1,9 @@
 ---
 title: Astrophotography
-description: Planning, long exposures, night skies, and keeping stars crisp.
+description: How to plan a night shoot and photograph sharp stars.
 accent: indigo
 ---
 
-This page will gather club tips for photographing night skies and low-light scenes.
+This guide is not ready yet. It will explain how to plan a night shoot, use long exposures, and keep stars sharp.
 
-## Coming soon
+## In progress
