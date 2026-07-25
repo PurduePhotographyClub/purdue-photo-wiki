@@ -1,7 +1,7 @@
 ---
 title: Data and images
 description: What D1, R2, and KV store, and how the API checks and cleans up image uploads.
-accent: amber
+accent: emerald
 ---
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
@@ -109,8 +109,6 @@ Instead, the system works like this:
 - A D1 lease stops the same scheduled job from running at the same time. It does not use a Durable Object lock.
 - A one-use number stored in D1 stops a Discord event from being processed twice. It does not use temporary Worker memory.
 - The VPS Gateway keeps the Discord websocket, its live two-way connection, open because a request Worker cannot stay alive permanently.
-
-Queues or Durable Objects could be added later. This guide only describes the current repository.
 
 ## Keeping club records consistent
 

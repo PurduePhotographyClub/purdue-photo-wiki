@@ -39,7 +39,10 @@ test('the wiki keeps shared theme tokens in its Tailwind entry with no component
   assert.match(tailwindEntry, /--font-sans:/);
   assert.match(tailwindEntry, /html\[data-theme=['"]light['"]\]/);
   assert.match(tailwindEntry, /--color-neutral-950:/);
+  assert.match(tailwindEntry, /html\[data-theme=['"]dark['"]\] \.wiki-brand-logo[\s\S]+filter:\s*none/);
   assert.match(tailwindEntry, /html\[data-theme=['"]light['"]\] \.wiki-brand-logo[\s\S]+filter:\s*invert\(1\)/);
+  assert.match(tailwindEntry, /\.wiki-prose\[data-wiki-accent=['"]purple['"]\]/);
+  assert.match(tailwindEntry, /\.wiki-prose mark/);
 
   const authoredUi = sourceFiles('src', ['.astro', '.md', '.mdx', '.ts', '.js'])
     .map((path) => readFileSync(path, 'utf8'))
@@ -91,6 +94,11 @@ test('the responsive wiki shell is made from explicit Tailwind components', () =
   assert.match(header, /Use light theme/);
   assert.match(header, /Use dark theme/);
   assert.match(header, /localStorage\.setItem\(['"]starlight-theme['"]/);
+  assert.match(header, /data-wiki-theme-toggle[\s\S]+rounded-full[\s\S]+border-transparent/);
+  assert.ok(
+    header.indexOf('aria-label="Club links"') < header.indexOf('data-wiki-theme-toggle'),
+    'the theme button should sit with the other right-side header controls',
+  );
   assert.doesNotMatch(header, /ThemeSelect|<select\b/);
   assert.match(themeProvider, /localStorage\.getItem\(['"]starlight-theme['"]\)/);
   assert.match(themeProvider, /try\s*\{[\s\S]+localStorage\.getItem[\s\S]+catch\s*\{/);
@@ -112,8 +120,12 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(twoColumnContent, /lg:\[&>main\]:px-10!/);
   assert.match(twoColumnContent, /xl:\[&>main\]:px-12!/);
   assert.match(pageTitle, /px-4[^\n]+sm:px-7[^\n]+lg:px-10[^\n]+xl:px-12/);
-  assert.match(pageTitle, /text-4xl[^\n]+sm:text-5xl[^\n]+lg:text-6xl/);
+  assert.match(pageTitle, /max-w-6xl/);
+  assert.match(pageTitle, /border-l-2/);
+  assert.doesNotMatch(pageTitle, /bg-gradient-to-r|border-y/);
   assert.match(markdown, /sl-markdown-content/);
+  assert.match(markdown, /wiki-prose/);
+  assert.match(markdown, /data-wiki-accent=\{accent\}/);
   assert.match(markdown, /\btext-base\b/);
   assert.match(markdown, /sm:text-\[1\.0625rem\]/);
   assert.match(markdown, /sm:leading-8/);
@@ -140,7 +152,9 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
   assert.match(footer, /\bw-screen\b/);
   assert.match(footer, /lg:ml-\[calc\(-50vw-8\.5rem\)\]!/);
-  assert.match(footer, /mx-auto! w-full max-w-7xl/);
+  assert.match(footer, /lg:pl-\[17rem\]/);
+  assert.match(footer, /mx-auto! w-full max-w-6xl/);
+  assert.match(footer, /py-10[^\n]+sm:py-12/);
 });
 
 test('custom photography pages use a compact section rhythm', () => {
@@ -174,7 +188,7 @@ test('custom photography pages use a compact section rhythm', () => {
 test('the wiki footer mirrors the club website footer', () => {
   const footer = readProjectFile('src/components/WikiFooter.astro');
 
-  assert.match(footer, /max-w-7xl/);
+  assert.match(footer, /max-w-6xl/);
   assert.match(footer, /Film, digital, darkroom, and club work at Purdue since 1934\./);
   assert.match(footer, />Club links</);
   for (const label of ['Gallery', 'Members', 'Competitions', 'Facilities', 'Membership', 'Events', 'Request']) {
@@ -185,7 +199,7 @@ test('the wiki footer mirrors the club website footer', () => {
   }
   assert.match(footer, /instagram\.com\/alesgs\.photos/);
   assert.match(footer, /Made with love by/);
-  assert.match(footer, /class="wiki-brand-logo/);
+  assert.match(footer, /class="wiki-brand-logo size-10 object-contain/);
   assert.doesNotMatch(footer, /newsletter|LISTSERV|data-wiki-newsletter/i);
   assert.doesNotMatch(footer, /text-\[0\.62rem\][^"\n]*text-neutral-500/);
 });
@@ -212,6 +226,8 @@ test('system pages use larger type and calmer card layouts', () => {
   assert.match(diagram, /text-sm leading-6 text-neutral-400/);
   assert.match(diagram, /space-y-4/);
   assert.doesNotMatch(diagram, /space-y-px/);
+  assert.doesNotMatch(diagram, /↓|↙|→|endsCompactRow/);
+  assert.doesNotMatch(diagram, /isSequence && index < lane\.nodes\.length - 1/);
   assert.match(technologies, /grid gap-4/);
   assert.match(technologies, /text-sm leading-6 text-neutral-400/);
   assert.doesNotMatch(systemPages, /grid gap-px border border-white\/10 bg-white\/10/);
@@ -251,7 +267,6 @@ test('the system guide covers the complete service chain with accessible diagram
   assert.match(diagrams, /@3xl:grid-cols-2/);
   assert.match(diagrams, /@5xl:grid-cols-3/);
   assert.match(diagrams, /const ListTag = isSequence \? 'ol' : 'ul'/);
-  assert.match(diagrams, /isSequence && index < lane\.nodes\.length - 1/);
   assert.match(diagrams, /isSequence \? String\(index \+ 1\)\.padStart\(2, '0'\) : '•'/);
   assert.match(diagrams, /role="list"/);
   assert.match(diagrams, /label: 'Darkroom schedule'[^\n]+detail: 'Applies scheduled darkroom changes'/);
@@ -297,10 +312,22 @@ test('the system guide uses direct, plain language', () => {
 
   assert.doesNotMatch(
     systemCopy,
-    /center of gravity|That is why|This is also why|The hardest case|deliberately ordered|at the exact moment you read it/i,
+    /center of gravity|That is why|This is also why|The hardest case|deliberately ordered|at the exact moment you read it|code in this branch/i,
   );
   assert.match(systemCopy, /The API is the only service that changes club records/);
   assert.match(systemCopy, /If club data changes, the request goes through the API/);
+  assert.doesNotMatch(
+    systemCopy,
+    /Queues or Durable Objects could be added later\. This guide only describes the current repository\./,
+  );
+});
+
+test('getting started keeps photo credits attached to the photos they describe', () => {
+  const gettingStarted = readProjectFile('src/content/docs/photography/index.md');
+
+  assert.match(gettingStarted, /Featured photo by[\s\S]+@Linzzi Ji/);
+  assert.match(gettingStarted, /Three photos by[\s\S]+@Dylan Chu/);
+  assert.doesNotMatch(gettingStarted, /Photos by[\s\S]+@Dylan Chu[\s\S]+and[\s\S]+@Linzzi Ji/);
 });
 
 test('reader-facing copy stays simple and direct', () => {

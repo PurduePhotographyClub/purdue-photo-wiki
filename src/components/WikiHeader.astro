@@ -31,22 +31,6 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
       </div>
     )}
 
-    <button
-      type="button"
-      data-wiki-theme-toggle
-      aria-label="Use light theme"
-      title="Use light theme"
-      class="inline-flex size-11 shrink-0 items-center justify-center border border-white/15 bg-white/[0.03] text-neutral-300 transition hover:border-white/35 hover:bg-white/[0.07] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
-    >
-      <svg data-theme-icon="sun" viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
-      </svg>
-      <svg data-theme-icon="moon" viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
-        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
-      </svg>
-    </button>
-
     <nav class="hidden items-center gap-1 lg:ml-auto! lg:flex" aria-label="Club links">
       <a
         href="https://purduephotoclub.org"
@@ -81,6 +65,22 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
         </a>
       ))}
     </nav>
+
+    <button
+      type="button"
+      data-wiki-theme-toggle
+      aria-label="Use light theme"
+      title="Use light theme"
+      class="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-transparent bg-transparent text-neutral-300 transition hover:border-white/10 hover:bg-white/[0.06] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+    >
+      <svg data-theme-icon="sun" viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+      </svg>
+      <svg data-theme-icon="moon" viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+      </svg>
+    </button>
 
     <button
       type="button"

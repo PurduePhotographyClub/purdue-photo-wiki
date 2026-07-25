@@ -83,23 +83,32 @@ sidebar:
     <p class="mt-5! mb-0! text-neutral-300">
       The world is already full of photos. Look closely, choose a frame, and press the button when the moment feels right.
     </p>
-    <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Photos by Linzzi Ji and Dylan Chu">
-      <a class="group block overflow-hidden border border-white/10 bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200 sm:col-span-2 lg:col-span-3" href="#gs-view-linzzi" aria-label="View Linzzi Ji photo full size">
-        <img class="block aspect-video h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/linzzi.webp" width="2048" height="1152" alt="Photo by Linzzi Ji" loading="lazy" decoding="async" />
-      </a>
-      <a class="group block overflow-hidden border border-white/10 bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-2" aria-label="View Dylan Chu photo full size">
-        <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-2.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      </a>
-      <a class="group block overflow-hidden border border-white/10 bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-3" aria-label="View Dylan Chu photo full size">
-        <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-3.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      </a>
-      <a class="group block overflow-hidden border border-white/10 bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-4" aria-label="View Dylan Chu photo full size">
-        <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-4.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      </a>
+    <div class="mt-6 space-y-3" aria-label="Photos by Linzzi Ji and Dylan Chu">
+      <figure class="m-0 overflow-hidden border border-white/10 bg-neutral-900/50">
+        <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-linzzi" aria-label="View Linzzi Ji photo full size">
+          <img class="block aspect-video h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/linzzi.webp" width="2048" height="1152" alt="Photo by Linzzi Ji" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="m-0! border-t border-white/10 px-3 py-2 text-left font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
+          Featured photo by <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a>
+        </figcaption>
+      </figure>
+      <figure class="m-0 overflow-hidden border border-white/10 bg-neutral-900/50">
+        <div class="grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-3">
+          <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-2" aria-label="View Dylan Chu photo full size">
+            <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-2.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
+          </a>
+          <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-3" aria-label="View Dylan Chu photo full size">
+            <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-3.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
+          </a>
+          <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-4" aria-label="View Dylan Chu photo full size">
+            <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-4.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
+          </a>
+        </div>
+        <figcaption class="m-0! border-t border-white/10 px-3 py-2 text-left font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
+          Three photos by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a>
+        </figcaption>
+      </figure>
     </div>
-    <p class="mt-3! mb-0! text-right font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
-      Photos by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a> and <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a>
-    </p>
   </section>
 
   <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-linzzi" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">

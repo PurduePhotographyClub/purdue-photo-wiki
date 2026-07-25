@@ -1,12 +1,18 @@
+---
+const route = Astro.locals.starlightRoute;
+const accent = (route.entry.data as typeof route.entry.data & { accent?: string }).accent ?? 'amber';
+---
+
 <div
-  class="sl-markdown-content min-w-0 text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8
+  data-wiki-accent={accent}
+  class="wiki-prose sl-markdown-content min-w-0 text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8
     [&_[id]]:scroll-mt-24
     [&>*+*]:mt-6!
-    [&_a]:font-medium [&_a]:text-amber-200 [&_a]:underline [&_a]:decoration-amber-200/35 [&_a]:underline-offset-4 [&_a]:transition [&_a]:hover:decoration-amber-100
+    [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:transition
     [&_.sl-anchor-link]:shrink-0 [&_.sl-anchor-link]:text-neutral-500! [&_.sl-anchor-link]:no-underline!
     [&_.sl-heading-wrapper.level-h2]:mt-14! [&_.sl-heading-wrapper.level-h2]:border-t [&_.sl-heading-wrapper.level-h2]:border-white/10 [&_.sl-heading-wrapper.level-h2]:pt-8!
     [&_.sl-heading-wrapper.level-h3]:mt-10! [&_.sl-heading-wrapper.level-h4]:mt-8!
-    [&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:border-amber-200/50 [&_blockquote]:bg-amber-200/[0.04] [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:text-neutral-200
+    [&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:text-neutral-200
     [&_code]:border [&_code]:border-white/10 [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-['Space_Mono',monospace] [&_code]:text-[0.86em] [&_code]:text-neutral-100
     [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:leading-5 [&_figcaption]:text-neutral-400
     [&_h2]:scroll-mt-24 [&_h2]:font-['Playfair_Display',Georgia,serif] [&_h2]:text-3xl [&_h2]:leading-tight [&_h2]:font-semibold [&_h2]:text-white sm:[&_h2]:text-4xl
@@ -15,7 +21,7 @@
     [&_hr]:my-10 [&_hr]:border-white/10
     [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full
     [&_img]:h-auto [&_img]:max-w-full
-    [&_li]:pl-1 [&_li]:marker:text-amber-200/70
+    [&_li]:pl-1
     [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:space-y-3 [&_ol]:pl-6
     [&_p]:max-w-[70ch] [&_p+p]:mt-5!
     [&_pre]:my-7 [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_pre]:border [&_pre]:border-white/10 [&_pre]:bg-black/50 [&_pre]:p-4

@@ -61,11 +61,83 @@ html[data-theme='light'] {
 }
 
 html[data-theme='dark'] .wiki-brand-logo {
-  filter: brightness(1.7) invert(1);
-  mix-blend-mode: screen;
+  filter: none;
+  mix-blend-mode: normal;
 }
 
 html[data-theme='light'] .wiki-brand-logo {
   filter: invert(1);
   mix-blend-mode: multiply;
+}
+
+.wiki-prose {
+  --wiki-accent: var(--color-amber-200);
+  --wiki-accent-soft: color-mix(in srgb, var(--wiki-accent) 9%, transparent);
+  --wiki-accent-line: color-mix(in srgb, var(--wiki-accent) 48%, transparent);
+}
+
+.wiki-prose[data-wiki-accent='sky'] {
+  --wiki-accent: var(--color-sky-200);
+}
+
+.wiki-prose[data-wiki-accent='cyan'] {
+  --wiki-accent: var(--color-cyan-200);
+}
+
+.wiki-prose[data-wiki-accent='emerald'] {
+  --wiki-accent: var(--color-emerald-200);
+}
+
+.wiki-prose[data-wiki-accent='teal'] {
+  --wiki-accent: var(--color-teal-200);
+}
+
+.wiki-prose[data-wiki-accent='blue'] {
+  --wiki-accent: var(--color-blue-200);
+}
+
+.wiki-prose[data-wiki-accent='indigo'] {
+  --wiki-accent: var(--color-indigo-200);
+}
+
+.wiki-prose[data-wiki-accent='violet'] {
+  --wiki-accent: var(--color-violet-200);
+}
+
+.wiki-prose[data-wiki-accent='purple'] {
+  --wiki-accent: var(--color-purple-200);
+}
+
+.wiki-prose[data-wiki-accent='rose'] {
+  --wiki-accent: var(--color-rose-200);
+}
+
+.wiki-prose a {
+  color: var(--wiki-accent);
+  text-decoration-color: var(--wiki-accent-line);
+}
+
+.wiki-prose a:hover {
+  text-decoration-color: var(--wiki-accent);
+}
+
+.wiki-prose strong:not([class]) {
+  color: var(--wiki-accent);
+}
+
+.wiki-prose mark {
+  border-radius: 0.125rem;
+  background: var(--wiki-accent-soft);
+  box-shadow: 0 0 0 1px var(--wiki-accent-line);
+  color: var(--color-neutral-100);
+  padding-inline: 0.2em;
+}
+
+.wiki-prose blockquote {
+  border-color: var(--wiki-accent-line);
+  background: var(--wiki-accent-soft);
+}
+
+.wiki-prose li::marker {
+  color: var(--wiki-accent);
 }

@@ -45,29 +45,27 @@ const accentStyle = accentClasses[accent] ?? accentClasses.silver;
 ---
 
 {route.id !== '404' && (
-  <header class:list={[
-    isHomepage
-      ? 'mx-auto! w-full max-w-6xl px-4 pt-10 pb-2 sm:px-7 sm:pt-14 lg:px-10 lg:pt-16 xl:px-12'
-      : 'relative mb-8 overflow-hidden border-y border-white/10 bg-gradient-to-r to-transparent px-4 py-7 sm:px-7 sm:py-8 lg:px-10 xl:px-12',
-    !isHomepage && accentStyle.wash,
-  ]}>
-    <div class:list={['mb-3 flex items-center gap-3 text-[0.7rem] tracking-[0.2em] uppercase', accentStyle.text]}>
-      <span class:list={['h-px w-9', accentStyle.line]}></span>
-      {isHomepage ? 'PPC Wiki' : kicker}
-    </div>
-    <h1 id="_top" class:list={[
-      "m-0 max-w-[18ch] scroll-mt-24 font-['Playfair_Display',Georgia,serif] leading-[0.98] font-black tracking-tight text-balance text-white",
-      isHomepage ? 'text-4xl sm:text-5xl' : 'text-4xl sm:text-5xl lg:text-6xl',
-    ]}>
-      {isHomepage ? 'Photography and club guides' : title}
-    </h1>
-    {description && <p class="mt-4 max-w-[62ch] text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8">{description}</p>}
-    {(author || formattedDate) && (
-      <div class="mt-5 flex flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.14em] text-neutral-300 uppercase" aria-label="Page details">
-        {author && <span>{author}</span>}
-        {author && formattedDate && <span aria-hidden="true" class:list={['h-px w-7', accentStyle.line]}></span>}
-        {formattedDate && <time datetime={new Date(date as Date | string).toISOString()}>{formattedDate}</time>}
+  <header class="mx-auto! mb-3 w-full max-w-6xl px-4 pt-8 pb-3 sm:px-7 sm:pt-10 sm:pb-5 lg:px-10 lg:pt-12 xl:px-12">
+    <div class="relative border-l-2 border-white/10 py-1 pl-5 sm:pl-7">
+      <span aria-hidden="true" class:list={['absolute top-0 -left-0.5 h-12 w-0.5', accentStyle.line]}></span>
+      <div class:list={['mb-3 flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.18em] uppercase', accentStyle.text]}>
+        <span class:list={['size-1.5', accentStyle.line]}></span>
+        {isHomepage ? 'PPC Wiki' : kicker}
       </div>
-    )}
+      <h1 id="_top" class:list={[
+        "m-0 max-w-[22ch] scroll-mt-24 font-['Playfair_Display',Georgia,serif] leading-[1.03] font-black tracking-tight text-balance text-white",
+        isHomepage ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl lg:text-5xl',
+      ]}>
+        {isHomepage ? 'Photography and club guides' : title}
+      </h1>
+      {description && <p class="mt-4 max-w-[62ch] text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8">{description}</p>}
+      {(author || formattedDate) && (
+        <div class="mt-5 flex flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.14em] text-neutral-300 uppercase" aria-label="Page details">
+          {author && <span>{author}</span>}
+          {author && formattedDate && <span aria-hidden="true" class:list={['h-px w-7', accentStyle.line]}></span>}
+          {formattedDate && <time datetime={new Date(date as Date | string).toISOString()}>{formattedDate}</time>}
+        </div>
+      )}
+    </div>
   </header>
 )}
