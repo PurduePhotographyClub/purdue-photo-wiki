@@ -16,11 +16,11 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
 <div class="flex h-full w-full items-center gap-2 sm:gap-4 lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-0">
   <a href="/" class="group flex min-w-0 shrink-0 items-center gap-2.5 text-white no-underline lg:h-full lg:px-7" aria-label="PPC Wiki home">
     <span class="grid size-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.03] transition group-hover:border-amber-200/50">
-      <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="size-7 object-contain brightness-[1.7] invert mix-blend-screen" />
+      <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="wiki-brand-logo size-7 object-contain" />
     </span>
     <span class="hidden min-w-0 sm:block">
       <span class="block font-['Playfair_Display',Georgia,serif] text-base leading-none font-bold tracking-wide text-neutral-100">PPC Wiki</span>
-      <span class="mt-1 block text-[0.55rem] leading-none tracking-[0.2em] text-neutral-400 uppercase">Photo and club guides</span>
+      <span class="mt-1 block font-mono text-[0.72rem] leading-none tracking-[0.16em] text-neutral-400 uppercase">Photo and club guides</span>
     </span>
   </a>
 
@@ -31,10 +31,26 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
       </div>
     )}
 
+    <button
+      type="button"
+      data-wiki-theme-toggle
+      aria-label="Use light theme"
+      title="Use light theme"
+      class="inline-flex size-11 shrink-0 items-center justify-center border border-white/15 bg-white/[0.03] text-neutral-300 transition hover:border-white/35 hover:bg-white/[0.07] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+    >
+      <svg data-theme-icon="sun" viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+      </svg>
+      <svg data-theme-icon="moon" viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+      </svg>
+    </button>
+
     <nav class="hidden items-center gap-1 lg:ml-auto! lg:flex" aria-label="Club links">
       <a
         href="https://purduephotoclub.org"
-        class="inline-flex min-h-11 items-center border border-transparent px-3 text-[0.65rem] tracking-[0.16em] text-neutral-300 uppercase transition hover:border-white/15 hover:text-white"
+        class="inline-flex min-h-11 items-center border border-transparent px-3 font-mono text-[0.7rem] tracking-[0.14em] text-neutral-300 uppercase transition hover:border-white/15 hover:text-white"
       >
         Club site
       </a>
@@ -86,11 +102,39 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
 
 <script>
   const menuButton = document.querySelector<HTMLButtonElement>('[data-wiki-menu]');
+  const themeButton = document.querySelector<HTMLButtonElement>('[data-wiki-theme-toggle]');
+  const sunIcon = themeButton?.querySelector<SVGElement>('[data-theme-icon="sun"]');
+  const moonIcon = themeButton?.querySelector<SVGElement>('[data-theme-icon="moon"]');
   const sidebar = document.querySelector<HTMLElement>('#starlight__sidebar');
   const backdrop = sidebar?.querySelector<HTMLButtonElement>('[data-wiki-sidebar-backdrop]');
   const openIcon = menuButton?.querySelector<HTMLElement>('[data-menu-open-icon]');
   const closeIcon = menuButton?.querySelector<HTMLElement>('[data-menu-close-icon]');
   let returnFocus: HTMLElement | null = null;
+
+  function updateThemeButton() {
+    if (!themeButton) return;
+    const isLight = document.documentElement.dataset.theme === 'light';
+    const label = isLight ? 'Use dark theme' : 'Use light theme';
+
+    themeButton.setAttribute('aria-label', label);
+    themeButton.setAttribute('title', label);
+    sunIcon?.classList.toggle('hidden', !isLight);
+    moonIcon?.classList.toggle('hidden', isLight);
+  }
+
+  themeButton?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = nextTheme;
+    try {
+      localStorage.setItem('starlight-theme', nextTheme);
+    } catch {
+      // Theme switching still works when browser storage is unavailable.
+    }
+    window.StarlightThemeProvider?.updatePickers(nextTheme);
+    updateThemeButton();
+  });
+
+  updateThemeButton();
 
   function focusableSidebarElements() {
     if (!sidebar) return [];

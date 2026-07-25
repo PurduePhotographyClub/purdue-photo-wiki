@@ -24,24 +24,24 @@ const technologies = [
 ];
 ---
 
-<section aria-labelledby="technology-grid-title" class="my-10 border border-white/10 bg-white/10">
-  <div class="flex flex-col gap-2 border-b border-white/10 bg-neutral-950 p-5 sm:flex-row sm:items-end sm:justify-between">
+<section aria-labelledby="technology-grid-title" class="my-12 border border-white/10 bg-neutral-900/40">
+  <div class="flex flex-col gap-3 border-b border-white/10 bg-neutral-950 p-5 sm:flex-row sm:items-end sm:justify-between sm:p-7">
     <div>
-      <p class="m-0 text-[0.6rem] tracking-[0.2em] text-amber-200 uppercase">Technology</p>
+      <p class="m-0 font-mono text-[0.75rem] tracking-[0.18em] text-amber-200 uppercase">Technology</p>
       <h2 id="technology-grid-title" class="mt-2! border-0! pt-0! text-3xl!">Tools used by the platform</h2>
     </div>
-    <p class="m-0 max-w-md text-xs leading-5 text-neutral-400">Each service has a small, specific job.</p>
+    <p class="m-0 max-w-md text-sm leading-6 text-neutral-400">Each service has a small, specific job.</p>
   </div>
-  <div class="grid gap-px sm:grid-cols-2 xl:grid-cols-3">
+  <div class="grid gap-4 p-4 sm:grid-cols-2 sm:p-6 xl:grid-cols-3">
     {technologies.map((technology) => (
-      <article class="group flex min-h-36 gap-4 bg-neutral-950 p-5 transition hover:bg-neutral-900/80">
+      <article class="group flex min-h-40 gap-4 border border-white/10 bg-neutral-950 p-5 transition hover:border-white/25 hover:bg-neutral-900/80">
         <span class="grid size-12 shrink-0 place-items-center border border-white/10 bg-white/[0.025] transition group-hover:border-white/25">
           <img src={`/images/tech/${technology.icon}.svg`} width="26" height="26" alt="" loading="lazy" decoding="async" class="size-6 object-contain" />
         </span>
         <div>
-          <p class="m-0 text-[0.55rem] tracking-[0.16em] text-neutral-500 uppercase">{technology.group}</p>
+          <p class="m-0 font-mono text-[0.75rem] tracking-[0.14em] text-neutral-500 uppercase">{technology.group}</p>
           <h3 class="mt-1! font-['Playfair_Display',Georgia,serif] text-xl! font-semibold text-white">{technology.name}</h3>
-          <p class="mt-2 mb-0 text-xs leading-5 text-neutral-400">{technology.detail}</p>
+          <p class="mt-2 mb-0 text-sm leading-6 text-neutral-400">{technology.detail}</p>
         </div>
       </article>
     ))}

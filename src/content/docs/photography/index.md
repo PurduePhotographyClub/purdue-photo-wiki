@@ -9,7 +9,7 @@ sidebar:
 <div class="flex flex-col gap-12 sm:gap-16" id="gs-start">
   <section class="grid grid-cols-1 items-center gap-7 border border-white/10 bg-neutral-950 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-10 lg:p-10">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Your first photo walk</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Your first photo walk</p>
       <p class="m-0! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100 sm:text-3xl! lg:text-4xl!">
         Take the camera you already have. Go for a walk and follow the light.
       </p>
@@ -21,7 +21,7 @@ sidebar:
       <a class="group block text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-5" aria-label="View Dylan Chu photo full size">
         <img class="block aspect-[3/4] h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-5.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="eager" fetchpriority="high" decoding="async" />
       </a>
-      <figcaption class="absolute right-3 bottom-3 m-0! border border-white/10 bg-black/75 px-2 py-1 font-['Space_Mono',monospace] text-[0.6rem]! leading-4! tracking-[0.1em] text-neutral-300 uppercase backdrop-blur-sm">
+      <figcaption class="absolute right-3 bottom-3 m-0! border border-white/10 bg-black/75 px-2 py-1 font-['Space_Mono',monospace] text-[0.68rem]! leading-4! tracking-[0.1em] text-neutral-300 uppercase backdrop-blur-sm">
         Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a>
       </figcaption>
     </figure>
@@ -58,7 +58,7 @@ sidebar:
 
   <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-8 sm:pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-10" id="gs-gear">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Before buying gear</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Before buying gear</p>
       <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Find what you like to photograph</h2>
       <p class="m-0! text-neutral-300">
         Cameras get expensive fast. First, notice what you enjoy photographing: portraits, cars, concerts, campus at night, or small details. That will tell you what gear you need.
@@ -71,14 +71,14 @@ sidebar:
       <a class="group block text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-1" aria-label="View Dylan Chu photo full size">
         <img class="block aspect-[3/4] h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-1.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
       </a>
-      <figcaption class="absolute right-3 bottom-3 m-0! border border-white/10 bg-black/75 px-2 py-1 font-['Space_Mono',monospace] text-[0.6rem]! leading-4! tracking-[0.1em] text-neutral-300 uppercase backdrop-blur-sm">
+      <figcaption class="absolute right-3 bottom-3 m-0! border border-white/10 bg-black/75 px-2 py-1 font-['Space_Mono',monospace] text-[0.68rem]! leading-4! tracking-[0.1em] text-neutral-300 uppercase backdrop-blur-sm">
         Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a>
       </figcaption>
     </figure>
   </section>
 
   <section class="border-t border-white/10 pt-8 sm:pt-10" id="gs-gallery">
-    <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Photos from club members</p>
+    <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Photos from club members</p>
     <h2 class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">The camera matters less than your attention</h2>
     <p class="mt-5! mb-0! text-neutral-300">
       The world is already full of photos. Look closely, choose a frame, and press the button when the moment feels right.
@@ -97,7 +97,7 @@ sidebar:
         <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-4.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
       </a>
     </div>
-    <p class="mt-3! mb-0! text-right font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
+    <p class="mt-3! mb-0! text-right font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
       Photos by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a> and <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a>
     </p>
   </section>
@@ -106,7 +106,7 @@ sidebar:
     <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
     <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
       <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/linzzi.webp" width="2048" height="1152" alt="Photo by Linzzi Ji" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a></figcaption>
+      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a></figcaption>
     </figure>
     <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
   </div>
@@ -115,7 +115,7 @@ sidebar:
     <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gear" tabindex="-1" aria-label="Close photo viewer"></a>
     <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
       <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-1.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
+      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
     </figure>
     <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gear" aria-label="Close photo viewer">×</a>
   </div>
@@ -124,7 +124,7 @@ sidebar:
     <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
     <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
       <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-2.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
+      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
     </figure>
     <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
   </div>
@@ -133,7 +133,7 @@ sidebar:
     <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
     <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
       <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-3.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
+      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
     </figure>
     <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
   </div>
@@ -142,7 +142,7 @@ sidebar:
     <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
     <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
       <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-4.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
+      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
     </figure>
     <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
   </div>
@@ -151,7 +151,7 @@ sidebar:
     <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-start" tabindex="-1" aria-label="Close photo viewer"></a>
     <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
       <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-5.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.62rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
+      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
     </figure>
     <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-start" aria-label="Close photo viewer">×</a>
   </div>

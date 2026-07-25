@@ -21,13 +21,13 @@ function hasCurrent(entries: any[] = []): boolean {
 {isRoot ? (
   <>
     <div class="mb-5 border-b border-white/10 px-3 pb-4">
-      <p class="m-0 text-[0.58rem] tracking-[0.22em] text-amber-200/80 uppercase">Choose a guide</p>
-      <p class="mt-2 mb-0 text-xs leading-5 text-neutral-400">Learn photography or how the club's online tools work.</p>
+      <p class="m-0 font-mono text-[0.75rem] tracking-[0.18em] text-amber-200/80 uppercase">Choose a guide</p>
+      <p class="mt-2 mb-0 text-sm leading-6 text-neutral-400">Learn photography or how the club's online tools work.</p>
     </div>
     <SidebarPersister>
       <Astro.self sublist={sublist} />
     </SidebarPersister>
-    <div class="mt-8 border-t border-white/10 px-3 pt-4 pb-6 text-[0.58rem] tracking-[0.18em] text-neutral-500 uppercase">PPC Wiki · v0.2</div>
+    <div class="mt-8 border-t border-white/10 px-3 pt-4 pb-6 font-mono text-[0.75rem] tracking-[0.16em] text-neutral-500 uppercase">PPC Wiki · v0.2</div>
   </>
 ) : (
   <ul class:list={['m-0 list-none p-0', !nested && 'space-y-4']}>
@@ -39,7 +39,7 @@ function hasCurrent(entries: any[] = []): boolean {
               href={entry.href}
               aria-current={entry.isCurrent ? 'page' : undefined}
               class:list={[
-                'group flex min-h-11 items-center border-l-2 px-3 py-2 text-[0.72rem] leading-5 no-underline transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200',
+                'group flex min-h-11 items-center border-l-2 px-3 py-2 text-sm leading-6 no-underline transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200',
                 entry.isCurrent
                   ? 'border-amber-200 bg-white/[0.06] text-white'
                   : 'border-transparent text-neutral-400 hover:border-white/20 hover:bg-white/[0.03] hover:text-white',
@@ -51,7 +51,7 @@ function hasCurrent(entries: any[] = []): boolean {
           </>
         ) : (
           <details open={hasCurrent(entry.entries) || !entry.collapsed} class="group/details">
-            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between border-b border-white/10 px-3 py-2 text-[0.62rem] font-bold tracking-[0.18em] text-neutral-300 uppercase transition hover:text-white marker:hidden">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between border-b border-white/10 px-3 py-2 font-mono text-[0.7rem] font-bold tracking-[0.16em] text-neutral-300 uppercase transition hover:text-white marker:hidden">
               <span>{entry.label}</span>
               <svg viewBox="0 0 16 16" aria-hidden="true" class="size-4 fill-none stroke-current transition group-open/details:rotate-90">
                 <path d="m6 3 5 5-5 5" />

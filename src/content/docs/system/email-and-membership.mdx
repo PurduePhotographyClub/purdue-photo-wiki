@@ -47,7 +47,7 @@ The TooCOOL parser turns the receipt text into an order ID, purchaser details, l
 Parsing does not create a membership or send a notification. It only prepares a limited request for the API.
 
 <div className="my-8 border-l-2 border-rose-300 bg-rose-300/[0.04] p-6">
-  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">The API checks the parsed order again before it creates a key, sends an email, or updates Discord.</p>
+  <p className="m-0 text-xl leading-8 font-semibold text-white">The API checks the parsed order again before it creates a key, sends an email, or updates Discord.</p>
 </div>
 
 ## First duplicate check: KV intake state
@@ -70,14 +70,14 @@ The API receives the parsed receipt through a private service-binding route. Bef
 
 This D1 record sits next to the order result, so it is the final duplicate check. Two emails can produce the same parsed purchase, but only one request can own the fulfillment.
 
-<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
+<div className="my-10 grid gap-4 lg:grid-cols-2 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-sky-200 uppercase">KV check</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-sky-200 uppercase">KV check</p>
     <h3 className="mt-3! text-2xl!">Was this parsed purchase already sent?</h3>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Stops repeated API submissions, schedules retries, and tracks parsed purchases.</p>
   </article>
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">D1 check</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">D1 check</p>
     <h3 className="mt-3! text-2xl!">Was this order already processed?</h3>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Stops duplicate activation keys, emails, membership changes, and Discord notifications.</p>
   </article>

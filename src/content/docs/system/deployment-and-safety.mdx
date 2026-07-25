@@ -62,7 +62,7 @@ The API normally binds to the Discord Worker. In a new environment, the API expe
 The API has a bootstrap deployment that creates a temporary Wrangler file without the Discord binding. This lets the API deploy first. The Discord Worker deploys next, and then the API deploys normally with the binding restored.
 
 <div className="my-8 border-l-2 border-rose-300 bg-rose-300/[0.04] p-6">
-  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">Use bootstrap only to create an environment. It is not the normal production setup.</p>
+  <p className="m-0 text-xl leading-8 font-semibold text-white">Use bootstrap only to create an environment. It is not the normal production setup.</p>
 </div>
 
 The bootstrap setup cannot send Discord events. Check that the normal binding is restored after both services exist.
@@ -87,17 +87,17 @@ A healthy Gateway can also send an event that the Worker rejects because its sec
 
 Public settings can stay in the repository. Secrets cannot.
 
-<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-3">
+<div className="my-10 grid gap-4 lg:grid-cols-3 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-sky-200 uppercase">Stored in Git</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-sky-200 uppercase">Stored in Git</p>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Service names, D1, R2 and KV bindings, rate-limit namespaces, Cron expressions, routes, compatibility dates, and other public settings.</p>
   </article>
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-rose-200 uppercase">Stored as secrets</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-rose-200 uppercase">Stored as secrets</p>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Auth secrets, OAuth credentials, internal tokens, signing secrets, Discord tokens, Resend keys, Turnstile keys, and external API credentials.</p>
   </article>
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">Set when deployed</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">Set when deployed</p>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Service bindings, custom domains, VPC routes, Email Routing, and VPS environment values that connect the services.</p>
   </article>
 </div>

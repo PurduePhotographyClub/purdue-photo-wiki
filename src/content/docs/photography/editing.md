@@ -7,7 +7,7 @@ accent: violet
 <div class="space-y-12 text-neutral-300 sm:space-y-14" id="editing-start">
   <section class="grid items-center gap-8 border-b border-white/10 pb-12 sm:pb-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Edit what the photo needs</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Edit what the photo needs</p>
       <p class="m-0! max-w-2xl! font-['Playfair_Display',Georgia,serif] text-2xl leading-snug text-neutral-100 sm:text-3xl">
         Editing can fix a small problem or shape the whole photo.
       </p>
@@ -26,22 +26,22 @@ accent: violet
 
   <nav class="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 xl:grid-cols-4" aria-label="Editing page sections">
     <a class="group flex min-h-44 flex-col gap-2 bg-neutral-950 p-5 text-neutral-300 no-underline! transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-violet-300" href="#cropping">
-      <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.18em] text-violet-300">01</span>
+      <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.18em] text-violet-300">01</span>
       <strong class="mt-auto font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100!">Cropping</strong>
       <p>Level the photo, choose its shape, and remove distractions.</p>
     </a>
     <a class="group flex min-h-44 flex-col gap-2 bg-neutral-950 p-5 text-neutral-300 no-underline! transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-violet-300" href="#value">
-      <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.18em] text-violet-300">02</span>
+      <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.18em] text-violet-300">02</span>
       <strong class="mt-auto font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100!">Value</strong>
       <p>Adjust brightness, shadows, highlights, and contrast.</p>
     </a>
     <a class="group flex min-h-44 flex-col gap-2 bg-neutral-950 p-5 text-neutral-300 no-underline! transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-violet-300" href="#tone-curve">
-      <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.18em] text-violet-300">03</span>
+      <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.18em] text-violet-300">03</span>
       <strong class="mt-auto font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100!">Tone curve</strong>
       <p>Use a curve and histogram for precise control of brightness.</p>
     </a>
     <a class="group flex min-h-44 flex-col gap-2 bg-neutral-950 p-5 text-neutral-300 no-underline! transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-violet-300" href="#color">
-      <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.18em] text-violet-300">04</span>
+      <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.18em] text-violet-300">04</span>
       <strong class="mt-auto font-['Playfair_Display',Georgia,serif] text-xl text-neutral-100!">Color</strong>
       <p>Adjust white balance, saturation, color grading, and HSL.</p>
     </a>
@@ -49,7 +49,7 @@ accent: violet
 
   <section class="grid scroll-mt-24 gap-8 border-t border-white/10 pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.8fr)] lg:items-start lg:gap-12" id="cropping">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Cropping</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Cropping</p>
       <h2 class="mt-0! border-0! pt-0!">Straighten and trim the frame</h2>
       <p>
         Use the level and rotation tools to fix a tilted camera. Small changes can make the photo feel more balanced.
@@ -78,7 +78,7 @@ accent: violet
       <img class="h-full min-h-64 w-full object-cover" src="/images/pages/editing/panorama-crop.webp" width="2400" height="886" alt="Wide cropped view of the San Francisco skyline from across the bay." loading="lazy" decoding="async" />
     </figure>
     <div class="space-y-5 p-6 sm:p-8">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Aspect ratio</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Aspect ratio</p>
       <h3 class="mt-0!">Keep only the space that helps</h3>
       <p>
         A wide landscape may include too much empty sky or water. Empty space can help a photo, but crop it out when it adds nothing.
@@ -88,7 +88,7 @@ accent: violet
 
   <section class="grid scroll-mt-24 gap-8 border-t border-white/10 pt-10 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1fr)] lg:items-start lg:gap-12" id="value">
     <div class="space-y-5 lg:order-2">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Value</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Value</p>
       <h2 class="mt-0! border-0! pt-0!">Start with brightness and contrast</h2>
       <p>
         <span class="font-bold text-emerald-300">Value</span>, the V in HSV, means how bright or dark each part of an image is. Set the light and dark areas before adjusting color.
@@ -98,12 +98,12 @@ accent: violet
       </p>
       <div class="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2" aria-label="Value slider meanings">
         <div class="space-y-2 bg-neutral-950 p-5">
-          <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Blacks / Whites</span>
+          <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Blacks / Whites</span>
           <strong class="block text-neutral-100!">The darkest and brightest points</strong>
           <p>The darkest darks and brightest brights in the photo.</p>
         </div>
         <div class="space-y-2 bg-neutral-950 p-5">
-          <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Shadows / Highlights</span>
+          <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Shadows / Highlights</span>
           <strong class="block text-neutral-100!">The wider dark and bright areas</strong>
           <p>Use these for gentler changes across more of the photo.</p>
         </div>
@@ -116,7 +116,7 @@ accent: violet
   </section>
 
   <section class="scroll-mt-24 space-y-5 border-t border-white/10 pt-10" id="tone-curve">
-    <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Tone curve</p>
+    <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Tone curve</p>
     <h2 class="mt-0! border-0! pt-0!">Adjust contrast with the tone curve</h2>
     <p>
       The tone curve gives more control than the basic sliders. Think of the straight line as <span class="font-bold text-violet-300">y = x</span>. The horizontal axis shows the original brightness. The vertical axis shows the brightness after editing. A straight line makes no change.
@@ -155,7 +155,7 @@ accent: violet
 
   <section class="grid scroll-mt-24 gap-8 border-t border-white/10 pt-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(20rem,1.1fr)] lg:items-start lg:gap-12" id="color">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Color</p>
+      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Color</p>
       <h2 class="mt-0! border-0! pt-0!">Use color to support the photo</h2>
       <p>
         Start with white balance, tint, vibrance, and saturation. Temperature makes the image warmer or cooler. Tint moves it toward green or magenta.
@@ -202,49 +202,49 @@ accent: violet
   </section>
 
   <section class="scroll-mt-24 space-y-5 border-t border-white/10 pt-10" id="software">
-    <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Software</p>
+    <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">Software</p>
     <h2 class="mt-0! border-0! pt-0!">Choose an editor you will use</h2>
     <p>
       Adobe Lightroom is common, but it requires a subscription for desktop plans. Other editors may fit you better. Check current prices before buying because plans change.
     </p>
     <div class="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 xl:grid-cols-4" aria-label="Editing software options">
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Common default</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Common default</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://www.adobe.com/products/photoshop-lightroom/plans.html" target="_blank" rel="noopener noreferrer">Adobe Lightroom</a></strong>
         <p>Organizes photos and edits Raw files, including many photos at once. Desktop plans are paid.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Mobile start</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Mobile start</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://www.adobe.com/products/photoshop-lightroom/mobile.html" target="_blank" rel="noopener noreferrer">Lightroom Mobile</a></strong>
         <p>A free phone editor with fewer tools than the desktop version. It is enough for many first edits.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / open source</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / open source</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://www.darktable.org/" target="_blank" rel="noopener noreferrer">darktable</a></strong>
         <p>A free editor with many tools and a steeper learning curve. Its masking and noise-reduction tools differ from Lightroom.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / open source</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / open source</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://rawtherapee.com/" target="_blank" rel="noopener noreferrer">RawTherapee</a></strong>
         <p>Free software for processing Raw files, similar to darktable.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Professional paid</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Professional paid</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://www.captureone.com/en/pricing/capture-one-pro" target="_blank" rel="noopener noreferrer">Capture One</a></strong>
         <p>A paid professional editor with a different workflow from Lightroom.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Professional paid</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Professional paid</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://www.dxo.com/dxo-photolab/" target="_blank" rel="noopener noreferrer">DxO PhotoLab</a></strong>
         <p>A paid professional editor known for noise reduction.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / pixel editor</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / pixel editor</span>
         <strong class="block"><a class="inline-flex min-h-11 items-center" href="https://www.canva.com/newsroom/news/all-new-affinity/" target="_blank" rel="noopener noreferrer">Affinity</a></strong>
         <p>A free Canva-owned design app. It works more like Photoshop than Lightroom.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.62rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / camera brand</span>
+        <span class="font-['Space_Mono',monospace] text-[0.7rem] font-bold tracking-[0.14em] text-violet-300 uppercase">Free / camera brand</span>
         <strong class="flex min-h-11 items-center text-neutral-100!">Manufacturer software</strong>
         <p>Most camera brands offer free software for their files. These apps can be awkward to use.</p>
       </div>
@@ -252,39 +252,39 @@ accent: violet
   </section>
 
   <section class="scroll-mt-24 space-y-5 border-t border-white/10 pt-10" id="guidelines">
-    <p class="m-0! font-['Space_Mono',monospace] text-[0.68rem] font-bold tracking-[0.18em] text-violet-300 uppercase">General guidelines</p>
+    <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem] font-bold tracking-[0.18em] text-violet-300 uppercase">General guidelines</p>
     <h2 class="mt-0! border-0! pt-0!">Simple editing habits</h2>
     <p>
       There is no single recipe. Use these ideas as a starting point, then make the edit fit the photo.
     </p>
     <div class="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 xl:grid-cols-3" aria-label="Editing advice">
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.16em] text-violet-300">01</span>
+        <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.16em] text-violet-300">01</span>
         <strong class="block text-neutral-100!">Do not overcook it</strong>
         <p>Take breaks. After staring at one photo for too long, you may stop noticing that the edit is too strong.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.16em] text-violet-300">02</span>
+        <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.16em] text-violet-300">02</span>
         <strong class="block text-neutral-100!">Play with the sliders</strong>
         <p>Move a slider and watch what changes. Experimenting helps you learn each tool.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.16em] text-violet-300">03</span>
+        <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.16em] text-violet-300">03</span>
         <strong class="block text-neutral-100!">Look for inspiration</strong>
         <p>Find photographers whose edits you like. Study their use of light, color, and contrast.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.16em] text-violet-300">04</span>
+        <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.16em] text-violet-300">04</span>
         <strong class="block text-neutral-100!">Use saturation carefully</strong>
         <p>High global saturation can make colors look false. Sometimes one color needs less saturation or brightness.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.16em] text-violet-300">05</span>
+        <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.16em] text-violet-300">05</span>
         <strong class="block text-neutral-100!">Check black and white points</strong>
         <p>The white point sets the brightest white. The black point sets the darkest black. A white border can help you see whether the whole photo is too dark.</p>
       </div>
       <div class="space-y-3 bg-neutral-950 p-5">
-        <span class="font-['Space_Mono',monospace] text-[0.65rem] font-bold tracking-[0.16em] text-violet-300">06</span>
+        <span class="font-['Space_Mono',monospace] text-[0.72rem] font-bold tracking-[0.16em] text-violet-300">06</span>
         <strong class="block text-neutral-100!">Let shadows be shadows</strong>
         <p>Brightening every shadow and darkening every highlight can make the photo look flat. Some areas should stay dark.</p>
       </div>

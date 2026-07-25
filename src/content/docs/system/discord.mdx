@@ -41,14 +41,14 @@ Both directions use HMAC, a signature made with a shared secret. It lets the rec
 
 Data moves in two directions:
 
-<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
+<div className="my-10 grid gap-4 lg:grid-cols-2 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-indigo-200 uppercase">Gateway to Worker</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-indigo-200 uppercase">Gateway to Worker</p>
     <h3 className="mt-3! text-2xl!">Allowed Discord events</h3>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Websocket event → channel and event checks → unneeded data removed → signed HMAC request with a timestamp → Worker verification → one-time nonce claimed in D1 → workflow handler.</p>
   </article>
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-emerald-200 uppercase">Worker to gateway</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">Worker to gateway</p>
     <h3 className="mt-3! text-2xl!">Private bot status updates</h3>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Worker service → Cloudflare VPC binding → gateway `/presence` route → HMAC check → discord.js status update.</p>
   </article>
@@ -83,7 +83,7 @@ The Worker parses and sends the event only after the nonce claim succeeds.
 Service-binding requests may be sent again when a response is lost or unclear. Without a shared nonce claim, one event could create two channels, send two DMs, or add the same role twice. Once D1 accepts a nonce, it rejects that nonce if it appears again.
 
 <div className="my-8 border-l-2 border-indigo-300 bg-indigo-300/[0.04] p-6">
-  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">The signature shows who sent the event. The nonce stops the same event from running twice.</p>
+  <p className="m-0 text-xl leading-8 font-semibold text-white">The signature shows who sent the event. The nonce stops the same event from running twice.</p>
 </div>
 
 Each known event type must have the fields its service expects. There is one narrow fallback for a generic message: an unknown event may continue only if it has valid message content or embeds. The Worker rejects anything that matches neither a known event type nor that fallback.

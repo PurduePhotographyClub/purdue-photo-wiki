@@ -25,17 +25,17 @@ It does four things:
 
 Cookies and authorization headers still go to the API because Better Auth, the account library, needs them to find the session. The API can also tell that the full request came through an approved service.
 
-<div className="my-8 grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
+<div className="my-10 grid gap-4 md:grid-cols-3 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-5">
-    <p className="m-0 text-[0.58rem] tracking-[0.16em] text-rose-200 uppercase">Not trusted from a browser</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.16em] text-rose-200 uppercase">Not trusted from a browser</p>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Private tokens, service identity, signed-event details, and trusted proxy headers.</p>
   </article>
   <article className="bg-neutral-950 p-5">
-    <p className="m-0 text-[0.58rem] tracking-[0.16em] text-sky-200 uppercase">Sent when needed</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.16em] text-sky-200 uppercase">Sent when needed</p>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Session cookies, authorization headers, content type, body, method, query string, and safe browser details.</p>
   </article>
   <article className="bg-neutral-950 p-5">
-    <p className="m-0 text-[0.58rem] tracking-[0.16em] text-emerald-200 uppercase">Added by the website</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.16em] text-emerald-200 uppercase">Added by the website</p>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">The shared private token, plus rebuilt host, protocol, and client-IP details. The website removes <code>x-pcc-internal-source</code> and does not add a website source label.</p>
   </article>
 </div>
@@ -86,14 +86,14 @@ If the API cannot find a valid session, protected routes treat the request as an
 
 The system has two Discord account flows.
 
-<div className="my-8 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
+<div className="my-10 grid gap-4 lg:grid-cols-2 [&>article]:border [&>article]:border-white/10">
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-indigo-200 uppercase">OAuth account link</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-indigo-200 uppercase">OAuth account link</p>
     <h3 className="mt-3! text-2xl!">Connect a website account to Discord</h3>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Better Auth completes Discord OAuth and links that Discord identity to the account. Its account checks enforce the server policy. The website receives a stable <code>discordId</code> for permission checks and updates.</p>
   </article>
   <article className="bg-neutral-950 p-6">
-    <p className="m-0 text-[0.58rem] tracking-[0.18em] text-amber-200 uppercase">Verification code</p>
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-amber-200 uppercase">Verification code</p>
     <h3 className="mt-3! text-2xl!">Complete Discord server verification</h3>
     <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">A separate check stores a short-lived code, its expiry, the attempt limit, and the related application. To finish, the API checks Turnstile, marks the code as used, and sends a Discord event to update the role and nickname.</p>
   </article>

@@ -30,12 +30,16 @@ test('the homepage offers two clear paths without a decorative hero image', () =
   assert.doesNotMatch(homepage, /<\/a>\n\s*\n\s*<a/, 'blank lines between HTML cards render later cards as source text');
 });
 
-test('the wiki uses a minimal Tailwind entry with no authored style blocks', () => {
+test('the wiki keeps shared theme tokens in its Tailwind entry with no component style blocks', () => {
   assert.equal(existsSync(join(projectRoot, 'src/styles/wiki.css')), false);
 
   const tailwindEntry = readProjectFile('src/styles/tailwind.css');
   assert.match(tailwindEntry, /@import ['"]tailwindcss['"]/);
   assert.doesNotMatch(tailwindEntry, /@layer\s+(?:base|components)/);
+  assert.match(tailwindEntry, /--font-sans:/);
+  assert.match(tailwindEntry, /html\[data-theme=['"]light['"]\]/);
+  assert.match(tailwindEntry, /--color-neutral-950:/);
+  assert.match(tailwindEntry, /html\[data-theme=['"]light['"]\] \.wiki-brand-logo[\s\S]+filter:\s*invert\(1\)/);
 
   const authoredUi = sourceFiles('src', ['.astro', '.md', '.mdx', '.ts', '.js'])
     .map((path) => readFileSync(path, 'utf8'))
@@ -81,7 +85,17 @@ test('the responsive wiki shell is made from explicit Tailwind components', () =
   assert.match(header, /lg:ml-auto!/);
   assert.match(header, /aria-controls="starlight__sidebar"/);
   assert.match(header, /min-h-11/);
-  assert.match(themeProvider, /dataset\.theme\s*=\s*['"]dark['"]/);
+  assert.match(header, /data-wiki-theme-toggle/);
+  assert.match(header, /data-theme-icon="sun"/);
+  assert.match(header, /data-theme-icon="moon"/);
+  assert.match(header, /Use light theme/);
+  assert.match(header, /Use dark theme/);
+  assert.match(header, /localStorage\.setItem\(['"]starlight-theme['"]/);
+  assert.doesNotMatch(header, /ThemeSelect|<select\b/);
+  assert.match(themeProvider, /localStorage\.getItem\(['"]starlight-theme['"]\)/);
+  assert.match(themeProvider, /try\s*\{[\s\S]+localStorage\.getItem[\s\S]+catch\s*\{/);
+  assert.match(themeProvider, /prefers-color-scheme:\s*light/);
+  assert.doesNotMatch(themeProvider, /dataset\.theme\s*=\s*['"]dark['"]/);
 });
 
 test('article rails, headings, and page controls keep a centered readable rhythm', () => {
@@ -100,6 +114,9 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(pageTitle, /px-4[^\n]+sm:px-7[^\n]+lg:px-10[^\n]+xl:px-12/);
   assert.match(pageTitle, /text-4xl[^\n]+sm:text-5xl[^\n]+lg:text-6xl/);
   assert.match(markdown, /sl-markdown-content/);
+  assert.match(markdown, /\btext-base\b/);
+  assert.match(markdown, /sm:text-\[1\.0625rem\]/);
+  assert.match(markdown, /sm:leading-8/);
   assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:mt-14!/);
   assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h2\]:pt-8!/);
   assert.match(markdown, /\[&_\.sl-heading-wrapper\.level-h3\]:mt-10!/);
@@ -121,8 +138,9 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(gettingStarted, /mb-8![^\n]+sm:mb-10!/);
   assert.match(gettingStarted, /gap-5[^\n]+py-6[^\n]+sm:gap-7[^\n]+sm:py-7/);
   assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
-  assert.match(footer, /mx-auto![^\n]+max-w-6xl[^\n]+py-12[^\n]+sm:py-16/);
-  assert.match(footer, /mx-auto! w-full max-w-6xl/);
+  assert.match(footer, /\bw-screen\b/);
+  assert.match(footer, /lg:ml-\[calc\(-50vw-8\.5rem\)\]!/);
+  assert.match(footer, /mx-auto! w-full max-w-7xl/);
 });
 
 test('custom photography pages use a compact section rhythm', () => {
@@ -156,18 +174,47 @@ test('custom photography pages use a compact section rhythm', () => {
 test('the wiki footer mirrors the club website footer', () => {
   const footer = readProjectFile('src/components/WikiFooter.astro');
 
-  assert.match(footer, /max-w-6xl/);
-  assert.match(footer, /Purdue photographers have learned and worked together since 1934\./);
+  assert.match(footer, /max-w-7xl/);
+  assert.match(footer, /Film, digital, darkroom, and club work at Purdue since 1934\./);
   assert.match(footer, />Club links</);
-  for (const label of ['Gallery', 'Competitions', 'Facilities', 'Membership', 'Events', 'Request']) {
+  for (const label of ['Gallery', 'Members', 'Competitions', 'Facilities', 'Membership', 'Events', 'Request']) {
     assert.match(footer, new RegExp(label));
   }
   for (const label of ['Instagram', 'Discord', 'Email', 'Linktree', 'BoilerLink']) {
     assert.match(footer, new RegExp(label));
   }
   assert.match(footer, /instagram\.com\/alesgs\.photos/);
+  assert.match(footer, /Made with love by/);
+  assert.match(footer, /class="wiki-brand-logo/);
   assert.doesNotMatch(footer, /newsletter|LISTSERV|data-wiki-newsletter/i);
   assert.doesNotMatch(footer, /text-\[0\.62rem\][^"\n]*text-neutral-500/);
+});
+
+test('the homepage has a compact, page-specific introduction', () => {
+  const pageTitle = readProjectFile('src/components/WikiPageTitle.astro');
+  const homepage = readProjectFile('src/content/docs/index.md');
+
+  assert.match(pageTitle, /const isHomepage = route\.id === ['"]index['"]/);
+  assert.match(pageTitle, /Photography and club guides/);
+  assert.match(pageTitle, /isHomepage \?/);
+  assert.match(pageTitle, /max-w-6xl/);
+  assert.match(homepage, /title: Photography and club guides/);
+});
+
+test('system pages use larger type and calmer card layouts', () => {
+  const diagram = readProjectFile('src/components/SystemDiagram.astro');
+  const technologies = readProjectFile('src/components/TechnologyGrid.astro');
+  const systemPages = sourceFiles('src/content/docs/system', ['.mdx'])
+    .map((path) => readFileSync(path, 'utf8'))
+    .join('\n');
+
+  assert.match(diagram, /text-sm leading-6 text-current/);
+  assert.match(diagram, /text-sm leading-6 text-neutral-400/);
+  assert.match(diagram, /space-y-4/);
+  assert.doesNotMatch(diagram, /space-y-px/);
+  assert.match(technologies, /grid gap-4/);
+  assert.match(technologies, /text-sm leading-6 text-neutral-400/);
+  assert.doesNotMatch(systemPages, /grid gap-px border border-white\/10 bg-white\/10/);
 });
 
 test('the system guide covers the complete service chain with accessible diagrams', () => {
@@ -200,8 +247,9 @@ test('the system guide covers the complete service chain with accessible diagram
   assert.match(diagrams, /kind: 'collection'/);
   assert.ok((diagrams.match(/layout: 'compact-flow'/g) ?? []).length >= 5);
   assert.match(diagrams, /@container/);
-  assert.match(diagrams, /@4xl:flex-row/);
-  assert.match(diagrams, /@4xl:grid-cols-3/);
+  assert.match(diagrams, /@5xl:flex-row/);
+  assert.match(diagrams, /@3xl:grid-cols-2/);
+  assert.match(diagrams, /@5xl:grid-cols-3/);
   assert.match(diagrams, /const ListTag = isSequence \? 'ol' : 'ul'/);
   assert.match(diagrams, /isSequence && index < lane\.nodes\.length - 1/);
   assert.match(diagrams, /isSequence \? String\(index \+ 1\)\.padStart\(2, '0'\) : '•'/);

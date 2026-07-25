@@ -52,10 +52,10 @@ The final summary counts the jobs that passed and failed. If one job fails, the 
 
 Each request is a `POST` to an internal URL. It includes three headers:
 
-<div className="my-8 grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
-  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-sky-200 uppercase">Source</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-internal-source</code> names the caller as <code>scheduler-worker</code>.</p></article>
-  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-rose-200 uppercase">Token</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-internal-token</code> must match the shared secret in the API.</p></article>
-  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.58rem] tracking-[0.16em] text-amber-200 uppercase">Scheduled time</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-scheduled-at</code> holds the original Cron timestamp.</p></article>
+<div className="my-10 grid gap-4 md:grid-cols-3 [&>article]:border [&>article]:border-white/10">
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-sky-200 uppercase">Source</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-internal-source</code> names the caller as <code>scheduler-worker</code>.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-rose-200 uppercase">Token</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-internal-token</code> must match the shared secret in the API.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-amber-200 uppercase">Scheduled time</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-scheduled-at</code> holds the original Cron timestamp.</p></article>
 </div>
 
 The source header is not proof by itself because a browser can make the same header. The internal token and service binding prove that the request came from a trusted service.
@@ -75,7 +75,7 @@ A lease records:
 If another request arrives while the lease is active, the API does not run that job again. When the job ends, the API records success or failure and updates the lease state.
 
 <div className="my-8 border-l-2 border-amber-200 bg-amber-200/[0.04] p-6">
-  <p className="m-0 font-['Playfair_Display',Georgia,serif] text-xl leading-snug text-white">The scheduler sends the request. The API decides whether the job can run.</p>
+  <p className="m-0 text-xl leading-8 font-semibold text-white">The scheduler sends the request. The API decides whether the job can run.</p>
 </div>
 
 ## Each job must still avoid duplicate changes
