@@ -20,6 +20,7 @@ const socialLinks = [
   { href: 'mailto:photo@purdue.edu', label: 'Email', icon: 'email', external: false },
   { href: 'https://linktr.ee/purduephotoclub', label: 'Linktree', icon: 'external', external: true },
   { href: 'https://boilerlink.purdue.edu/organization/photoclub', label: 'BoilerLink', icon: 'external', external: true },
+  { href: 'https://github.com/PurduePhotographyClub', label: 'GitHub', icon: 'github', external: true },
 ];
 
 const footerLinkClasses = 'inline-flex min-h-11 items-center text-sm tracking-wide text-neutral-500 no-underline transition-colors hover:text-white focus-visible:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400 md:min-h-0';
@@ -34,7 +35,7 @@ const footerLinkClasses = 'inline-flex min-h-11 items-center text-sm tracking-wi
 <footer class="relative left-1/2 w-screen -ml-[50vw]! border-t border-neutral-800 bg-neutral-950 px-5 py-10 sm:px-7 sm:py-12 lg:ml-[calc(-50vw-8.5rem)]! lg:px-10 xl:px-12">
   <div class="lg:pl-[17rem]">
     <div class="mx-auto! w-full max-w-6xl">
-      <div class="mb-9 grid grid-cols-1 gap-9 md:grid-cols-[1.15fr_1fr_0.8fr] md:gap-10">
+      <div class="grid grid-cols-1 gap-9 pb-12 md:grid-cols-[1.15fr_1fr_0.8fr] md:gap-10">
       <div>
         <a href={mainSite} class="inline-flex min-h-11 items-center gap-3 text-white no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">
           <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="wiki-brand-logo size-10 object-contain" />
@@ -90,6 +91,12 @@ const footerLinkClasses = 'inline-flex min-h-11 items-center text-sm tracking-wi
                   <path d="M15 3h6v6"></path>
                   <path d="M10 14 21 3"></path>
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                </svg>
+              )}
+              {link.icon === 'github' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3.28-.36 6.72-1.61 6.72-7.25A5.65 5.65 0 0 0 19.22 3.3 5.35 5.35 0 0 0 19.08.35S17.9 0 15 1.48a13.38 13.38 0 0 0-7 0C5.1 0 3.92.35 3.92.35A5.35 5.35 0 0 0 3.77 3.3a5.65 5.65 0 0 0-1.5 3.95c0 5.63 3.44 6.88 6.72 7.25A4.8 4.8 0 0 0 8 18v4"></path>
+                  <path d="M9 18c-4.51 2-5-2-7-2"></path>
                 </svg>
               )}
               {link.label}

@@ -238,9 +238,18 @@ test('the wiki footer mirrors the club website footer', () => {
   for (const label of ['Gallery', 'Members', 'Competitions', 'Facilities', 'Membership', 'Events', 'Request']) {
     assert.match(footer, new RegExp(label));
   }
-  for (const label of ['Instagram', 'Discord', 'Email', 'Linktree', 'BoilerLink']) {
+  for (const label of ['Instagram', 'Discord', 'Email', 'Linktree', 'BoilerLink', 'GitHub']) {
     assert.match(footer, new RegExp(label));
   }
+  assert.match(footer, /https:\/\/github\.com\/PurduePhotographyClub/);
+  assert.match(
+    footer,
+    /href: 'https:\/\/github\.com\/PurduePhotographyClub', label: 'GitHub', icon: 'github', external: true/,
+  );
+  assert.match(footer, /link\.icon === 'github'/);
+  assert.match(footer, /target=\{link\.external \? '_blank' : undefined\}/);
+  assert.match(footer, /rel=\{link\.external \? 'noopener noreferrer' : undefined\}/);
+  assert.match(footer, /\bpb-12\b/);
   assert.match(footer, /instagram\.com\/alesgs\.photos/);
   assert.match(footer, /Made with love by/);
   assert.match(footer, /class="wiki-brand-logo size-10 object-contain/);
