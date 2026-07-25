@@ -1,9 +1,9 @@
 ---
 title: Technical
-description: Sharpness, sensors, metering, file formats, and technical rabbit holes.
+description: How sensors, sharpness, metering, and image files work.
 accent: blue
 ---
 
-This page will collect deeper technical explanations for photographers who want to understand how the tools work.
+This guide is not ready yet. It will explain the camera technology you use most.
 
-## Coming soon
+## In progress

@@ -3,56 +3,70 @@ const route = Astro.locals.starlightRoute;
 const data = route.entry.data as typeof route.entry.data & {
   author?: string;
   date?: Date | string;
-  accent?:
-    | 'silver'
-    | 'slate'
-    | 'amber'
-    | 'orange'
-    | 'yellow'
-    | 'lime'
-    | 'green'
-    | 'emerald'
-    | 'teal'
-    | 'cyan'
-    | 'sky'
-    | 'blue'
-    | 'indigo'
-    | 'violet'
-    | 'purple'
-    | 'fuchsia'
-    | 'pink'
-    | 'rose'
-    | 'red';
+  accent?: 'silver' | 'slate' | 'amber' | 'orange' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'red';
 };
 
 const { title, description, author, date, accent = 'silver' } = data;
-const hasExplicitAccent = Boolean(data.accent);
-const id = route.id;
-const isWhatsNew = id === 'whats-new' || id.startsWith('whats-new/');
-const isHome = id === 'index';
-const topSection = id.split('/')[0]?.replaceAll('-', ' ') || 'PPC Wiki';
-const kicker = isWhatsNew ? "What's New" : topSection;
+const isHomepage = Astro.url.pathname === '/';
+const sectionLabels: Record<string, string> = {
+  index: 'Purdue Photography Club',
+  photography: 'Photography guides',
+  system: 'Club system guide',
+  '404': 'Page not found',
+};
+const section = route.id.split('/')[0] || 'index';
+const kicker = sectionLabels[section] ?? section.replaceAll('-', ' ');
 const formattedDate = date
-  ? new Intl.DateTimeFormat('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(new Date(date))
+  ? new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(date))
   : '';
+
+const accentClasses: Record<string, { text: string; line: string }> = {
+  silver: { text: 'text-neutral-300', line: 'bg-neutral-300/60' },
+  slate: { text: 'text-slate-300', line: 'bg-slate-300/60' },
+  amber: { text: 'text-amber-200', line: 'bg-amber-200/70' },
+  orange: { text: 'text-orange-200', line: 'bg-orange-200/70' },
+  yellow: { text: 'text-yellow-200', line: 'bg-yellow-200/70' },
+  lime: { text: 'text-lime-200', line: 'bg-lime-200/70' },
+  green: { text: 'text-green-200', line: 'bg-green-200/70' },
+  emerald: { text: 'text-emerald-200', line: 'bg-emerald-200/70' },
+  teal: { text: 'text-teal-200', line: 'bg-teal-200/70' },
+  cyan: { text: 'text-cyan-200', line: 'bg-cyan-200/70' },
+  sky: { text: 'text-sky-200', line: 'bg-sky-200/70' },
+  blue: { text: 'text-blue-200', line: 'bg-blue-200/70' },
+  indigo: { text: 'text-indigo-200', line: 'bg-indigo-200/70' },
+  violet: { text: 'text-violet-200', line: 'bg-violet-200/70' },
+  purple: { text: 'text-purple-200', line: 'bg-purple-200/70' },
+  fuchsia: { text: 'text-fuchsia-200', line: 'bg-fuchsia-200/70' },
+  pink: { text: 'text-pink-200', line: 'bg-pink-200/70' },
+  rose: { text: 'text-rose-200', line: 'bg-rose-200/70' },
+  red: { text: 'text-red-200', line: 'bg-red-200/70' },
+};
+const accentStyle = accentClasses[accent] ?? accentClasses.silver;
 ---
 
-<header class:list={['wiki-title-block', `accent-${accent}`, hasExplicitAccent && 'has-accent', isWhatsNew && 'is-whats-new', isHome && 'is-home']}>
-  <div class="wiki-title-kicker">
-    <span></span>
-    {kicker}
-  </div>
-  <h1 id="_top">{title}</h1>
-  {description && <p class="wiki-title-description">{description}</p>}
-  {(author || formattedDate) && (
-    <div class="wiki-title-meta" aria-label="Article details">
-      {author && <span>{author}</span>}
-      {author && formattedDate && <i aria-hidden="true"></i>}
-      {formattedDate && <time datetime={new Date(date as Date | string).toISOString()}>{formattedDate}</time>}
+{route.id !== '404' && (
+  <header class="mx-auto! mb-2 w-full max-w-6xl pt-8 pb-3 sm:pt-10 sm:pb-5 lg:pt-12">
+    <div class="border-b border-white/10 pb-7 sm:pb-8">
+      <div class:list={['flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.18em] uppercase', accentStyle.text]}>
+        <span aria-hidden="true" class:list={['h-px w-10', accentStyle.line]}></span>
+        {isHomepage ? 'PPC Wiki' : kicker}
+      </div>
+      <h1 id="_top" class:list={[
+        "mt-4 mb-0 max-w-[22ch] scroll-mt-24 font-['Playfair_Display',Georgia,serif] leading-[1.03] font-black tracking-tight text-balance text-white",
+        isHomepage ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl lg:text-5xl',
+      ]}>
+        {isHomepage ? 'Photography and club guides' : title}
+      </h1>
+      {!isHomepage && description && (
+        <p class="mt-4 max-w-[62ch] text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8">{description}</p>
+      )}
+      {(author || formattedDate) && (
+        <div class="mt-5 flex flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.14em] text-neutral-300 uppercase" aria-label="Page details">
+          {author && <span>{author}</span>}
+          {author && formattedDate && <span aria-hidden="true" class:list={['h-px w-7', accentStyle.line]}></span>}
+          {formattedDate && <time datetime={new Date(date as Date | string).toISOString()}>{formattedDate}</time>}
+        </div>
+      )}
     </div>
-  )}
-</header>
+  </header>
+)}

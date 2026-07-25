@@ -1,0 +1,304 @@
+---
+type Tone = 'neutral' | 'amber' | 'sky' | 'emerald' | 'violet' | 'rose' | 'discord';
+type DiagramType = 'platform' | 'request' | 'media' | 'discord' | 'receipt' | 'scheduler' | 'deployment';
+
+interface DiagramNode {
+  detail: string;
+  icon?: string;
+  label: string;
+  tone: Tone;
+}
+
+interface DiagramLane {
+  kind?: 'sequence' | 'parallel' | 'collection';
+  label: string;
+  layout?: 'standard' | 'compact-flow';
+  nodes: DiagramNode[];
+}
+
+interface Diagram {
+  caption: string;
+  description: string;
+  lanes: DiagramLane[];
+  title: string;
+}
+
+interface Props {
+  type: DiagramType;
+}
+
+const diagrams: Record<DiagramType, Diagram> = {
+  platform: {
+    title: 'How the services connect',
+    description: 'The website, Email Worker, and scheduler call the API. The API owns D1 and R2, and it signs events for Discord. The wiki deploys separately.',
+    caption: 'The API owns club data and rules. The other services display data, send requests, or complete outside work.',
+    lanes: [
+      { label: 'A member uses the website', nodes: [
+        { label: 'Browser', detail: 'Shows pages, forms, and the dashboard', tone: 'sky' },
+        { label: 'Website Worker', detail: 'Runs Astro, React, and the same-origin API bridge', icon: 'astro', tone: 'violet' },
+        { label: 'API Worker', detail: 'Checks access, applies rules, and routes requests', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'D1 + R2', detail: 'Store records and media files', icon: 'cloudflare', tone: 'emerald' },
+      ] },
+      { label: 'A change reaches Discord', nodes: [
+        { label: 'API Worker', detail: 'Signs a typed event for the Discord Worker', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Discord Worker', detail: 'Checks the event, claims its nonce, and runs it', icon: 'discord', tone: 'discord' },
+        { label: 'Discord REST', detail: 'Updates roles, DMs, posts, or channels', icon: 'discord', tone: 'discord' },
+      ] },
+      { label: 'A purchase receipt arrives', nodes: [
+        { label: 'Email Routing', detail: 'Sends the purchase receipt to the Email Worker', icon: 'cloudflare', tone: 'sky' },
+        { label: 'Email Worker', detail: 'Reads the receipt, removes duplicates, and retries failures', icon: 'cloudflareworkers', tone: 'rose' },
+        { label: 'API Worker', detail: 'Claims the purchase and records the result', icon: 'cloudflareworkers', tone: 'amber' },
+      ] },
+      { label: 'Timed jobs run', nodes: [
+        { label: 'Cron', detail: 'Runs every thirty minutes', icon: 'cloudflare', tone: 'neutral' },
+        { label: 'Scheduler Worker', detail: 'Starts seven API jobs at the same time', icon: 'cloudflareworkers', tone: 'sky' },
+        { label: 'API Worker', detail: 'Claims a lease and runs each job', icon: 'cloudflareworkers', tone: 'amber' },
+      ] },
+      { label: 'The wiki deploys', nodes: [
+        { label: 'GitHub Actions', detail: 'Builds the Starlight wiki', icon: 'githubactions', tone: 'sky' },
+        { label: 'Cloudflare Pages', detail: 'Hosts the static wiki files', icon: 'cloudflarepages', tone: 'amber' },
+        { label: 'Reader', detail: 'Reads the wiki without calling the API', tone: 'neutral' },
+      ] },
+    ],
+  },
+  request: {
+    title: 'How a request reaches the database',
+    description: 'The website sends the browser request to the API. The API checks it, runs the right handler, and sends the response back.',
+    caption: 'The browser uses /api/v1 for normal API routes. Better Auth keeps /api/auth, so the website bridge does not rewrite those routes.',
+    lanes: [
+      { label: 'Request path', layout: 'compact-flow', nodes: [
+        { label: 'Browser', detail: 'Calls /api/v1/... with its cookies', tone: 'sky' },
+        { label: 'Website bridge', detail: 'Removes internal headers that a browser could fake', icon: 'astro', tone: 'violet' },
+        { label: 'Service binding', detail: 'Adds the internal token and proxy details', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'API checks', detail: 'Checks the route, session, suspension, and rate limit', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Request handler', detail: 'Checks the input and applies the business rules', tone: 'emerald' },
+        { label: 'D1 / R2', detail: 'Reads or saves the data', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'Response', detail: 'Returns the status and data to the browser', tone: 'sky' },
+      ] },
+    ],
+  },
+  media: {
+    title: 'How an image upload is saved',
+    description: 'The API checks the full image and thumbnail, saves both in R2, and links them in D1. If the D1 write fails, it deletes both new files.',
+    caption: 'Gallery and competition routes use opaque record IDs. Merchandise routes expose imageR2Key. Leadership uploads do not yet delete the new file when the D1 insert fails.',
+    lanes: [
+      { label: 'Save the image and thumbnail', layout: 'compact-flow', nodes: [
+        { label: 'Permission check', detail: 'Requires the right membership or staff access', tone: 'amber' },
+        { label: 'Two files', detail: 'Receives the full image and a thumbnail made by the caller', tone: 'violet' },
+        { label: 'File checks', detail: 'Checks file types, sizes, and image dimensions', tone: 'rose' },
+        { label: 'R2 files', detail: 'Saves both accepted files', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'D1 record', detail: 'Links the record to both files', icon: 'cloudflare', tone: 'sky' },
+      ] },
+      { label: 'If a gallery or competition record fails', nodes: [
+        { label: 'D1 write fails', detail: 'The new record is not saved', tone: 'rose' },
+        { label: 'Delete the new files', detail: 'Removes both R2 objects', icon: 'cloudflare', tone: 'amber' },
+        { label: 'Return an error', detail: 'Does not leave unused upload files behind', tone: 'neutral' },
+      ] },
+      { label: 'Show a public image', nodes: [
+        { label: 'Opaque record ID', detail: 'Identifies a gallery or competition record', tone: 'sky' },
+        { label: 'D1 lookup', detail: 'Finds the R2 key the route may use', icon: 'cloudflare', tone: 'amber' },
+        { label: 'R2 response', detail: 'Sends the image bytes', icon: 'cloudflare', tone: 'emerald' },
+      ] },
+      { label: 'Other image routes', kind: 'collection', nodes: [
+        { label: 'Avatars and events', detail: 'Each uses its own single-file upload flow', tone: 'neutral' },
+        { label: 'Merchandise', detail: 'The public route includes imageR2Key', tone: 'rose' },
+        { label: 'Leadership', detail: 'Does not yet clean up the file after a failed insert', tone: 'amber' },
+      ] },
+    ],
+  },
+  discord: {
+    title: 'Three ways events reach the Discord Worker',
+    description: 'Discord interactions, API events, and Gateway events arrive on separate routes. The Worker checks each message. It also claims the nonce for internal events.',
+    caption: 'The VPS Gateway keeps the Discord websocket open. The Discord Worker checks events and completes Discord actions.',
+    lanes: [
+      { label: 'A slash command', nodes: [
+        { label: 'Discord interaction', detail: 'Sends the exact raw request body', icon: 'discord', tone: 'discord' },
+        { label: 'Ed25519 check', detail: 'Rejects an invalid signature', tone: 'rose' },
+        { label: 'Command handler', detail: 'Calls the API binding when it needs club data', tone: 'sky' },
+        { label: 'Discord REST', detail: 'Sends the response or completes the action', icon: 'discord', tone: 'discord' },
+      ] },
+      { label: 'An API event', nodes: [
+        { label: 'API Worker', detail: 'Adds a timestamp, HMAC signature, and nonce', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Discord Worker', detail: 'Checks the signature and timestamp', icon: 'discord', tone: 'discord' },
+        { label: 'D1 nonce claim', detail: 'Stops the same event from running again', icon: 'cloudflare', tone: 'rose' },
+        { label: 'Event handler', detail: 'Runs the service named by the typed event', tone: 'emerald' },
+      ] },
+      { label: 'A Gateway event', nodes: [
+        { label: 'Discord websocket', detail: 'Receives member, message, and reaction events', icon: 'discord', tone: 'discord' },
+        { label: 'VPS Gateway', detail: 'Checks the allowlist, filters the event, and removes unsafe fields', icon: 'nodedotjs', tone: 'emerald' },
+        { label: 'Signed request', detail: 'Adds an HMAC signature, timestamp, and nonce', tone: 'amber' },
+        { label: 'Worker handler', detail: 'Checks, claims, and handles the event', icon: 'cloudflareworkers', tone: 'sky' },
+      ] },
+      { label: 'A presence update', nodes: [
+        { label: 'Discord Worker', detail: 'Requests a new Discord presence', icon: 'cloudflareworkers', tone: 'sky' },
+        { label: 'VPC service', detail: 'Sends it through the private /presence route', icon: 'cloudflare', tone: 'amber' },
+        { label: 'VPS Gateway', detail: 'Checks the HMAC signature and updates discord.js', icon: 'nodedotjs', tone: 'emerald' },
+      ] },
+    ],
+  },
+  receipt: {
+    title: 'How a receipt becomes a purchase',
+    description: 'The Email Worker reads receipts and retries temporary failures. D1 records the result. Stable provider IDs make repeated calls safe.',
+    caption: 'KV prevents duplicate intake work. D1 owns the purchase result. Stable provider IDs prevent a lost response from causing a duplicate message or email.',
+    lanes: [
+      { label: 'Read and claim the receipt', layout: 'compact-flow', nodes: [
+        { label: 'Email Routing', detail: 'Delivers a purchase receipt', icon: 'cloudflare', tone: 'sky' },
+        { label: 'Email checks', detail: 'Checks the recipient, sender, and raw message size', tone: 'rose' },
+        { label: 'postal-mime', detail: 'Reads the message and its attachments', tone: 'violet' },
+        { label: 'unpdf', detail: 'Reads text from the receipt PDF', tone: 'violet' },
+        { label: 'TooCOOL parser', detail: 'Finds the order and each item', tone: 'amber' },
+        { label: 'KV lease', detail: 'Stops duplicate receipt processing', icon: 'cloudflare', tone: 'sky' },
+        { label: 'D1 claim', detail: 'Claims the fulfillment idempotency key', icon: 'cloudflare', tone: 'emerald' },
+      ] },
+      { label: 'Complete a membership purchase', nodes: [
+        { label: 'Membership', detail: 'Creates an activation key', tone: 'emerald' },
+        { label: 'Resend', detail: 'Uses a stable Idempotency-Key', icon: 'resend', tone: 'neutral' },
+        { label: 'Discord event', detail: 'Uses a predictable message nonce', icon: 'discord', tone: 'discord' },
+      ] },
+      { label: 'Complete another purchase', nodes: [
+        { label: 'Film or print', detail: 'Finds the purchased item type', tone: 'amber' },
+        { label: 'Discord event', detail: 'Notifies the club staff', icon: 'discord', tone: 'discord' },
+      ] },
+      { label: 'Handle a failure', nodes: [
+        { label: 'Temporary failure', detail: 'Saves a retry record in KV', tone: 'sky' },
+        { label: 'Five-minute Cron', detail: 'Tries to process the receipt again', icon: 'cloudflare', tone: 'amber' },
+        { label: 'Final failure', detail: 'Saves the normalized result and stops retrying', tone: 'rose' },
+      ] },
+    ],
+  },
+  scheduler: {
+    title: 'How the seven scheduled jobs run',
+    description: 'Every thirty minutes, the Scheduler Worker starts seven private API jobs at the same time. The API claims a D1 lease and decides what each job changes.',
+    caption: 'The D1 lease prevents a repeated Cron trigger from running the same job twice. Discord changes still use signed internal events.',
+    lanes: [
+      { label: 'Start each job', layout: 'compact-flow', nodes: [
+        { label: 'Cloudflare Cron', detail: '*/30 * * * *', icon: 'cloudflare', tone: 'sky' },
+        { label: 'Scheduler Worker', detail: 'Builds seven POST requests', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Internal check', detail: 'Checks the source, token, and scheduled time', tone: 'rose' },
+        { label: 'D1 lease', detail: 'Allows one active run for each job', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'API job', detail: 'Makes the required changes', icon: 'cloudflareworkers', tone: 'amber' },
+      ] },
+      { label: 'Seven jobs', kind: 'parallel', layout: 'compact-flow', nodes: [
+        { label: 'Memberships', detail: 'Expires memberships that have ended', tone: 'neutral' },
+        { label: 'Membership roles', detail: 'Updates Discord roles from receipt memberships', tone: 'neutral' },
+        { label: 'Darkroom schedule', detail: 'Applies scheduled darkroom changes', tone: 'neutral' },
+        { label: 'Studio schedule', detail: 'Applies scheduled studio changes', tone: 'neutral' },
+        { label: 'Darkroom stats', detail: 'Updates the current totals', tone: 'neutral' },
+        { label: 'Equipment', detail: 'Sends reminders that are due', tone: 'neutral' },
+        { label: 'Photographer requests', detail: 'Expires old requests', tone: 'neutral' },
+      ] },
+    ],
+  },
+  deployment: {
+    title: 'How each service deploys',
+    description: 'Each repository runs its own checks. Most services deploy from main to Cloudflare. The VPS Gateway deploys through Git and systemd.',
+    caption: 'D1 migrations run before the API Worker deploys. When the Discord Worker does not exist yet, the bootstrap setup leaves out its binding.',
+    lanes: [
+      { label: 'Deploy a Cloudflare Worker', nodes: [
+        { label: 'Push to main', detail: 'Starts the website, API, Discord, email, or scheduler workflow', icon: 'githubactions', tone: 'sky' },
+        { label: 'Run checks', detail: 'Checks types and the build, plus tests where configured', tone: 'emerald' },
+        { label: 'Deploy', detail: 'Wrangler publishes the Worker', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Logs and traces', detail: 'Uses 10% head sampling', icon: 'cloudflare', tone: 'neutral' },
+      ] },
+      { label: 'Deploy the API', nodes: [
+        { label: 'D1 migrations', detail: 'Applies database changes first', icon: 'cloudflare', tone: 'emerald' },
+        { label: 'Bootstrap check', detail: 'Leaves out the Discord binding when needed', tone: 'rose' },
+        { label: 'API deploy', detail: 'Publishes the current routes and handlers', icon: 'cloudflareworkers', tone: 'amber' },
+      ] },
+      { label: 'Deploy the wiki', nodes: [
+        { label: 'Push to main', detail: 'Starts the static Astro build', icon: 'githubactions', tone: 'sky' },
+        { label: 'Astro + Pagefind', detail: 'Builds the HTML and search index', icon: 'astro', tone: 'violet' },
+        { label: 'Cloudflare Pages', detail: 'Publishes the dist folder', icon: 'cloudflarepages', tone: 'amber' },
+      ] },
+      { label: 'Deploy the VPS Gateway', nodes: [
+        { label: 'Build locally', detail: 'Builds the Gateway and packages the dist folder', icon: 'nodedotjs', tone: 'emerald' },
+        { label: 'Push the deploy repo', detail: 'Sends the built files to the bare Git repository', tone: 'sky' },
+        { label: 'Post-receive hook', detail: 'Checks out the files and installs production dependencies', tone: 'amber' },
+        { label: 'Restart systemd', detail: 'Replaces the running Gateway process', tone: 'rose' },
+      ] },
+    ],
+  },
+};
+
+const toneClasses: Record<Tone, string> = {
+  neutral: 'border-neutral-700 bg-neutral-900/60 text-neutral-100',
+  amber: 'border-amber-300/40 bg-amber-300/[0.06] text-amber-100',
+  sky: 'border-sky-300/40 bg-sky-300/[0.06] text-sky-100',
+  emerald: 'border-emerald-300/40 bg-emerald-300/[0.06] text-emerald-100',
+  violet: 'border-violet-300/40 bg-violet-300/[0.06] text-violet-100',
+  rose: 'border-rose-300/40 bg-rose-300/[0.06] text-rose-100',
+  discord: 'border-[#5865f2]/50 bg-[#5865f2]/10 text-indigo-100',
+};
+
+const { type } = Astro.props;
+const diagram = diagrams[type];
+const diagramId = `system-diagram-${type}`;
+---
+
+<figure aria-labelledby={`${diagramId}-title`} aria-describedby={`${diagramId}-description`} class="my-10 overflow-hidden border border-white/10 bg-neutral-950 sm:my-12">
+  <div class="border-b border-white/10 bg-white/[0.025] p-5 sm:p-7">
+    <p class="m-0 font-mono text-[0.75rem] tracking-[0.18em] text-amber-200 uppercase">System flow</p>
+    <h2 id={`${diagramId}-title`} class="mt-2! border-0! pt-0! text-3xl!">{diagram.title}</h2>
+    <p id={`${diagramId}-description`} class="mt-3 mb-0 max-w-3xl text-base leading-7 text-neutral-400">{diagram.description}</p>
+  </div>
+
+  <div class="space-y-4 bg-neutral-900/40 p-4 sm:p-6">
+    {diagram.lanes.map((lane) => {
+      const isSequence = (lane.kind ?? 'sequence') === 'sequence';
+      const isCompactFlow = lane.layout === 'compact-flow';
+      const ListTag = isSequence ? 'ol' : 'ul';
+
+      return (
+        <section class="@container border border-white/10 bg-neutral-950 p-4 sm:p-6" aria-label={lane.label}>
+          <p class="mb-4 font-mono text-[0.75rem] font-bold tracking-[0.16em] text-neutral-400 uppercase">{lane.label}</p>
+          <ListTag
+            role="list"
+            class:list={[
+              'm-0! list-none! gap-0 p-0!',
+              isCompactFlow
+                ? 'grid grid-cols-1 @3xl:grid-cols-2 @3xl:gap-4 @5xl:grid-cols-3'
+                : 'grid grid-cols-1 @3xl:grid-cols-2 @3xl:gap-4 @5xl:flex @5xl:flex-row @5xl:items-stretch',
+            ]}
+          >
+            {lane.nodes.map((node, index) => {
+              const marker = isSequence ? String(index + 1).padStart(2, '0') : '•';
+
+              return (
+                <li class:list={[
+                  'flex min-w-0 pl-0!',
+                  !isCompactFlow && '@5xl:flex-1',
+                ]}>
+                  <div class:list={[
+                    'relative flex min-h-24 w-full min-w-0 flex-1 items-start gap-3 border p-4 pr-12 @3xl:min-h-32',
+                    toneClasses[node.tone],
+                  ]}>
+                    {isSequence && (
+                      <span aria-hidden="true" class="absolute top-3 right-3 font-mono text-[0.65rem] tracking-[0.12em] text-current/65">
+                        {marker}
+                      </span>
+                    )}
+                    {node.icon ? (
+                      <span aria-hidden="true" class="grid size-10 shrink-0 place-items-center border border-current/15 bg-black/20">
+                        <img data-no-expand src={`/images/tech/${node.icon}.svg`} width="22" height="22" alt="" loading="lazy" decoding="async" class="size-5.5 object-contain" />
+                      </span>
+                    ) : (
+                      <span aria-hidden="true" class="grid size-10 shrink-0 place-items-center border border-current/20 font-mono text-[0.75rem] font-bold">•</span>
+                    )}
+                    <span class="min-w-0">
+                      <strong class="block text-sm leading-6 text-current">{node.label}</strong>
+                      <span class="mt-1 block text-sm leading-6 text-neutral-400">{node.detail}</span>
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
+          </ListTag>
+        </section>
+      );
+    })}
+  </div>
+
+  <figcaption class="border-t border-white/10 bg-white/[0.025] px-5 py-4 text-sm leading-6 text-neutral-400 sm:px-7">
+    {diagram.caption}
+  </figcaption>
+</figure>

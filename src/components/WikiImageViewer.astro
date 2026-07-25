@@ -1,0 +1,200 @@
+<dialog
+  data-wiki-image-viewer
+  aria-labelledby="wiki-image-viewer-title"
+  class="fixed top-1/2 left-1/2 m-0 max-h-[calc(100svh-2rem)] w-[calc(100vw-2rem)] max-w-6xl -translate-x-1/2 -translate-y-1/2 overflow-hidden border border-white/15 bg-neutral-950 p-0 text-white shadow-2xl shadow-black backdrop:bg-black/85 backdrop:backdrop-blur-sm"
+>
+  <div class="flex max-h-[calc(100svh-2rem)] flex-col">
+    <div class="flex min-h-14 items-center justify-between border-b border-white/10 px-4">
+      <p id="wiki-image-viewer-title" class="m-0 text-[0.7rem] tracking-[0.18em] text-neutral-300 uppercase">Expanded photograph</p>
+      <form method="dialog">
+        <button type="submit" class="inline-flex size-11 items-center justify-center text-2xl text-neutral-300 transition hover:bg-white/[0.06] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-amber-200" aria-label="Close image viewer">×</button>
+      </form>
+    </div>
+    <figure class="flex min-h-0 flex-1 flex-col items-center justify-center overflow-auto bg-black/50 p-3 sm:p-6">
+      <img data-wiki-viewer-image src="" alt="" class="max-h-[calc(100svh-10rem)] max-w-full object-contain" />
+      <figcaption data-wiki-viewer-caption class="mt-3 max-w-3xl text-center text-xs leading-5 text-neutral-300"></figcaption>
+    </figure>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-wiki-image-viewer]');
+  const viewerImage = dialog?.querySelector<HTMLImageElement>('[data-wiki-viewer-image]');
+  const viewerCaption = dialog?.querySelector<HTMLElement>('[data-wiki-viewer-caption]');
+  let trigger: HTMLElement | null = null;
+  let activeHashViewer: HTMLElement | null = null;
+  let hashViewerTrigger: HTMLElement | null = null;
+  let hashViewerInerted: HTMLElement[] = [];
+  let hashViewerReturnUrl = '';
+  let hashViewerOpenedFromTrigger = false;
+
+  function captionFor(image: HTMLImageElement) {
+    const caption = image.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
+    return caption || image.alt || 'Expanded photograph';
+  }
+
+  function openViewer(image: HTMLImageElement) {
+    if (!dialog || !viewerImage || !viewerCaption) return;
+    trigger = image;
+    viewerImage.src = image.currentSrc || image.src;
+    viewerImage.alt = image.alt;
+    viewerCaption.textContent = captionFor(image);
+    dialog.showModal();
+  }
+
+  function hashViewerFocusable(viewer: HTMLElement) {
+    return Array.from(
+      viewer.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+    ).filter((element) => element.tabIndex >= 0 && !element.hasAttribute('inert'));
+  }
+
+  function isolateHashViewer(viewer: HTMLElement) {
+    let branch = viewer;
+
+    while (branch.parentElement) {
+      const parent = branch.parentElement;
+      Array.from(parent.children).forEach((sibling) => {
+        if (sibling === branch || !(sibling instanceof HTMLElement) || sibling.hasAttribute('inert')) return;
+        sibling.setAttribute('inert', '');
+        hashViewerInerted.push(sibling);
+      });
+      if (parent === document.body) break;
+      branch = parent;
+    }
+
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function releaseHashViewer() {
+    hashViewerInerted.forEach((element) => element.removeAttribute('inert'));
+    hashViewerInerted = [];
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function currentHashViewer() {
+    const id = location.hash.slice(1);
+    const candidate = id ? document.getElementById(id) : null;
+    return candidate?.matches('[data-wiki-hash-viewer]') ? candidate : null;
+  }
+
+  function closeHashViewer() {
+    if (hashViewerOpenedFromTrigger) {
+      history.back();
+      return;
+    }
+
+    const returnUrl = hashViewerReturnUrl || `${location.pathname}${location.search}`;
+    history.replaceState(history.state, '', returnUrl);
+    syncHashViewer();
+  }
+
+  function syncHashViewer() {
+    const nextViewer = currentHashViewer();
+    if (nextViewer === activeHashViewer) return;
+
+    const previousTrigger = hashViewerTrigger;
+    if (activeHashViewer) {
+      activeHashViewer.classList.remove('target:flex');
+      releaseHashViewer();
+      activeHashViewer = null;
+      hashViewerTrigger = null;
+    }
+
+    if (!nextViewer) {
+      requestAnimationFrame(() => previousTrigger?.focus());
+      hashViewerReturnUrl = '';
+      hashViewerOpenedFromTrigger = false;
+      return;
+    }
+
+    const matchingTrigger = Array.from(
+      document.querySelectorAll<HTMLElement>('a[href^="#gs-view-"]')
+    ).find((link) => link.getAttribute('href') === location.hash);
+    hashViewerTrigger =
+      document.activeElement instanceof HTMLElement && document.activeElement.matches('a[href^="#gs-view-"]')
+        ? document.activeElement
+        : matchingTrigger ?? null;
+    nextViewer.classList.add('target:flex');
+    activeHashViewer = nextViewer;
+    isolateHashViewer(nextViewer);
+
+    requestAnimationFrame(() => {
+      const closeControls = Array.from(
+        nextViewer.querySelectorAll<HTMLElement>('[aria-label="Close photo viewer"]')
+      );
+      closeControls.at(-1)?.focus();
+    });
+  }
+
+  document.querySelectorAll<HTMLImageElement>('main figure img:not([data-no-expand])').forEach((image) => {
+    if (image.closest('a[href^="#gs-view-"], [id^="gs-view-"]')) return;
+
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-label', `Expand image: ${captionFor(image)}`);
+    image.classList.add('cursor-zoom-in', 'focus-visible:outline-2', 'focus-visible:outline-offset-4', 'focus-visible:outline-amber-200');
+
+    image.addEventListener('click', () => openViewer(image));
+    image.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openViewer(image);
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('a[href^="#gs-view-"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      hashViewerReturnUrl = `${location.pathname}${location.search}${location.hash}`;
+      hashViewerOpenedFromTrigger = true;
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-wiki-hash-viewer] [aria-label="Close photo viewer"]').forEach((control) => {
+    control.addEventListener('click', (event) => {
+      event.preventDefault();
+      closeHashViewer();
+    });
+  });
+
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  dialog?.addEventListener('close', () => {
+    if (viewerImage) viewerImage.removeAttribute('src');
+    if (viewerCaption) viewerCaption.textContent = '';
+    trigger?.focus({ preventScroll: true });
+    trigger = null;
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!activeHashViewer) return;
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeHashViewer();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+    const focusable = hashViewerFocusable(activeHashViewer);
+    const first = focusable[0];
+    const last = focusable.at(-1);
+    if (!first || !last) {
+      event.preventDefault();
+      activeHashViewer.focus();
+      return;
+    }
+
+    if (event.shiftKey && (document.activeElement === first || !activeHashViewer.contains(document.activeElement))) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  window.addEventListener('hashchange', syncHashViewer);
+  syncHashViewer();
+</script>

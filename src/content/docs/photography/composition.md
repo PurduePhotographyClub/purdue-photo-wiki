@@ -1,7 +1,7 @@
 ---
 title: Composition
-description: Framing, light, color, movement, and making photographs feel intentional.
+description: How to use framing, light, color, and movement.
 accent: amber
 ---
 
-We are working on it.
+This guide is not ready yet.

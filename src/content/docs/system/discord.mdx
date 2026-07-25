@@ -1,0 +1,159 @@
+---
+title: Discord and the gateway
+description: How the Discord Worker and gateway handle commands, live events, and duplicate requests.
+accent: indigo
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+**Discord uses two services.** The Worker handles short, signed HTTP requests. The gateway keeps a websocket open for live Discord events and the bot's status.
+
+**Club rules stay in the API.** **Discord actions stay in the Worker.** The gateway only handles work that needs a live Discord connection.
+
+<SystemDiagram type="discord" />
+
+## What the Discord Worker does
+
+The Worker receives Discord interactions, events from the API, events forwarded by the gateway, and health checks. After it verifies a request, it turns that request into a Discord REST action.
+
+It can:
+
+- Register and handle slash commands.
+- Read or change club data through the API service binding.
+- Send DMs and channel messages.
+- Create, rename, archive, or update workflow channels.
+- Add or remove roles.
+- Update nicknames when a verified workflow requires it.
+- Publish or edit darkroom, studio, equipment, event, and request messages.
+- Call the gateway's private presence endpoint through a Cloudflare VPC service binding.
+
+The Worker does not keep a Discord websocket open. It checks the request's signature or internal identity, finishes the HTTP work, and stops.
+
+## What the VPS gateway does
+
+The gateway is a Node.js and discord.js process that runs outside Cloudflare Workers. It keeps Discord's gateway websocket open.
+
+It does not forward every event. It checks the configured channel allowlists and event filters, removes data the Worker does not need, and signs the request before sending it. This keeps traffic low and limits the Discord data sent to the Worker.
+
+It also controls the bot's presence. The Worker calls a private `/presence` endpoint through a Cloudflare VPC service. The gateway verifies the request, then uses its live discord.js client to update the bot's status.
+
+Both directions use **HMAC, a signature made with a shared secret**. It lets the receiver check that a trusted service sent the request and that the content did not change.
+
+Data moves in two directions:
+
+<div className="my-10 grid gap-4 lg:grid-cols-2 [&>article]:border [&>article]:border-white/10">
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-indigo-200 uppercase">Gateway to Worker</p>
+    <h3 className="mt-3! text-2xl!">Allowed Discord events</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Websocket event → channel and event checks → unneeded data removed → signed HMAC request with a timestamp → Worker verification → one-time nonce claimed in D1 → workflow handler.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">Worker to gateway</p>
+    <h3 className="mt-3! text-2xl!">Private bot status updates</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Worker service → Cloudflare VPC binding → gateway `/presence` route → HMAC check → discord.js status update.</p>
+  </article>
+</div>
+
+## Path one: Discord interactions
+
+Slash commands and other Discord interactions arrive as signed HTTP requests. Discord signs the exact raw request body, so the Worker checks the signature before it parses the request.
+
+The Worker:
+
+1. Reads Discord's timestamp and Ed25519 signature headers.
+2. Checks the signature against the application's public key and the exact body bytes.
+3. Rejects a missing or invalid signature before running a command.
+4. Parses the verified interaction.
+5. Chooses the command handler.
+6. Calls the API binding when the command needs club data or must change it.
+7. Returns an interaction response or makes the required Discord REST call.
+
+This lets the Worker answer Discord on time while the API stays in charge of loans, memberships, studio requests, film requests, schedules, and accounts.
+
+The current interaction check proves that Discord sent the request. It does not check how old the timestamp is or claim a nonce in D1. The next two paths do both in the application code to block repeated requests.
+
+## Path two: signed API events
+
+The API sends an internal event when a saved club change also needs an action in Discord.
+
+The event has a type, payload, timestamp, and nonce. A **nonce is a one-time ID** for that event. The API also creates an HMAC signature. The Discord Worker checks the signature and timestamp, then asks the API to claim the nonce in D1.
+
+The Worker parses and sends the event only after the nonce claim succeeds.
+
+Service-binding requests may be sent again when a response is lost or unclear. Without a shared nonce claim, one event could create two channels, send two DMs, or add the same role twice. Once D1 accepts a nonce, it rejects that nonce if it appears again.
+
+<div className="my-8 border-l-2 border-indigo-300 bg-indigo-300/[0.04] p-6">
+  <p className="m-0 text-xl leading-8 font-semibold text-white">The signature shows who sent the event. The nonce stops the same event from running twice.</p>
+</div>
+
+Each known event type must have the fields its service expects. There is one narrow fallback for a generic message: an unknown event may continue only if it has valid message content or embeds. The Worker rejects anything that matches neither a known event type nor that fallback.
+
+## Path three: events from the gateway
+
+Some member, message, and reaction events are available only through the websocket.
+
+The VPS gateway receives those events first. It checks the event and channel against its allowlists, removes fields the Worker does not need, and creates a timestamped HMAC request with a nonce.
+
+The Worker then:
+
+1. Verifies the shared-secret signature.
+2. Rejects requests outside the accepted timestamp window.
+3. Claims the nonce through the API and D1.
+4. Checks that the event is a supported gateway event type.
+5. Sends it to the matching workflow service.
+
+The allowlist lives in the gateway's environment settings. The websocket and Worker can both be healthy while a channel is missing from that list. If a reaction or message workflow stops working, check the forwarding channel IDs early.
+
+## Example: a website approval updates Discord
+
+A staff member approves a request in the dashboard:
+
+1. The website sends a same-origin API request.
+2. The API checks the staff session and permission.
+3. The API checks the request's current state.
+4. D1 saves the approval.
+5. The API creates and signs a Discord event with a new nonce.
+6. The Discord Worker checks the event and claims its nonce.
+7. The Worker calls the matching service.
+8. The service edits the message or workflow channel, or DMs the requester.
+
+If step 6 finds a duplicate, the D1 approval stays saved, but the Discord action does not run again. If Discord REST fails after D1 saves the approval, the system logs enough detail to retry or repair the Discord action without creating another approval.
+
+## Example: a Discord command changes club data
+
+For a command, the request moves the other way:
+
+1. Discord signs the interaction.
+2. The Worker verifies the raw body.
+3. The command handler checks the Discord user and arguments.
+4. The Worker calls an API endpoint through its service binding and includes its Worker identity.
+5. The API makes the same state change that the website uses.
+6. The Worker turns the API result into a Discord response.
+
+Because both paths use the same API change, the website and Discord cannot create separate versions of a loan, request, or review flow.
+
+## How each path checks requests
+
+Each incoming path checks the sender, repeated requests, and allowed data:
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Path</th><th>Sender check</th><th>Repeat-request check</th><th>Allowed data</th></tr></thead>
+    <tbody>
+      <tr><td>Discord interaction</td><td>Discord Ed25519 signature over the timestamp and raw body</td><td>The current check has no local age window or nonce claim</td><td>Known interaction and command format</td></tr>
+      <tr><td>API internal event</td><td>Shared HMAC signature</td><td>Timestamp window and D1 nonce claim</td><td>Known internal-event type and fields</td></tr>
+      <tr><td>Gateway event</td><td>Shared HMAC signature</td><td>Timestamp window and D1 nonce claim</td><td>Gateway allowlist, data cleanup, and known event type</td></tr>
+      <tr><td>Bot presence</td><td>Private VPC route and HMAC</td><td>Timestamped request check</td><td>Limited `/presence` request format</td></tr>
+    </tbody>
+  </table>
+</div>
+
+Secrets stay in the Worker or VPS environment settings. They are not in the website bundle, repository, or event payload.
+
+## Failures and recovery
+
+The Worker logs details when it rejects a signature or nonce, receives invalid event data, or gets an API or Discord REST error. It removes common credential fields before writing the log.
+
+The gateway has its own health checks and reconnect logic because its websocket can disconnect while the Worker stays healthy. It is deployed and restarted separately from the Cloudflare Worker.
+
+The system does not have end-to-end tracing. It has structured logs, health endpoints, and Cloudflare observability samples. To follow one failure across the API, Worker, gateway, and Discord, you may need to match timestamps, event names, and safe IDs across several logs.

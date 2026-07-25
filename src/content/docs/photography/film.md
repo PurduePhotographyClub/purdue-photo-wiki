@@ -1,11 +1,11 @@
 ---
 title: Film
-description: Film stocks, cameras, development, scanning, and analog habits.
+description: How to choose, shoot, develop, and scan film.
 accent: rose
 ---
 
-This page will collect club knowledge for shooting film, developing rolls, scanning negatives, and choosing film stocks.
+This guide is not ready yet.
 
-## Coming soon
+## In progress
 
-Expected sections include 35mm vs. medium format, common stocks, metering, development basics, scanning, and darkroom notes.
+It will cover film formats, common stocks, metering, developing, scanning, and darkroom basics.

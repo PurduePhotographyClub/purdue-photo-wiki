@@ -1,0 +1,125 @@
+---
+title: Data and images
+description: What D1, R2, and KV store, and how the API checks and cleans up image uploads.
+accent: emerald
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+**D1 stores the club's records.** **R2 stores images.** The Email Worker uses **KV for short-lived receipt locks and retries**.
+
+**The API Worker is the only service with access to the main D1 database and R2 storage.** The Email Worker has its own KV area named `RECEIPT_DEDUPE`. The website, Discord Worker, and Scheduler Worker cannot access D1 or R2 directly.
+
+## D1 stores club records
+
+The database schema has 42 tables. They are grouped by the kind of work they support:
+
+<div className="my-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 [&>article]:border [&>article]:border-white/10">
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-sky-200 uppercase">Identity</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Users, sessions, linked accounts, verification records, two-factor records, and passkeys.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-amber-200 uppercase">Membership</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Tiers, activation keys, receipt results, expiry state, and the data used to keep access up to date.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-emerald-200 uppercase">Media</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Gallery photos, member profiles, competitions, entries, results, event galleries, leadership, and merchandise records.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-violet-200 uppercase">Club operations</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Equipment, loans, terms acceptance, audit logs, film requests, roll credits, darkroom slots, registrations, and studio requests.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-rose-200 uppercase">Messages</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Newsletter subscribers, dashboard updates, dismissed and read items, cleared items, and Discord message references.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-neutral-300 uppercase">Safe coordination</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Discord verification checks, one-use event numbers, records that claim competition deletions, and locks for scheduled jobs.</p></article>
+</div>
+
+These records give every part of the platform the same answer. A gallery page and a Discord message can use the same photo record. The dashboard and an equipment reminder can use the same loan record. A timer and a staff action can update the same studio request.
+
+The API uses parameterized queries, which keep user values separate from database commands, and TypeScript helpers for D1 access. Some features use the Drizzle database library. Others use small database modules with direct D1 statements. In both cases, the API never gives database access to a browser or another service.
+
+## R2 stores images in three buckets
+
+An R2 bucket is a group of stored files. The API has three:
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Name</th><th>Stores</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><code>GALLERY_BUCKET</code></td><td>Gallery images and thumbnails</td><td>Also carries portfolio photos, leadership media, and merchandise media in the current implementation.</td></tr>
+      <tr><td><code>COMPETITIONS_BUCKET</code></td><td>Competition entries and generated images</td><td>Keeps competition files and cleanup separate from the main gallery.</td></tr>
+      <tr><td><code>PROFILE_BUCKET</code></td><td>Member profile pictures</td><td>Portfolio pages use gallery records instead of a second store for portfolio files.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+Most public image pages use an API route with a database record ID. The browser does not need to know the bucket or file path. Merchandise images are the exception: their URL includes the stored `imageR2Key`.
+
+<SystemDiagram type="media" />
+
+## How gallery and competition uploads are checked
+
+The API rejects an upload before saving it to R2 if the account or file does not meet the rules.
+
+Limits differ by feature. Gallery and competition submissions send a full image and a thumbnail, then follow these steps:
+
+1. Find the session and check the membership or staff permission.
+2. Apply the upload rate limit.
+3. Read the multipart upload, the standard form format for files, without accepting an unlimited request size.
+4. Check the stated file type and the accepted image format.
+5. Check the file size and image dimensions.
+6. Receive the full image and the thumbnail made by the caller.
+7. Save both files to R2.
+8. Save the D1 record that links the public item to those files.
+
+The browser can show a file limit before upload, but **the API checks it again**. A caller can bypass the browser interface.
+
+### Why the file is saved before the record
+
+The API needs the final R2 keys, which are the stored file names, before it can save the D1 record that points to them. For a short time, R2 has the new files but D1 does not have their record.
+
+Gallery and competition uploads include cleanup for this gap. If the D1 insert fails, the API deletes the new full-size image and thumbnail before returning an error. The failed upload never becomes public, and it does not leave unused files in R2.
+
+R2 and D1 cannot save their changes in one shared transaction. The API uses two steps and cleans up the first step if the second one fails.
+
+Not every image route has this cleanup. Profile pictures, event images, leadership images, and merchandise each use their own single-file process. Creating a leadership record currently saves its R2 file before its D1 record, but does not delete the file if the D1 insert fails. That route needs its own cleanup when the upload code is changed.
+
+## Public image reads
+
+Gallery and competition image routes receive an opaque ID, meaning an ID that does not reveal the file path. The API finds that ID in D1, checks whether the image can be shown, and then sends the R2 file. Profile pictures use the same lookup order through a different route.
+
+Looking up the record first lets the API:
+
+- Return `404` for a missing or no-longer-visible record.
+- Change an internal object key without rewriting every public link.
+- Set cache and file headers in one place.
+- Hide the bucket layout from the browser.
+- Delete a database record and its image in one feature process.
+
+This pattern does not cover every image. Merchandise currently uses `/api/merch/image/:imageR2Key`, so its public URL contains the stored key. If that key format changes, those links must also change.
+
+## KV tracks receipt retries
+
+The Email Worker uses one KV storage area named `RECEIPT_DEDUPE`. It records whether a receipt has already arrived, who is processing it, whether it needs another attempt, and its final result. These records use the cleaned receipt data handled by the intake process.
+
+It may act like a queue, but it is not Cloudflare Queues. This repository has no Queue binding. The worker saves retry records in KV, and its five-minute scheduled job looks for work that is ready to try again.
+
+After parsing, KV tracks whether the Email Worker is already processing or retrying the purchase. D1 tracks whether the purchase has already created its membership key, email, or Discord update.
+
+Both use the same purchase ID to prevent duplicate work. They still use different key prefixes, records, expiry times, and jobs.
+
+The website also declares a KV connection, or binding, named `SESSION`. Better Auth currently stores sessions in D1. No website code was found using this KV binding when this guide was written. Do not describe it as the active session database unless a later code change confirms that use.
+
+## Storage tools the system does not use
+
+This version of the repository does not configure Cloudflare Queues or Durable Objects, which are other tools for background work and shared state.
+
+Instead, the system works like this:
+
+- Receipt retries use KV records, not queue messages.
+- A D1 lease stops the same scheduled job from running at the same time. It does not use a Durable Object lock.
+- A one-use number stored in D1 stops a Discord event from being processed twice. It does not use temporary Worker memory.
+- The VPS Gateway keeps the Discord websocket, its live two-way connection, open because a request Worker cannot stay alive permanently.
+
+## Keeping club records consistent
+
+The API changes a record before it asks another service to send a message or make an update.
+
+For an equipment loan, the API checks the borrower and item, saves the new loan status and audit details, then sends any needed Discord update. For a film or studio request, the API applies review and cancellation rules before changing Discord posts or DMs. For a competition, the API manages entries, results, deletion claims, and R2 cleanup.
+
+This order means a failed Discord request is never the only record of a change. **D1 keeps the saved state**, so staff can inspect, retry, or repair the work.
+
+## What public pages can access
+
+Only trusted Workers receive storage bindings, which are private connections to D1, R2, or KV. A public route returns the fields or image needed for its page. It does not expose a whole table or a list of bucket files.
+
+Public responses do not include private account, session, verification, one-use number, receipt, or audit records. Errors do not include SQL text, file keys, secrets, or stack traces. Logs keep details for debugging, but shared logging helpers remove common credential fields first.

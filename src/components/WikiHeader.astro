@@ -2,60 +2,50 @@
 import config from 'virtual:starlight/user-config';
 import Search from 'virtual:starlight/components/Search';
 
-const mainSite = '/';
-const socialLinks = [
-  {
-    href: 'https://www.instagram.com/purduephotoclub/',
-    label: 'Instagram',
-    icon: 'instagram',
-  },
-  {
-    href: `https://purduephotoclub.org/discord`,
-    label: 'Discord',
-    icon: 'discord',
-  },
-  {
-    href: 'mailto:photo@purdue.edu',
-    label: 'Email',
-    icon: 'mail',
-  },
-];
-
 const shouldRenderSearch =
   config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
 
-const socialLinkClass = 'inline-flex text-[#6b6660] transition-colors hover:text-ppc-paper';
+const socialLinks = [
+  { href: 'https://www.instagram.com/purduephotoclub/', label: 'Instagram', icon: 'instagram' },
+  { href: 'https://purduephotoclub.org/discord', label: 'Discord', icon: 'discord' },
+];
+
 const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]';
 ---
 
-<div class="wiki-header-content grid h-full w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 max-[50rem]:gap-2">
-  <a href={mainSite} class="group/wiki-nav inline-flex min-w-0 items-center gap-3 text-ppc-paper no-underline" aria-label="Purdue Photography Club home">
-    <img src="/images/brand/wiki/ppc-logo.webp" alt="" class="size-10 shrink-0 rounded-full brightness-[1.7] invert mix-blend-screen max-[50rem]:size-9" />
-    <span class="inline-flex min-w-0 items-center gap-3 max-[50rem]:max-w-[calc(100vw-8.5rem)] max-[50rem]:gap-2">
-      <span class="font-display max-w-full overflow-hidden text-xs leading-tight text-[#d5d0c8] uppercase text-ellipsis whitespace-nowrap max-[50rem]:text-[0.64rem] max-[24rem]:max-w-32 max-[24rem]:text-[0.56rem]">Purdue Photography Club</span>
-      <span class="relative ml-[-0.1rem] inline-flex cursor-pointer items-baseline transition-transform duration-200 group-hover/wiki-nav:-translate-y-px" aria-label="Wiki">
-        <span class="inline-block bg-ppc-paper px-2 py-1 text-[0.68rem] leading-none font-bold text-ppc-ink uppercase shadow-[0_0_12px_rgb(246_241_232_/_0.15),0_1px_3px_rgb(0_0_0_/_0.3)] transition duration-200 [transform:rotate(-6deg)_translateY(-0.25rem)] [-webkit-text-fill-color:var(--color-ppc-ink)] group-hover/wiki-nav:scale-105 group-hover/wiki-nav:shadow-[0_0_20px_rgb(246_241_232_/_0.25),0_2px_6px_rgb(0_0_0_/_0.3)] max-[50rem]:text-[0.56rem]" style="animation: wiki-badge-shimmer 3s ease-in-out infinite;">wiki</span>
-      </span>
+<div class="flex h-full w-full items-center gap-2 sm:gap-4 lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-0">
+  <a href="/" class="group flex min-w-0 shrink-0 items-center gap-2.5 text-white no-underline lg:h-full lg:px-7" aria-label="PPC Wiki home">
+    <span class="grid size-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.03] transition group-hover:border-amber-200/50">
+      <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="wiki-brand-logo size-7 object-contain" />
+    </span>
+    <span class="hidden min-w-0 sm:block">
+      <span class="block font-['Playfair_Display',Georgia,serif] text-base leading-none font-bold tracking-wide text-neutral-100">PPC Wiki</span>
+      <span class="mt-1 block font-mono text-[0.72rem] leading-none tracking-[0.16em] text-neutral-400 uppercase">Photo and club guides</span>
     </span>
   </a>
 
-  <button class="wiki-header-menu-button" type="button" aria-label="Open wiki navigation" aria-expanded="false">
-    <img src="/images/ui/pixel-art/side-bar-openenr-phone.svg" alt="" />
-  </button>
+  <div class="ml-auto flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-4 lg:ml-0 lg:w-full lg:justify-start lg:gap-6 lg:px-8 xl:px-10">
+    {shouldRenderSearch && (
+      <div class="flex min-w-0 flex-1 justify-end sm:max-w-xs lg:max-w-lg lg:justify-start xl:max-w-2xl [&_button[data-open-modal]]:min-h-11 [&_button[data-open-modal]]:w-11 [&_button[data-open-modal]]:justify-center [&_button[data-open-modal]]:rounded-none [&_button[data-open-modal]]:border [&_button[data-open-modal]]:border-white/15 [&_button[data-open-modal]]:bg-white/[0.03] [&_button[data-open-modal]]:transition [&_button[data-open-modal]]:hover:border-white/35 sm:[&_button[data-open-modal]]:w-full sm:[&_button[data-open-modal]]:justify-start">
+        <Search />
+      </div>
+    )}
 
-  <div class="flex min-w-0 items-center justify-end gap-4 max-[50rem]:hidden">
-    <div class="w-[min(32vw,20rem)] min-w-36 max-[64rem]:w-[min(38vw,16rem)]">
-      {shouldRenderSearch && <Search />}
-    </div>
-    <div class="flex items-center gap-3 border-l border-white/10 pl-4" aria-label="Social links">
+    <nav class="hidden items-center gap-1 lg:ml-auto! lg:flex" aria-label="Club links">
+      <a
+        href="https://purduephotoclub.org"
+        class="inline-flex min-h-11 items-center border border-transparent px-3 font-mono text-[0.7rem] tracking-[0.14em] text-neutral-300 uppercase transition hover:border-white/15 hover:text-white"
+      >
+        Club site
+      </a>
       {socialLinks.map((link) => (
         <a
           href={link.href}
-          target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-          rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label={link.label}
           title={link.label}
-          class={socialLinkClass}
+          class="inline-flex size-11 items-center justify-center text-neutral-400 transition hover:bg-white/[0.04] hover:text-white"
         >
           {link.icon === 'instagram' && (
             <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
@@ -64,56 +54,154 @@ const iconClass = 'size-4 fill-none stroke-current stroke-2 [stroke-linecap:roun
               <path d="M17.5 6.5h.01" />
             </svg>
           )}
-          {link.icon === 'mail' && (
-            <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-              <path d="M4 6h16v12H4z" />
-              <path d="m4 7 8 6 8-6" />
-            </svg>
-          )}
           {link.icon === 'discord' && (
             <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-              <path d="M9.09 9a3 3 0 0 1 5.83 0" />
-              <path d="M20.27 6.73a19.6 19.6 0 0 0-4.84-1.5 14.68 14.68 0 0 0-.64 1.31 18.16 18.16 0 0 0-5.57 0 14.68 14.68 0 0 0-.65-1.31 19.55 19.55 0 0 0-4.84 1.5A20.09 20.09 0 0 0 .29 18.07a19.72 19.72 0 0 0 6.03 3.05 14.82 14.82 0 0 0 1.3-2.1 12.74 12.74 0 0 1-2.05-.99l.49-.38a14.08 14.08 0 0 0 12 0l.49.38c-.66.39-1.35.72-2.06.99a14.82 14.82 0 0 0 1.3 2.1 19.65 19.65 0 0 0 6.02-3.05A20.06 20.06 0 0 0 20.27 6.73zM8.52 15.65a2.33 2.33 0 0 1-2.18-2.4 2.31 2.31 0 0 1 2.18-2.4 2.31 2.31 0 0 1 2.17 2.4 2.33 2.33 0 0 1-2.17 2.4zm6.96 0a2.33 2.33 0 0 1-2.17-2.4 2.31 2.31 0 0 1 2.17-2.4 2.31 2.31 0 0 1 2.18 2.4 2.33 2.33 0 0 1-2.18 2.4z" />
+              <path d="M8.5 8.6a10.8 10.8 0 0 1 7 0M9 15c2 1.2 4 1.2 6 0" />
+              <path d="M7.2 5.7A18 18 0 0 0 3.5 18c2.2 1.6 4.2 2.2 4.2 2.2l1-1.5M16.8 5.7A18 18 0 0 1 20.5 18c-2.2 1.6-4.2 2.2-4.2 2.2l-1-1.5" />
+              <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none" />
+              <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none" />
             </svg>
           )}
         </a>
       ))}
-    </div>
+    </nav>
+
+    <button
+      type="button"
+      data-wiki-theme-toggle
+      aria-label="Use light theme"
+      title="Use light theme"
+      class="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-transparent bg-transparent text-neutral-300 transition hover:border-white/10 hover:bg-white/[0.06] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+    >
+      <svg data-theme-icon="sun" viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+      </svg>
+      <svg data-theme-icon="moon" viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      data-wiki-menu
+      aria-controls="starlight__sidebar"
+      aria-expanded="false"
+      aria-label="Open wiki menu"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center border border-white/15 bg-white/[0.03] text-neutral-200 transition hover:border-white/35 hover:bg-white/[0.07] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 lg:hidden"
+    >
+      <svg data-menu-open-icon viewBox="0 0 24 24" aria-hidden="true" class="size-5 fill-none stroke-current stroke-2">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <svg data-menu-close-icon viewBox="0 0 24 24" aria-hidden="true" class="hidden size-5 fill-none stroke-current stroke-2">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </svg>
+    </button>
   </div>
 </div>
 
-<script is:inline>
-  (() => {
-    const root = document.documentElement;
-    const menuButton = document.querySelector('.wiki-header-menu-button');
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-wiki-menu]');
+  const themeButton = document.querySelector<HTMLButtonElement>('[data-wiki-theme-toggle]');
+  const sunIcon = themeButton?.querySelector<SVGElement>('[data-theme-icon="sun"]');
+  const moonIcon = themeButton?.querySelector<SVGElement>('[data-theme-icon="moon"]');
+  const sidebar = document.querySelector<HTMLElement>('#starlight__sidebar');
+  const backdrop = sidebar?.querySelector<HTMLButtonElement>('[data-wiki-sidebar-backdrop]');
+  const openIcon = menuButton?.querySelector<HTMLElement>('[data-menu-open-icon]');
+  const closeIcon = menuButton?.querySelector<HTMLElement>('[data-menu-close-icon]');
+  let returnFocus: HTMLElement | null = null;
 
-    if (!menuButton) return;
+  function updateThemeButton() {
+    if (!themeButton) return;
+    const isLight = document.documentElement.dataset.theme === 'light';
+    const label = isLight ? 'Use dark theme' : 'Use light theme';
 
-    const setOpen = (isOpen) => {
-      root.classList.toggle('wiki-header-sidebar-open', isOpen);
-      menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    };
+    themeButton.setAttribute('aria-label', label);
+    themeButton.setAttribute('title', label);
+    sunIcon?.classList.toggle('hidden', !isLight);
+    moonIcon?.classList.toggle('hidden', isLight);
+  }
 
-    menuButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-      setOpen(!root.classList.contains('wiki-header-sidebar-open'));
-    });
+  themeButton?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = nextTheme;
+    try {
+      localStorage.setItem('starlight-theme', nextTheme);
+    } catch {
+      // Theme switching still works when browser storage is unavailable.
+    }
+    window.StarlightThemeProvider?.updatePickers(nextTheme);
+    updateThemeButton();
+  });
 
-    document.addEventListener('click', (event) => {
-      if (!root.classList.contains('wiki-header-sidebar-open')) return;
-      const target = event.target instanceof Element ? event.target : null;
-      if (!target) return;
-      if (target.closest('.sidebar-pane a')) {
-        setOpen(false);
-        return;
-      }
-      if (target.closest('.wiki-header-menu-button, .sidebar-pane')) return;
+  updateThemeButton();
 
-      setOpen(false);
-    });
+  function focusableSidebarElements() {
+    if (!sidebar) return [];
+    return Array.from(
+      sidebar.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')
+    ).filter((element) => element.tabIndex >= 0 && !element.hasAttribute('hidden'));
+  }
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') setOpen(false);
-    });
-  })();
+  function setSidebarOpen(isOpen: boolean, restoreFocus = true) {
+    if (!menuButton || !sidebar) return;
+    const pageMain = document.querySelector<HTMLElement>('main');
+
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close wiki menu' : 'Open wiki menu');
+    sidebar.classList.toggle('hidden', !isOpen);
+    document.body.classList.toggle('overflow-hidden', isOpen);
+    openIcon?.classList.toggle('hidden', isOpen);
+    closeIcon?.classList.toggle('hidden', !isOpen);
+
+    if (pageMain) pageMain.inert = isOpen;
+
+    if (isOpen) {
+      returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : menuButton;
+      requestAnimationFrame(() => focusableSidebarElements()[0]?.focus());
+    } else if (restoreFocus) {
+      returnFocus?.focus();
+      returnFocus = null;
+    }
+  }
+
+  menuButton?.addEventListener('click', () => {
+    setSidebarOpen(menuButton.getAttribute('aria-expanded') !== 'true');
+  });
+
+  backdrop?.addEventListener('click', () => setSidebarOpen(false));
+
+  sidebar?.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element) || !event.target.closest('a[href]')) return;
+    if (window.matchMedia('(min-width: 64rem)').matches) return;
+    setSidebarOpen(false, false);
+  });
+
+  sidebar?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setSidebarOpen(false);
+      return;
+    }
+
+    if (event.key !== 'Tab' || window.matchMedia('(min-width: 64rem)').matches) return;
+    const focusable = focusableSidebarElements();
+    const first = focusable[0];
+    const last = focusable.at(-1);
+    if (!first || !last) return;
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (!window.matchMedia('(min-width: 64rem)').matches) return;
+    setSidebarOpen(false, false);
+    returnFocus = null;
+  });
 </script>

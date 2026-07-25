@@ -1,0 +1,133 @@
+---
+title: How the system works
+description: How the website, API, Discord, email, storage, and scheduled jobs connect.
+accent: sky
+sidebar:
+  label: System overview
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+import TechnologyGrid from '../../../components/TechnologyGrid.astro';
+
+<section className="mb-8 border-l-2 border-amber-200 bg-amber-200/[0.04] p-5 sm:p-7" aria-label="System summary">
+  <p className="m-0 text-[0.7rem] tracking-[0.18em] text-amber-200 uppercase">The short version</p>
+  <p className="mt-3 mb-0 max-w-3xl text-xl leading-8 font-semibold text-white sm:text-2xl sm:leading-9">
+    The website sends requests to the API, the service that checks rules and saves club data. The API then asks the other services to handle Discord, email, or scheduled work.
+  </p>
+</section>
+
+**The API is the only service that changes club records.** The website shows the interface, the Discord Worker handles Discord actions, the Email Worker reads receipts, and the Scheduler Worker starts timed jobs.
+
+Each service has **one job**. A web page cannot change Discord directly. The Scheduler Worker cannot write to the database. The Email Worker cannot create a membership by itself.
+
+<SystemDiagram type="platform" />
+
+## What each service does
+
+<div className="my-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 [&>article]:border [&>article]:border-white/10">
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-violet-200 uppercase">Website Worker</p>
+    <h3 className="mt-3! text-2xl!">Website pages</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Shows public pages and the dashboard. It sends API requests through a private link between Cloudflare Workers.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-amber-200 uppercase">API Worker</p>
+    <h3 className="mt-3! text-2xl!">Rules and records</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Checks identity and permissions, applies limits, updates D1 and R2, and adds a digital signature to Discord events.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-indigo-200 uppercase">Discord Worker</p>
+    <h3 className="mt-3! text-2xl!">Discord changes</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Checks Discord interactions and signed messages, then updates roles, DMs, posts, and channels.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">Discord Gateway</p>
+    <h3 className="mt-3! text-2xl!">Live connection</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Keeps Discord's live connection on a VPS, a private server, and sends a small set of checked events to the Worker.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-rose-200 uppercase">Email Worker</p>
+    <h3 className="mt-3! text-2xl!">Receipts</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Checks forwarded receipts, reads their PDF data, tracks retries in KV storage, and sends valid orders to the API.</p>
+  </article>
+  <article className="min-h-48 bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-sky-200 uppercase">Scheduler Worker</p>
+    <h3 className="mt-3! text-2xl!">Scheduled jobs</h3>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Runs every thirty minutes and starts seven private API jobs. It cannot access D1 or Discord directly.</p>
+  </article>
+</div>
+
+The wiki is separate from these services. Astro and Starlight build it as static HTML, Pagefind adds search, and Cloudflare Pages hosts it. You can read this guide even when the member API is unavailable.
+
+## The API controls data changes
+
+The API can check a user's identity, permissions, club records, and stored files. A request may start on the website, in Discord, from an email, or on a timer. The API still decides whether data can change.
+
+The main rule is:
+
+<div className="my-8 border-l-2 border-amber-200 bg-amber-200/[0.04] p-6 sm:p-8">
+  <p className="m-0 text-xl leading-8 font-semibold text-white">If club data changes, the request goes through the API.</p>
+</div>
+
+This means Discord and the dashboard use the same equipment loan, membership, and request records.
+
+## One system, separate repositories
+
+The workspace uses several repositories. Each repository is deployed on its own.
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead>
+      <tr><th>Repository</th><th>Built with</th><th>Runs on</th><th>Connects to</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>website</code></td><td>Astro + React on Workers</td><td>Cloudflare Worker</td><td>API Worker service binding</td></tr>
+      <tr><td><code>api</code></td><td>TypeScript Worker</td><td>Cloudflare Worker</td><td>D1, three R2 buckets, Discord Worker, email providers and verification services</td></tr>
+      <tr><td><code>discord</code></td><td>Worker + Node.js Gateway</td><td>Cloudflare Worker + VPS</td><td>API Worker, Discord REST, Discord Gateway, VPC service</td></tr>
+      <tr><td><code>email-worker</code></td><td>TypeScript Worker</td><td>Cloudflare Worker</td><td>Email Routing, KV, API Worker</td></tr>
+      <tr><td><code>scheduler-worker</code></td><td>TypeScript Worker</td><td>Cloudflare Worker</td><td>API Worker only</td></tr>
+      <tr><td><code>wiki</code></td><td>Astro + Starlight</td><td>Cloudflare Pages</td><td>None; it works on its own</td></tr>
+    </tbody>
+  </table>
+</div>
+
+**Service bindings are private links between Cloudflare Workers**, so their traffic does not use a public address. The services still use shared secrets and signed messages. These checks tell the receiving service who sent a request and whether it changed on the way.
+
+<TechnologyGrid />
+
+## Read about each part
+
+<div className="my-10 grid gap-4 sm:grid-cols-2 [&>a]:border [&>a]:border-white/10">
+  <a href="/system/requests-and-auth/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.68rem] tracking-[0.18em] text-sky-200 uppercase">01 · Browser</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Requests, accounts, and access</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">How browser requests reach the API, and how accounts, Discord links, permissions, and rate limits work.</span>
+  </a>
+  <a href="/system/data-and-media/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">02 · Storage</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Data and images</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">What D1, R2, and KV store, how image checks work, and how failed uploads are cleaned up.</span>
+  </a>
+  <a href="/system/discord/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.68rem] tracking-[0.18em] text-indigo-200 uppercase">03 · Discord</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Discord and the Gateway</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">How Discord requests arrive, how signatures block fake requests, and how repeated events are stopped.</span>
+  </a>
+  <a href="/system/email-and-membership/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.68rem] tracking-[0.18em] text-rose-200 uppercase">04 · Receipts</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Receipts and membership</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">How receipt emails and PDFs are read, checked for duplicates, retried, and turned into memberships.</span>
+  </a>
+  <a href="/system/automation/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.68rem] tracking-[0.18em] text-amber-200 uppercase">05 · Time</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Scheduled work</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">What the seven jobs do, how they prove their identity, and how they avoid running twice.</span>
+  </a>
+  <a href="/system/deployment-and-safety/" className="min-h-40 bg-neutral-950 p-6 no-underline transition hover:bg-neutral-900">
+    <span className="text-[0.68rem] tracking-[0.18em] text-violet-200 uppercase">06 · Operations</span>
+    <strong className="mt-3 block font-['Playfair_Display',Georgia,serif] text-2xl">Deployment, safety, and monitoring</strong>
+    <span className="mt-3 block text-sm leading-6 text-neutral-400">How each repository is tested and deployed, and how database updates, secrets, logs, and health checks work.</span>
+  </a>
+</div>
+
+This guide does not include secret values, private IDs, or credentials. Live routes and VPS settings may change before this page is updated.

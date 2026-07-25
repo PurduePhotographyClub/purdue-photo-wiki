@@ -1,0 +1,177 @@
+---
+title: Deployments and checks
+description: How each repo is tested and deployed, where secrets are stored, and what health checks tell us.
+accent: cyan
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+**Each repository tests and deploys its own code.** Changing the wiki does not deploy the API. Fixing email does not rebuild the website.
+
+When a change affects more than one service, **both sides must work while they are deployed at different times**.
+
+<SystemDiagram type="deployment" />
+
+## How each repository deploys
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Repository</th><th>Checks</th><th>Deploys to</th><th>Extra step</th></tr></thead>
+    <tbody>
+      <tr><td><code>website</code></td><td>Tests, Astro build, TypeScript, React Doctor, deploy artifact check</td><td>Cloudflare Worker</td><td>Uses the Astro Cloudflare server entrypoint and API service binding.</td></tr>
+      <tr><td><code>api</code></td><td>Tests, TypeScript, dry-run Worker build, React Doctor</td><td>Cloudflare Worker</td><td>Applies D1 migrations before the normal deploy.</td></tr>
+      <tr><td><code>discord</code></td><td>Worker tests, TypeScript, ESLint, Worker and Gateway builds</td><td>Cloudflare Worker</td><td>This workflow does not deploy the VPS Gateway.</td></tr>
+      <tr><td><code>email-worker</code></td><td>Parser tests, TypeScript, dry-run Worker build, React Doctor</td><td>Cloudflare Worker</td><td>Keeps the five-minute receipt retry Cron and KV binding.</td></tr>
+      <tr><td><code>scheduler-worker</code></td><td>TypeScript, dry-run Worker build, React Doctor</td><td>Cloudflare Worker</td><td>Keeps the thirty-minute Cron and API binding.</td></tr>
+      <tr><td><code>wiki</code></td><td>Content/UI tests and Astro static build</td><td>Cloudflare Pages</td><td>Builds Pagefind search data into the static output.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+The Worker workflows use Node 22. The wiki Pages workflow uses Node 24. Each Wrangler file sets its own runtime compatibility date and flags. The CI Node version does not set them.
+
+## Pull requests check; `main` deploys
+
+Most repositories follow these steps:
+
+1. Open or update a pull request.
+2. Install the locked dependencies.
+3. Run the repository checks.
+4. Build the same files that Wrangler or Pages will publish.
+5. After a successful push to `main`, sign in to Cloudflare and deploy.
+
+Some pipelines also audit dependencies and check for secrets. These checks can catch common mistakes, but reviewers must still check authorization, input validation, and new trust boundaries.
+
+## The API runs migrations first
+
+The normal API deployment command applies remote D1 migrations before it publishes the new Worker.
+
+This gives new code the tables and columns it needs. It also means the migration must work with the old Worker until the new Worker is live.
+
+For a safe schema change:
+
+- Add a new column or table before code needs it.
+- Do not remove or rename data while old code may still use it.
+- Keep API responses compatible with the website and Discord Worker during the rollout.
+- Make migrations safe to run again.
+
+## Starting a new API environment
+
+The API normally binds to the Discord Worker. In a new environment, the API expects the `ppc-bot` service, but the Discord Worker also expects the API. Neither service exists yet.
+
+The API has a bootstrap deployment that creates a temporary Wrangler file without the Discord binding. This lets the API deploy first. The Discord Worker deploys next, and then the API deploys normally with the binding restored.
+
+<div className="my-8 border-l-2 border-rose-300 bg-rose-300/[0.04] p-6">
+  <p className="m-0 text-xl leading-8 font-semibold text-white">Use bootstrap only to create an environment. It is not the normal production setup.</p>
+</div>
+
+The bootstrap setup cannot send Discord events. Check that the normal binding is restored after both services exist.
+
+## The VPS Gateway deploys separately
+
+The Discord repository builds the Worker and the Gateway. Its Cloudflare workflow deploys only the Worker.
+
+The Gateway uses these steps:
+
+1. Build the Gateway locally and copy its compiled `dist` folder into a small deployment repository.
+2. Push that repository to the bare Git repository on the VPS.
+3. The post-receive hook checks out the built files.
+4. The hook installs production dependencies and restarts the systemd service.
+5. The discord.js process reconnects to Discord.
+
+A successful Worker deployment does not prove that the VPS process, websocket, forwarding allowlist, Tunnel/VPC route, or systemd service works.
+
+A healthy Gateway can also send an event that the Worker rejects because its secret, timestamp, nonce, or event contract is wrong.
+
+## Where configuration lives
+
+Public settings can stay in the repository. **Secrets cannot.**
+
+<div className="my-10 grid gap-4 lg:grid-cols-3 [&>article]:border [&>article]:border-white/10">
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-sky-200 uppercase">Stored in Git</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Service names, D1, R2 and KV bindings, rate-limit namespaces, Cron expressions, routes, compatibility dates, and other public settings.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-rose-200 uppercase">Stored as secrets</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Auth secrets, OAuth credentials, internal tokens, signing secrets, Discord tokens, Resend keys, Turnstile keys, and external API credentials.</p>
+  </article>
+  <article className="bg-neutral-950 p-6">
+    <p className="m-0 text-[0.68rem] tracking-[0.18em] text-emerald-200 uppercase">Set when deployed</p>
+    <p className="mt-3 mb-0 text-sm leading-6 text-neutral-400">Service bindings, custom domains, VPC routes, Email Routing, and VPS environment values that connect the services.</p>
+  </article>
+</div>
+
+Secrets are set through Wrangler or the server environment. They are never hardcoded in TypeScript. Shared values must match in both services, but must never appear in a public variable or browser bundle.
+
+## What to check in review
+
+A feature may cross several service boundaries. Check each boundary it uses.
+
+### Browser to website
+
+- Is untrusted form or query input validated?
+- Is the control accessible?
+- Does the UI show and enforce the same limit as the API?
+- Does any client code accidentally receive an internal token or secret?
+
+### Website to API
+
+- Does the bridge strip spoofable internal headers?
+- Does the bridge leave Better Auth routes unversioned?
+- Does the API check authorization instead of trusting the UI?
+
+### API to storage
+
+- Are queries parameterized?
+- Does the API check file limits before writing to R2?
+- If part of a storage write fails, does the code undo the completed part?
+
+### API or Gateway to Discord Worker
+
+- Is the event signed with a timestamp and fresh nonce?
+- Does the Worker reject event types it does not know?
+- Can a retry repeat the visible change?
+
+### Email Worker to API
+
+- Are the sender, recipient, message size, attachments, and parsed fields limited?
+- Do KV and D1 prevent duplicate delivery and fulfillment?
+- Is each failure marked as retryable or final?
+
+## Logs and traces
+
+All five Worker services enable Cloudflare observability with a 10% head-sampling rate. The API and Discord Worker use structured logs that hide common credential fields.
+
+Useful log fields include:
+
+- Health status and service name
+- Request path, safe request or event ID, and duration
+- Scheduled job results for each path
+- Discord event name, nonce result, and REST status
+- Receipt intake key, retry type, and fulfillment result
+- Gateway connection, forwarding filter, and presence status
+
+Sampling means that not every request gets a trace. Error logs should include enough limited context to investigate, but never cookies, authorization headers, raw secrets, full receipt bodies, or private user data.
+
+There is no single trace that follows a request through every service. To investigate a problem, you may need to match timestamps and safe IDs across Cloudflare and VPS logs.
+
+## A health check tests one service
+
+**A health endpoint tests one service, not the full flow.** It does not test every dependency or allowlist.
+
+For example:
+
+- The API can be healthy while its Discord binding fails.
+- The Discord Worker can be healthy but receive no Gateway events because a channel is missing from the VPS allowlist.
+- The Gateway can be healthy while presence updates fail because the VPC route or signing secret is wrong.
+- The Email Worker can be healthy but receive no messages because an Email Routing rule changed.
+- A Cron trigger can succeed while one of its seven jobs fails.
+
+Test the same path that the user action takes.
+
+## What the repository cannot show
+
+The code and Wrangler files show the planned setup. They do not show live secret values, Email Routing rules, the VPS environment, Tunnel/VPC state, or domain changes made outside Git.
+
+Check the live resource when you need those details. A route in the repository does not prove that the deployed route works.

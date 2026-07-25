@@ -2,254 +2,118 @@
 import Pagination from 'virtual:starlight/components/Pagination';
 
 const mainSite = 'https://purduephotoclub.org';
-const listservActionUrl = 'https://lists.purdue.edu/scripts/wa.exe';
-const listservManageUrl = 'https://lists.purdue.edu/scripts/wa.exe?SUBED1=PURDUEPHOTOCLUB&A=1';
-const listservListName = 'PURDUEPHOTOCLUB';
 const { prev, next } = Astro.locals.starlightRoute.pagination;
 
-const socialLinks = [
-  { href: 'https://www.instagram.com/purduephotoclub/', label: 'Instagram', icon: 'instagram' },
-  { href: `${mainSite}/discord`, label: 'Discord', icon: 'discord' },
-  { href: 'mailto:photo@purdue.edu', label: 'Email', icon: 'mail' },
-  { href: 'https://linktr.ee/purduephotoclub', label: 'Linktree', icon: 'external' },
-  { href: 'https://boilerlink.purdue.edu/organization/photoclub', label: 'BoilerLink', icon: 'external' },
+const navLinks = [
+  { href: `${mainSite}/gallery`, label: 'Gallery' },
+  { href: `${mainSite}/members`, label: 'Members' },
+  { href: `${mainSite}/competitions`, label: 'Competitions' },
+  { href: `${mainSite}/facilities`, label: 'Facilities' },
+  { href: `${mainSite}/membership`, label: 'Membership' },
+  { href: `${mainSite}/events`, label: 'Events' },
+  { href: `${mainSite}/request`, label: 'Request' },
 ];
 
-const iconClass = 'size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]';
+const socialLinks = [
+  { href: 'https://www.instagram.com/purduephotoclub/', label: 'Instagram', icon: 'instagram', external: true },
+  { href: `${mainSite}/discord`, label: 'Discord', icon: 'discord', external: false },
+  { href: 'mailto:photo@purdue.edu', label: 'Email', icon: 'email', external: false },
+  { href: 'https://linktr.ee/purduephotoclub', label: 'Linktree', icon: 'external', external: true },
+  { href: 'https://boilerlink.purdue.edu/organization/photoclub', label: 'BoilerLink', icon: 'external', external: true },
+  { href: 'https://github.com/PurduePhotographyClub', label: 'GitHub', icon: 'github', external: true },
+];
+
+const footerLinkClasses = 'inline-flex min-h-11 items-center text-sm tracking-wide text-neutral-500 no-underline transition-colors hover:text-white focus-visible:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400 md:min-h-0';
 ---
 
 {(prev || next) && (
-  <div class="wiki-doc-pagination">
+  <div class="mx-auto! w-full max-w-6xl px-4 py-12 sm:px-7 sm:py-16 lg:px-10 xl:px-12">
     <Pagination />
   </div>
 )}
 
-<footer class="ppc-footer">
-  <div class="ppc-footer__inner">
-    <div class="ppc-footer__grid">
+<footer class="relative left-1/2 w-screen -ml-[50vw]! border-t border-neutral-800 bg-neutral-950 px-5 py-10 sm:px-7 sm:py-12 lg:ml-[calc(-50vw-8.5rem)]! lg:px-10 xl:px-12">
+  <div class="lg:pl-[17rem]">
+    <div class="mx-auto! w-full max-w-6xl">
+      <div class="grid grid-cols-1 gap-9 pb-12 md:grid-cols-[1.15fr_1fr_0.8fr] md:gap-10">
       <div>
-        <a href={mainSite} class="ppc-footer__brand">
-          <img src="/images/brand/wiki/ppc-logo.webp" alt="" />
-          <span>Purdue Photography Club</span>
+        <a href={mainSite} class="inline-flex min-h-11 items-center gap-3 text-white no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">
+          <img src="/images/brand/wiki/ppc-logo.webp" width="96" height="96" alt="" class="wiki-brand-logo size-10 object-contain" />
+          <span class="font-['Playfair_Display',Georgia,serif] text-xs tracking-[0.3em] text-neutral-400 uppercase">
+            Purdue Photography Club
+          </span>
         </a>
-        <p class="ppc-footer__copy">
-          Where analog tradition meets digital innovation. Capturing moments in silver halide and silicon since 1934.
+        <p class="mt-4 max-w-sm text-sm leading-6 tracking-wide text-neutral-500">
+          Film, digital, darkroom, and club work at Purdue since 1934.
         </p>
       </div>
 
       <div>
-        <p class="ppc-footer__label">Connect With Us</p>
-        <div class="ppc-footer__socials">
+        <p class="mb-4 font-mono text-[0.7rem] tracking-[0.26em] text-neutral-400 uppercase">Club links</p>
+        <nav class="grid grid-cols-2 gap-2" aria-label="Club website links">
+          {navLinks.map((link) => (
+            <a href={link.href} class={footerLinkClasses}>{link.label}</a>
+          ))}
+        </nav>
+      </div>
+
+      <div>
+        <p class="mb-4 font-mono text-[0.7rem] tracking-[0.26em] text-neutral-400 uppercase">Connect</p>
+        <nav class="flex flex-col gap-1" aria-label="Club social links">
           {socialLinks.map((link) => (
             <a
               href={link.href}
-              target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-              rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class:list={[footerLinkClasses, 'gap-2.5']}
             >
               {link.icon === 'instagram' && (
-                <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M17.5 6.5h.01" />
-                </svg>
-              )}
-              {link.icon === 'mail' && (
-                <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-                  <path d="M4 6h16v12H4z" />
-                  <path d="m4 7 8 6 8-6" />
-                </svg>
-              )}
-              {link.icon === 'external' && (
-                <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-                  <path d="M7 17 17 7" />
-                  <path d="M8 7h9v9" />
-                  <path d="M5 5v14h14" />
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <rect width="18" height="18" x="3" y="3" rx="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <path d="M17.5 6.5h.01"></path>
                 </svg>
               )}
               {link.icon === 'discord' && (
-                <svg viewBox="0 0 24 24" aria-hidden="true" class={iconClass}>
-                  <path d="M9.09 9a3 3 0 0 1 5.83 0" />
-                  <path d="M20.27 6.73a19.6 19.6 0 0 0-4.84-1.5 14.68 14.68 0 0 0-.64 1.31 18.16 18.16 0 0 0-5.57 0 14.68 14.68 0 0 0-.65-1.31 19.55 19.55 0 0 0-4.84 1.5A20.09 20.09 0 0 0 .29 18.07a19.72 19.72 0 0 0 6.03 3.05 14.82 14.82 0 0 0 1.3-2.1 12.74 12.74 0 0 1-2.05-.99l.49-.38a14.08 14.08 0 0 0 12 0l.49.38c-.66.39-1.35.72-2.06.99a14.82 14.82 0 0 0 1.3 2.1 19.65 19.65 0 0 0 6.02-3.05A20.06 20.06 0 0 0 20.27 6.73zM8.52 15.65a2.33 2.33 0 0 1-2.18-2.4 2.31 2.31 0 0 1 2.18-2.4 2.31 2.31 0 0 1 2.17 2.4 2.33 2.33 0 0 1-2.17 2.4zm6.96 0a2.33 2.33 0 0 1-2.17-2.4 2.31 2.31 0 0 1 2.17-2.4 2.31 2.31 0 0 1 2.18 2.4 2.33 2.33 0 0 1-2.18 2.4z" />
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <path d="M9.09 9a3 3 0 0 1 5.83 0"></path>
+                  <path d="M20.27 6.73a19.6 19.6 0 0 0-4.84-1.5 14.68 14.68 0 0 0-.64 1.31 18.16 18.16 0 0 0-5.57 0 14.68 14.68 0 0 0-.65-1.31 19.55 19.55 0 0 0-4.84 1.5A20.09 20.09 0 0 0 .29 18.07a19.72 19.72 0 0 0 6.03 3.05 14.82 14.82 0 0 0 1.3-2.1 12.74 12.74 0 0 1-2.05-.99l.49-.38a14.08 14.08 0 0 0 12 0l.49.38c-.66.39-1.35.72-2.06.99a14.82 14.82 0 0 0 1.3 2.1 19.65 19.65 0 0 0 6.02-3.05A20.06 20.06 0 0 0 20.27 6.73z"></path>
+                </svg>
+              )}
+              {link.icon === 'email' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                  <path d="m22 7-10 6L2 7"></path>
+                </svg>
+              )}
+              {link.icon === 'external' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14 21 3"></path>
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                </svg>
+              )}
+              {link.icon === 'github' && (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3.28-.36 6.72-1.61 6.72-7.25A5.65 5.65 0 0 0 19.22 3.3 5.35 5.35 0 0 0 19.08.35S17.9 0 15 1.48a13.38 13.38 0 0 0-7 0C5.1 0 3.92.35 3.92.35A5.35 5.35 0 0 0 3.77 3.3a5.65 5.65 0 0 0-1.5 3.95c0 5.63 3.44 6.88 6.72 7.25A4.8 4.8 0 0 0 8 18v4"></path>
+                  <path d="M9 18c-4.51 2-5-2-7-2"></path>
                 </svg>
               )}
               {link.label}
             </a>
           ))}
-        </div>
+        </nav>
+      </div>
       </div>
 
-      <div class="ppc-footer__newsletter">
-        <p class="ppc-footer__label">Newsletter</p>
-        <form action={listservActionUrl} method="post" target="purdue-listserv-footer" class="ppc-footer__form">
-          <input type="hidden" name="SUBED2" value={listservListName} />
-          <input type="hidden" name="A" value="1" />
-          <input type="hidden" name="L" value={listservListName} />
-          <input type="text" name="p" placeholder="Your name" required />
-          <input type="hidden" name="q" value="" />
-          <input type="email" name="s" placeholder="your@email.com" required />
-          <input type="hidden" name="t" value="" />
-          <input type="hidden" name="_charset_" value="UTF-8" />
-          <button type="submit" name="b" value="Subscribe">Subscribe</button>
-        </form>
-        <iframe name="purdue-listserv-footer" title="Purdue LISTSERV footer signup" hidden></iframe>
-        <p class="ppc-footer__small">
-          Want to unsubscribe?
-          <a href={listservManageUrl} target="_blank" rel="noopener noreferrer">Open Purdue LISTSERV</a>.
+      <div class="flex flex-col items-center gap-4 border-t border-neutral-800 pt-6 text-center text-xs leading-5 tracking-wide text-neutral-500 md:flex-row md:justify-between md:text-left">
+        <p>Est. 1934 · Purdue Photography Club · West Lafayette, IN</p>
+        <p>
+          Made with love by
+          <a href="https://www.instagram.com/alesgs.photos/" target="_blank" rel="noopener noreferrer" class="text-neutral-300 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-neutral-400">Alejandro Griffith</a>
+          · © 2026
         </p>
       </div>
     </div>
-
-    <div class="ppc-footer__bottom">
-      <p>Est. 1934 · Purdue Photography Club · West Lafayette, IN</p>
-      <p>
-        Made with love by
-        <a href="https://alesgsanudoo.com" target="_blank" rel="noopener noreferrer">Alejandro Griffith</a>
-        · © 2026
-      </p>
-    </div>
   </div>
 </footer>
-
-<style>
-  .wiki-doc-pagination {
-    box-sizing: border-box;
-    width: min(68rem, calc(100vw - 2rem));
-    max-width: 100%;
-    margin: clamp(2rem, 5vw, 4rem) auto clamp(2rem, 5vw, 3rem);
-  }
-
-  @media (max-width: 50rem) {
-    .wiki-doc-pagination {
-      width: 100%;
-      margin-inline: 0;
-    }
-  }
-</style>
-
-<script is:inline>
-  (() => {
-    const images = Array.from(
-      document.querySelectorAll('.gs-page .gs-photo-link img, .basics-page figure img, .anatomy-page figure img, .editing-page figure img, .gear-page figure img')
-    );
-
-    if (images.length === 0) return;
-
-    let lastFocusedElement = null;
-    let viewer = document.querySelector('.wiki-image-viewer');
-
-    if (!viewer) {
-      viewer = document.createElement('div');
-      viewer.className = 'wiki-image-viewer';
-      viewer.hidden = true;
-      viewer.setAttribute('role', 'dialog');
-      viewer.setAttribute('aria-modal', 'true');
-      viewer.setAttribute('aria-label', 'Image viewer');
-
-      const backdrop = document.createElement('button');
-      backdrop.className = 'wiki-image-viewer__backdrop';
-      backdrop.type = 'button';
-      backdrop.setAttribute('aria-label', 'Close image viewer');
-
-      const figure = document.createElement('figure');
-      const viewerImage = document.createElement('img');
-      viewerImage.alt = '';
-      const caption = document.createElement('figcaption');
-      figure.append(viewerImage, caption);
-
-      const closeButton = document.createElement('button');
-      closeButton.className = 'wiki-image-viewer__close';
-      closeButton.type = 'button';
-      closeButton.setAttribute('aria-label', 'Close image viewer');
-      closeButton.innerHTML = '&times;';
-
-      viewer.append(backdrop, figure, closeButton);
-      document.body.append(viewer);
-    }
-
-    const viewerImage = viewer.querySelector('img');
-    const caption = viewer.querySelector('figcaption');
-    const closeButton = viewer.querySelector('.wiki-image-viewer__close');
-    const closeTargets = viewer.querySelectorAll('.wiki-image-viewer__backdrop, .wiki-image-viewer__close');
-
-    const updateViewerHeight = () => {
-      const height = window.visualViewport?.height || window.innerHeight;
-      document.documentElement.style.setProperty('--wiki-viewer-height', `${height}px`);
-    };
-
-    const getCaptionText = (image) => {
-      const figure = image.closest('figure');
-      const figureCaption = figure?.querySelector('figcaption');
-      return figureCaption?.innerText?.trim() || image.alt || 'Expanded image';
-    };
-
-    const closeViewer = () => {
-      if (viewer.hidden) return;
-
-      viewer.hidden = true;
-      document.body.classList.remove('wiki-image-viewer-open');
-      viewerImage.removeAttribute('src');
-      caption.textContent = '';
-      document.documentElement.style.removeProperty('--wiki-viewer-height');
-
-      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-        lastFocusedElement.focus({ preventScroll: true });
-      }
-    };
-
-    const openViewer = (image) => {
-      lastFocusedElement = document.activeElement;
-      updateViewerHeight();
-      viewerImage.src = image.currentSrc || image.src;
-      viewerImage.alt = image.alt || '';
-      caption.textContent = getCaptionText(image);
-      viewer.hidden = false;
-      document.body.classList.add('wiki-image-viewer-open');
-      closeButton.focus({ preventScroll: true });
-    };
-
-    closeTargets.forEach((target) => {
-      target.addEventListener('click', closeViewer);
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeViewer();
-    });
-
-    window.visualViewport?.addEventListener('resize', updateViewerHeight);
-    window.visualViewport?.addEventListener('scroll', updateViewerHeight);
-    window.addEventListener('resize', updateViewerHeight);
-
-    images.forEach((image) => {
-      if (image.dataset.wikiExpandableImage === 'true') return;
-
-      image.dataset.wikiExpandableImage = 'true';
-      image.classList.add('wiki-expandable-image');
-      const photoLink = image.closest('.gs-photo-link');
-      const openImage = (event) => {
-        event?.preventDefault();
-        openViewer(image);
-      };
-
-      if (photoLink) {
-        photoLink.classList.add('wiki-expandable-image-link');
-        photoLink.setAttribute('aria-label', `View ${getCaptionText(image)} full size`);
-        photoLink.addEventListener('click', openImage);
-        photoLink.addEventListener('keydown', (event) => {
-          if (event.key !== ' ') return;
-          openImage(event);
-        });
-        return;
-      }
-
-      image.tabIndex = 0;
-      image.setAttribute('role', 'button');
-      image.setAttribute('aria-label', `View ${getCaptionText(image)} full size`);
-
-      image.addEventListener('click', openImage);
-      image.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        openImage(event);
-      });
-    });
-  })();
-</script>

@@ -1,0 +1,127 @@
+---
+title: Scheduled jobs
+description: How the scheduler starts seven API jobs without running two copies at once.
+accent: amber
+---
+
+import SystemDiagram from '../../../components/SystemDiagram.astro';
+
+**Every thirty minutes**, the Scheduler Worker sends seven private requests to the API at the same time. It records each result and then stops.
+
+**The scheduler starts the jobs. The API decides what changes.** The Discord Worker handles Discord updates.
+
+<SystemDiagram type="scheduler" />
+
+## Seven jobs
+
+<div className="my-8 overflow-x-auto border border-white/10">
+  <table>
+    <thead><tr><th>Job</th><th>Private API path</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>Expire memberships</td><td><code>/internal/jobs/memberships/expire</code></td><td>Find expired memberships, update access, and start any role sync.</td></tr>
+      <tr><td>Reconcile membership roles</td><td><code>/internal/jobs/memberships/roles/reconcile</code></td><td>Update Discord roles from receipt membership data.</td></tr>
+      <tr><td>Update the darkroom schedule</td><td><code>/internal/jobs/darkroom/schedule/sweep</code></td><td>Check the schedule, apply timed changes, and update Discord messages.</td></tr>
+      <tr><td>Update the studio schedule</td><td><code>/internal/jobs/studio/schedule/sweep</code></td><td>Move the studio schedule forward and publish the changes.</td></tr>
+      <tr><td>Update darkroom stats</td><td><code>/internal/jobs/darkroom/stats/sync</code></td><td>Recalculate the latest stats and update them in Discord.</td></tr>
+      <tr><td>Send equipment reminders</td><td><code>/internal/jobs/equipment/reminders/run</code></td><td>Find reminders that are due, claim each send, and notify the right member or staff member.</td></tr>
+      <tr><td>Expire photographer requests</td><td><code>/internal/jobs/photographer-requests/expire</code></td><td>Expire old requests and update their public or Discord status.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+The seven paths are fixed in the scheduler source. Adding another job requires a code change and a new deployment. A database row cannot tell the Worker to call another internal URL.
+
+## One trigger sends all seven requests
+
+Cloudflare Cron calls the Worker's `scheduled` handler with the cron string and scheduled timestamp. The Worker checks its `INTERNAL_TOKEN` and `API_WORKER` binding, then sends all seven requests with `Promise.all`.
+
+The jobs do not depend on each other, so they can run at the same time. Darkroom stats do not need to wait for membership expiry, and equipment reminders do not hold up the studio schedule.
+
+Each result includes:
+
+- API path
+- Success or failure
+- Status code
+- A limited response body
+- Time in milliseconds
+- A safe error message if the request failed before a response
+
+The final summary counts the jobs that passed and failed. If one job fails, the other six results are still kept.
+
+## How the API checks the scheduler
+
+Each request is a `POST` to an internal URL. It includes three headers:
+
+<div className="my-10 grid gap-4 md:grid-cols-3 [&>article]:border [&>article]:border-white/10">
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-sky-200 uppercase">Source</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-internal-source</code> names the caller as <code>scheduler-worker</code>.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-rose-200 uppercase">Token</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-internal-token</code> must match the shared secret in the API.</p></article>
+  <article className="bg-neutral-950 p-5"><p className="m-0 text-[0.68rem] tracking-[0.16em] text-amber-200 uppercase">Scheduled time</p><p className="mt-3 mb-0 text-sm leading-6 text-neutral-400"><code>x-pcc-scheduled-at</code> holds the original Cron timestamp.</p></article>
+</div>
+
+The source header is not proof by itself because a browser can make the same header. **The internal token and service binding prove that the request came from a trusted service.**
+
+The API handles these job paths before normal browser session checks. They are private service endpoints, not staff dashboard routes or public Cron URLs.
+
+## D1 leases prevent overlap
+
+Cron may send the same trigger again after a delay. A deployment may also overlap with a scheduled run. Before a job starts, **the API claims a D1 lease** for that job.
+
+A lease records:
+
+1. Whether the same job is already running.
+2. When the claim expires if the Worker stops before it finishes.
+3. Whether the job finished or failed.
+
+If another request arrives while the lease is active, the API does not run that job again. When the job ends, the API records success or failure and updates the lease state.
+
+<div className="my-8 border-l-2 border-amber-200 bg-amber-200/[0.04] p-6">
+  <p className="m-0 text-xl leading-8 font-semibold text-white">The scheduler sends the request. The API decides whether the job can run.</p>
+</div>
+
+## Each job must still avoid duplicate changes
+
+A lease stops two copies of a job from running at once. The job's code must also make each record update idempotent.
+
+For example, an equipment job must know which reminder is due before it sends a Discord event. A membership job must update only expired memberships. A photographer request job must update only requests that can expire.
+
+The lease protects the whole job. The job's rules protect each record.
+
+## Discord changes still use the Discord Worker
+
+Some jobs change messages, roles, or other items in Discord. The scheduler never calls Discord REST and does not have a Discord token.
+
+The request follows this path:
+
+1. The scheduler calls the private API job.
+2. The API claims the job lease.
+3. The API finds and saves the required changes.
+4. The API signs a typed event for each Discord change.
+5. The Discord Worker checks the event, claims its nonce, and calls Discord REST.
+
+Scheduled and manual changes use the same event contract.
+
+## Health checks and rate limits
+
+The Worker's health response shows its service name and configured job count. The health route is rate limited.
+
+The scheduler configuration sets a limit of ten requests per minute. The code uses this limit only for public `GET /` and `GET /health` requests. The scheduled handler does not use it. Cron runs through Cloudflare's scheduled trigger, and the API requests use the private binding and internal token.
+
+## When a job fails
+
+There are two kinds of failure.
+
+### Request failure
+
+An API call can return an error status or fail before it gets a response. The Worker saves that result and waits for the other jobs. The summary logs how many passed and failed.
+
+### Job failure
+
+The API can claim a lease and then fail while running the job. The job state records the failure, the API logs the job details, and the Scheduler Worker receives an error response.
+
+A Cron trigger can succeed while one of the seven jobs fails. The summary keeps a separate result for each path.
+
+## The Email Worker has its own Cron
+
+The Email Worker's five-minute Cron is separate from these seven jobs.
+
+Every five minutes, it checks the receipt KV namespace for intake records that can be retried. Email parsing and delivery recovery stay in the Email Worker. The thirty-minute Scheduler Worker runs the club workflows owned by the API.

@@ -1,0 +1,36 @@
+---
+const route = Astro.locals.starlightRoute;
+const accent = (route.entry.data as typeof route.entry.data & { accent?: string }).accent ?? 'amber';
+---
+
+<div
+  data-wiki-accent={accent}
+  class="wiki-prose sl-markdown-content min-w-0 text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8
+    [&_[id]]:scroll-mt-24
+    [&>*+*]:mt-6!
+    [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:transition
+    [&_.sl-anchor-link]:shrink-0 [&_.sl-anchor-link]:text-neutral-500! [&_.sl-anchor-link]:no-underline!
+    [&_.sl-heading-wrapper.level-h2]:mt-14! [&_.sl-heading-wrapper.level-h2]:border-t [&_.sl-heading-wrapper.level-h2]:border-white/10 [&_.sl-heading-wrapper.level-h2]:pt-8!
+    [&_.sl-heading-wrapper.level-h3]:mt-10! [&_.sl-heading-wrapper.level-h4]:mt-8!
+    [&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:text-neutral-200
+    [&_code]:border [&_code]:border-white/10 [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-['Space_Mono',monospace] [&_code]:text-[0.86em] [&_code]:text-neutral-100
+    [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:leading-5 [&_figcaption]:text-neutral-400
+    [&_h2]:scroll-mt-24 [&_h2]:font-['Playfair_Display',Georgia,serif] [&_h2]:text-3xl [&_h2]:leading-tight [&_h2]:font-semibold [&_h2]:text-white sm:[&_h2]:text-4xl
+    [&_h3]:scroll-mt-24 [&_h3]:font-['Playfair_Display',Georgia,serif] [&_h3]:text-2xl [&_h3]:leading-tight [&_h3]:font-semibold [&_h3]:text-neutral-100
+    [&_h4]:scroll-mt-24 [&_h4]:text-sm [&_h4]:font-bold [&_h4]:tracking-[0.12em] [&_h4]:text-neutral-100 [&_h4]:uppercase
+    [&_hr]:my-10 [&_hr]:border-white/10
+    [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full
+    [&_img]:h-auto [&_img]:max-w-full
+    [&_li]:pl-1
+    [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:space-y-3 [&_ol]:pl-6
+    [&_p]:max-w-[70ch] [&_p+p]:mt-5!
+    [&_pre]:my-7 [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_pre]:border [&_pre]:border-white/10 [&_pre]:bg-black/50 [&_pre]:p-4
+    [&_pre_code]:border-0 [&_pre_code]:bg-transparent [&_pre_code]:p-0
+    [&_strong]:font-bold
+    [&_table]:w-full [&_table]:min-w-[36rem] [&_table]:border-collapse
+    [&_td]:border-b [&_td]:border-white/10 [&_td]:px-3 [&_td]:py-3 [&_td]:align-top
+    [&_th]:border-b [&_th]:border-white/20 [&_th]:px-3 [&_th]:py-3 [&_th]:text-left [&_th]:text-[0.75rem] [&_th]:tracking-[0.14em] [&_th]:text-neutral-200 [&_th]:uppercase
+    [&_ul]:my-6 [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-6"
+>
+  <slot />
+</div>

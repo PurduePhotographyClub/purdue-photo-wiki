@@ -1,0 +1,8 @@
+<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <title>Package libraries</title>
+  <g fill="none" stroke="#a3a3a3" stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.6">
+    <path d="m4 7 8-4 8 4-8 4-8-4Z"/>
+    <path d="m4 7v10l8 4 8-4V7M12 11v10"/>
+    <path d="m8 5 8 4"/>
+  </g>
+</svg>
