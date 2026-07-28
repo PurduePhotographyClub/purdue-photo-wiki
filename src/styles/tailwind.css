@@ -112,6 +112,10 @@ html[data-theme='light'] .wiki-brand-logo {
   --wiki-accent: var(--color-rose-200);
 }
 
+.wiki-prose[data-wiki-accent='silver'] {
+  --wiki-accent: var(--color-neutral-300);
+}
+
 .wiki-prose a {
   color: var(--wiki-accent);
   text-decoration-color: var(--wiki-accent-line);

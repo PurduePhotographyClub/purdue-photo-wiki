@@ -21,9 +21,12 @@ test('Jobs 101 preserves the approved copy in the standard wiki layout', () => {
   const jobs101 = readProjectFile('src/content/docs/jobs/index.mdx');
   const config = readProjectFile('astro.config.mjs');
   const markdown = readProjectFile('src/components/WikiMarkdownContent.astro');
+  const tailwind = readProjectFile('src/styles/tailwind.css');
   const bodyCopy = jobs101
     .replace(/^---[\s\S]*?---\s*/, '')
+    .replace(/<nav\b[^>]*data-jobs-category-nav[^>]*>[\s\S]*?<\/nav>/, '')
     .replace(/^##\s+.+$/gm, '')
+    .replace(/<\/?div\b[^>]*>/g, '')
     .replace(/<\/?strong\b[^>]*>/g, '')
     .replace(/^\s*(?:\d+\.|-)\s+/gm, '')
     .replace(/\s+/g, ' ')
@@ -34,9 +37,10 @@ test('Jobs 101 preserves the approved copy in the standard wiki layout', () => {
     'e7ba91239f02bf8ad1e19fe2124e4233714b4830185cbf97cf373d6b0ab49eec',
   );
   assert.match(jobs101, /^title: Jobs 101$/m);
+  assert.match(jobs101, /^accent: silver$/m);
   assert.match(
     jobs101,
-    /^description: Welcome to Jobs 101\. This guide shares lessons from problems members faced in past years\. It will help you avoid misunderstandings and protect yourself while working with clients\. If this is your first job, it will help you get started more smoothly\. We hope it helps\.$/m,
+    /^description: Welcome to Jobs 101\. This guide is based on problems members faced in past years\. It will help you avoid misunderstandings, protect yourself while working with clients, and get started more smoothly, especially if this is your first job\. We hope it helps\.$/m,
   );
   for (const heading of ['General tips', 'Communication', 'Covering events', 'Contracts and late arrivals']) {
     assert.match(jobs101, new RegExp(`^## ${heading}$`, 'm'));
@@ -46,6 +50,17 @@ test('Jobs 101 preserves the approved copy in the standard wiki layout', () => {
   assert.ok((jobs101.match(/^ {4}-\s/gm) ?? []).length >= 20);
   assert.match(jobs101, /^1\.\s/m);
   assert.match(jobs101, /^-\s/m);
+  for (const [label, summary, color, anchor] of [
+    ['General tips', 'Agree on delivery, payment, and image use.', 'amber', 'general-tips'],
+    ['Communication', 'Keep the client updated before, during, and after the job.', 'sky', 'communication'],
+    ['Covering events', 'Prepare for the schedule, venue, and people.', 'emerald', 'covering-events'],
+    ['Contracts and late arrivals', 'Protect your time with written terms and clear policies.', 'rose', 'contracts-and-late-arrivals'],
+  ]) {
+    assert.match(jobs101, new RegExp(`href="#${anchor}"`));
+    assert.match(jobs101, new RegExp(`text-${color}-200[^>]*>0[1-4]<`));
+    assert.match(jobs101, new RegExp(`>${label}<`));
+    assert.match(jobs101, new RegExp(`>${summary.replaceAll('.', '\\.')}<`));
+  }
   const categoryColors = [
     ['General tips', 'Communication', 'amber'],
     ['Communication', 'Covering events', 'sky'],
@@ -57,12 +72,17 @@ test('Jobs 101 preserves the approved copy in the standard wiki layout', () => {
     const categoryEnd = nextHeading ? jobs101.indexOf(`## ${nextHeading}`) : jobs101.length;
     const category = jobs101.slice(categoryStart, categoryEnd);
 
+    assert.match(category, new RegExp(`--wiki-accent:var\\(--color-${color}-200\\)`));
     assert.match(category, new RegExp(`text-${color}-200`));
     assert.doesNotMatch(category, new RegExp(`text-(?!${color})[a-z]+-200`));
   }
   assert.match(markdown, /\[&>\.sl-heading-wrapper\.level-h2:first-child\]:border-0!/);
   assert.match(markdown, /\[&>\.sl-heading-wrapper\.level-h2:first-child\]:mt-8!/);
   assert.match(markdown, /\[&>\.sl-heading-wrapper\.level-h2:first-child\]:pt-0!/);
+  assert.match(markdown, /\[&>\[data-wiki-category-nav\]\+\.sl-heading-wrapper\.level-h2\]:mt-8!/);
+  assert.match(markdown, /\[&>\[data-wiki-category-nav\]\+\.sl-heading-wrapper\.level-h2\]:border-0!/);
+  assert.match(markdown, /\[&>\[data-wiki-category-nav\]\+\.sl-heading-wrapper\.level-h2\]:pt-0!/);
+  assert.match(tailwind, /\.wiki-prose\[data-wiki-accent=['"]silver['"]\]\s*\{\s*--wiki-accent:\s*var\(--color-neutral-300\)/);
   assert.match(config, /label: 'Jobs'/);
   assert.match(config, /items: \['jobs'\]/);
 });
