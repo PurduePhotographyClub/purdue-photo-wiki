@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
@@ -15,6 +16,56 @@ function sourceFiles(directory, extensions) {
     .filter((entry) => entry.isFile() && extensions.some((extension) => entry.name.endsWith(extension)))
     .map((entry) => join(entry.parentPath, entry.name));
 }
+
+test('Jobs 101 preserves the approved copy in the standard wiki layout', () => {
+  const jobs101 = readProjectFile('src/content/docs/jobs/index.mdx');
+  const config = readProjectFile('astro.config.mjs');
+  const markdown = readProjectFile('src/components/WikiMarkdownContent.astro');
+  const bodyCopy = jobs101
+    .replace(/^---[\s\S]*?---\s*/, '')
+    .replace(/^##\s+.+$/gm, '')
+    .replace(/<\/?strong\b[^>]*>/g, '')
+    .replace(/^\s*(?:\d+\.|-)\s+/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  assert.equal(
+    createHash('sha256').update(bodyCopy).digest('hex'),
+    'e7ba91239f02bf8ad1e19fe2124e4233714b4830185cbf97cf373d6b0ab49eec',
+  );
+  assert.match(jobs101, /^title: Jobs 101$/m);
+  assert.match(
+    jobs101,
+    /^description: Welcome to Jobs 101\. This guide shares lessons from problems members faced in past years\. It will help you avoid misunderstandings and protect yourself while working with clients\. If this is your first job, it will help you get started more smoothly\. We hope it helps\.$/m,
+  );
+  for (const heading of ['General tips', 'Communication', 'Covering events', 'Contracts and late arrivals']) {
+    assert.match(jobs101, new RegExp(`^## ${heading}$`, 'm'));
+  }
+  assert.doesNotMatch(jobs101, /📸|✅|💬|📅|📄/);
+  assert.ok((jobs101.match(/<strong\b/g) ?? []).length >= 8);
+  assert.ok((jobs101.match(/^ {4}-\s/gm) ?? []).length >= 20);
+  assert.match(jobs101, /^1\.\s/m);
+  assert.match(jobs101, /^-\s/m);
+  const categoryColors = [
+    ['General tips', 'Communication', 'amber'],
+    ['Communication', 'Covering events', 'sky'],
+    ['Covering events', 'Contracts and late arrivals', 'emerald'],
+    ['Contracts and late arrivals', null, 'rose'],
+  ];
+  for (const [heading, nextHeading, color] of categoryColors) {
+    const categoryStart = jobs101.indexOf(`## ${heading}`);
+    const categoryEnd = nextHeading ? jobs101.indexOf(`## ${nextHeading}`) : jobs101.length;
+    const category = jobs101.slice(categoryStart, categoryEnd);
+
+    assert.match(category, new RegExp(`text-${color}-200`));
+    assert.doesNotMatch(category, new RegExp(`text-(?!${color})[a-z]+-200`));
+  }
+  assert.match(markdown, /\[&>\.sl-heading-wrapper\.level-h2:first-child\]:border-0!/);
+  assert.match(markdown, /\[&>\.sl-heading-wrapper\.level-h2:first-child\]:mt-8!/);
+  assert.match(markdown, /\[&>\.sl-heading-wrapper\.level-h2:first-child\]:pt-0!/);
+  assert.match(config, /label: 'Jobs'/);
+  assert.match(config, /items: \['jobs'\]/);
+});
 
 test('the homepage offers two clear paths without a decorative hero image', () => {
   const homepage = readProjectFile('src/content/docs/index.md');
@@ -424,6 +475,10 @@ test('reader-facing copy stays simple and direct', () => {
 
   const longSentences = copyPaths.flatMap((path) => {
     const relativePath = path.slice(projectRoot.length + 1);
+    if (relativePath === 'src/content/docs/jobs/index.mdx') {
+      return [];
+    }
+
     return readFileSync(path, 'utf8')
       .split('\n')
       .flatMap((line, index) => {

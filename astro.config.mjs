@@ -54,6 +54,10 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Jobs',
+          items: ['jobs'],
+        },
+        {
           label: 'Club system',
           items: [
             'system',
