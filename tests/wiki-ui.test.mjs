@@ -87,17 +87,23 @@ test('Jobs 101 preserves the approved copy in the standard wiki layout', () => {
   assert.match(config, /items: \['jobs'\]/);
 });
 
-test('the homepage offers two clear paths without a decorative hero image', () => {
+test('the homepage offers three clear paths without a decorative hero image', () => {
   const homepage = readProjectFile('src/content/docs/index.md');
   const sidebar = readProjectFile('src/components/WikiSidebar.astro');
 
   assert.match(homepage, /Choose a guide/);
   assert.match(homepage, /href="\/photography\/"/);
+  assert.match(homepage, /href="\/jobs\/"/);
   assert.match(homepage, /href="\/system\/"/);
+  assert.match(homepage, /@4xl:grid-cols-3/);
+  assert.equal((homepage.match(/grid-rows-\[auto_auto_1fr_auto\]/g) ?? []).length, 3);
   assert.match(homepage, /Photography topics/);
+  assert.match(homepage, /Learn how to handle a job/);
   assert.match(homepage, /See how the club's online tools work/);
   assert.match(homepage, /text-amber-200[^>]*>light and framing<\/strong>/);
+  assert.match(homepage, /text-emerald-200[^>]*>delivery and payment<\/strong>/);
   assert.match(homepage, /text-sky-200[^>]*>website, API, and Discord<\/strong>/);
+  assert.match(homepage, /Open Jobs 101 →/);
   assert.match(homepage, /tag: title\s+content: PPC Wiki/);
   assert.doesNotMatch(homepage, /images\/site\/hero\/hero\.webp/);
   assert.doesNotMatch(homepage, /Learn photography or see how the club's online tools work\./);
