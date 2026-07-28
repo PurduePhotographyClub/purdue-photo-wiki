@@ -18,7 +18,7 @@
     "typescript": "^7.0.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.12",
+    "@tailwindcss/vite": "4.3.3",
     "tailwindcss": "4.1.12",
     "wrangler": "^4.115.0"
   }
