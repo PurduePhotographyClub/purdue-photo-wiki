@@ -572,3 +572,29 @@ test('interactive polish avoids competing viewers and preserves accessible feedb
   assert.doesNotMatch(sidebar, /min-h-10/);
   assert.doesNotMatch(sidebarToc, /min-h-9/);
 });
+
+test('dependency automation keeps the supported toolchain current without batching majors', () => {
+  const packageJson = JSON.parse(readProjectFile('package.json'));
+  const packageLock = JSON.parse(readProjectFile('package-lock.json'));
+  const dependabot = readProjectFile('.github/dependabot.yml');
+  const workflow = readProjectFile('.github/workflows/cloudflare-pages.yml');
+
+  assert.equal(packageJson.engines.node, '>=22.12.0');
+  assert.deepEqual(packageLock.packages[''].dependencies, packageJson.dependencies);
+  assert.deepEqual(packageLock.packages[''].devDependencies, packageJson.devDependencies);
+  assert.deepEqual(packageLock.packages[''].engines, packageJson.engines);
+
+  assert.match(
+    dependabot,
+    /groups:\s+weekly-minor-and-patch:\s+patterns:\s+- ['"]\*['"]\s+update-types:\s+- minor\s+- patch/,
+  );
+  assert.match(
+    dependabot,
+    /groups:\s+weekly-actions:\s+patterns:\s+- ['"]\*['"]\s+update-types:\s+- minor\s+- patch/,
+  );
+  assert.equal((dependabot.match(/open-pull-requests-limit:\s*5/g) ?? []).length, 2);
+  assert.equal((dependabot.match(/interval:\s*weekly/g) ?? []).length, 2);
+  assert.match(workflow, /uses:\s+actions\/checkout@v\d+/);
+  assert.match(workflow, /uses:\s+actions\/setup-node@v\d+/);
+  assert.match(workflow, /node-version:\s+24/);
+});
