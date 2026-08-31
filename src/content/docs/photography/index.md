@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: Start taking photos with the camera you already have.
+description: Lets start taking photos!.
 accent: purple
 sidebar:
   label: Getting started
@@ -9,9 +9,9 @@ sidebar:
 <div class="flex flex-col gap-12 sm:gap-16" id="gs-start">
   <section class="grid grid-cols-1 items-center gap-7 border border-white/10 bg-neutral-950 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-10 lg:p-10">
     <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Your first photo walk</p>
+      <!-- <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">So you want to get into photography, huh?</p> -->
       <p class="m-0! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100 sm:text-3xl! lg:text-4xl!">
-        Take the camera you already have. Go for a walk and follow the light.
+        So you want to get into photography, huh?.
       </p>
       <p class="m-0! max-w-3xl! text-neutral-300">
         A phone is enough. Look for reflections, gestures, and anything happening near the edge of the frame.
