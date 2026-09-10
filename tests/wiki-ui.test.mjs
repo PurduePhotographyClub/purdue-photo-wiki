@@ -251,7 +251,7 @@ test('custom photography pages use a compact section rhythm', () => {
   const compactPages = [
     'src/content/docs/photography/index.md',
     'src/content/docs/photography/anatomy-of-a-camera.md',
-    'src/content/docs/photography/basics.md',
+    'src/content/docs/photography/basics.mdx',
     'src/content/docs/photography/buying-guide-gear.md',
     'src/content/docs/photography/editing.md',
     'src/content/docs/photography/helpful-resources.md',
@@ -264,13 +264,13 @@ test('custom photography pages use a compact section rhythm', () => {
 
   for (const relativePath of [
     'src/content/docs/photography/anatomy-of-a-camera.md',
-    'src/content/docs/photography/basics.md',
+    'src/content/docs/photography/basics.mdx',
   ]) {
     const page = readProjectFile(relativePath);
     assert.doesNotMatch(page, /\blg:items-end\b/, `${relativePath} bottom-aligns a portrait hero`);
   }
 
-  const basics = readProjectFile('src/content/docs/photography/basics.md');
+  const basics = readProjectFile('src/content/docs/photography/basics.mdx');
   assert.match(basics, /basics-hero__image[^"\n]*overflow-hidden/);
   assert.match(basics, /aspect-\[4\/3\][^"\n]*object-cover/);
 });
