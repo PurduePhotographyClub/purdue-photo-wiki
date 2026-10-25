@@ -51,7 +51,7 @@ const diagrams: Record<DiagramType, Diagram> = {
       ] },
       { label: 'Timed jobs run', nodes: [
         { label: 'Cron', detail: 'Runs every thirty minutes', icon: 'cloudflare', tone: 'neutral' },
-        { label: 'Scheduler Worker', detail: 'Starts seven API jobs at the same time', icon: 'cloudflareworkers', tone: 'sky' },
+        { label: 'Scheduler Worker', detail: 'Starts eight API jobs at the same time', icon: 'cloudflareworkers', tone: 'sky' },
         { label: 'API Worker', detail: 'Claims a lease and runs each job', icon: 'cloudflareworkers', tone: 'amber' },
       ] },
       { label: 'The wiki deploys', nodes: [
@@ -167,18 +167,18 @@ const diagrams: Record<DiagramType, Diagram> = {
     ],
   },
   scheduler: {
-    title: 'How the seven scheduled jobs run',
-    description: 'Every thirty minutes, the Scheduler Worker starts seven private API jobs at the same time. The API claims a D1 lease and decides what each job changes.',
+    title: 'How the eight scheduled jobs run',
+    description: 'Every thirty minutes, the Scheduler Worker starts eight private API jobs at the same time. The API claims a D1 lease and decides what each job changes.',
     caption: 'The D1 lease prevents a repeated Cron trigger from running the same job twice. Discord changes still use signed internal events.',
     lanes: [
       { label: 'Start each job', layout: 'compact-flow', nodes: [
         { label: 'Cloudflare Cron', detail: '*/30 * * * *', icon: 'cloudflare', tone: 'sky' },
-        { label: 'Scheduler Worker', detail: 'Builds seven POST requests', icon: 'cloudflareworkers', tone: 'amber' },
+        { label: 'Scheduler Worker', detail: 'Builds eight POST requests', icon: 'cloudflareworkers', tone: 'amber' },
         { label: 'Internal check', detail: 'Checks the source, token, and scheduled time', tone: 'rose' },
         { label: 'D1 lease', detail: 'Allows one active run for each job', icon: 'cloudflare', tone: 'emerald' },
         { label: 'API job', detail: 'Makes the required changes', icon: 'cloudflareworkers', tone: 'amber' },
       ] },
-      { label: 'Seven jobs', kind: 'parallel', layout: 'compact-flow', nodes: [
+      { label: 'Eight jobs', kind: 'parallel', layout: 'compact-flow', nodes: [
         { label: 'Memberships', detail: 'Expires memberships that have ended', tone: 'neutral' },
         { label: 'Membership roles', detail: 'Updates Discord roles from receipt memberships', tone: 'neutral' },
         { label: 'Darkroom schedule', detail: 'Applies scheduled darkroom changes', tone: 'neutral' },
@@ -186,6 +186,7 @@ const diagrams: Record<DiagramType, Diagram> = {
         { label: 'Darkroom stats', detail: 'Updates the current totals', tone: 'neutral' },
         { label: 'Equipment', detail: 'Sends reminders that are due', tone: 'neutral' },
         { label: 'Photographer requests', detail: 'Expires old requests', tone: 'neutral' },
+        { label: 'Event carpools', detail: 'Closes carpools after their events', tone: 'neutral' },
       ] },
     ],
   },

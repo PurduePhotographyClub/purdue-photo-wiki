@@ -1,18 +1,18 @@
 ---
 title: Scheduled jobs
-description: How the scheduler starts seven API jobs without running two copies at once.
+description: How the scheduler starts eight API jobs without running two copies at once.
 accent: amber
 ---
 
 import SystemDiagram from '../../../components/SystemDiagram.astro';
 
-**Every thirty minutes**, the Scheduler Worker sends seven private requests to the API at the same time. It records each result and then stops.
+**Every thirty minutes**, the Scheduler Worker sends eight private requests to the API at the same time. It records each result and then stops.
 
 **The scheduler starts the jobs. The API decides what changes.** The Discord Worker handles Discord updates.
 
 <SystemDiagram type="scheduler" />
 
-## Seven jobs
+## Eight jobs
 
 <div className="my-8 overflow-x-auto border border-white/10">
   <table>
@@ -25,15 +25,16 @@ import SystemDiagram from '../../../components/SystemDiagram.astro';
       <tr><td>Update darkroom stats</td><td><code>/internal/jobs/darkroom/stats/sync</code></td><td>Recalculate the latest stats and update them in Discord.</td></tr>
       <tr><td>Send equipment reminders</td><td><code>/internal/jobs/equipment/reminders/run</code></td><td>Find reminders that are due, claim each send, and notify the right member or staff member.</td></tr>
       <tr><td>Expire photographer requests</td><td><code>/internal/jobs/photographer-requests/expire</code></td><td>Expire old requests and update their public or Discord status.</td></tr>
+      <tr><td>Expire event carpools</td><td><code>/internal/jobs/event-carpools/expire</code></td><td>Close carpools after their events and update their Discord status.</td></tr>
     </tbody>
   </table>
 </div>
 
-The seven paths are fixed in the scheduler source. Adding another job requires a code change and a new deployment. A database row cannot tell the Worker to call another internal URL.
+The eight paths are fixed in the scheduler source. Adding another job requires a code change and a new deployment. A database row cannot tell the Worker to call another internal URL.
 
-## One trigger sends all seven requests
+## One trigger sends all eight requests
 
-Cloudflare Cron calls the Worker's `scheduled` handler with the cron string and scheduled timestamp. The Worker checks its `INTERNAL_TOKEN` and `API_WORKER` binding, then sends all seven requests with `Promise.all`.
+Cloudflare Cron calls the Worker's `scheduled` handler with the cron string and scheduled timestamp. The Worker checks its `INTERNAL_TOKEN` and `API_WORKER` binding, then sends all eight requests with `Promise.all`.
 
 The jobs do not depend on each other, so they can run at the same time. Darkroom stats do not need to wait for membership expiry, and equipment reminders do not hold up the studio schedule.
 
@@ -46,7 +47,7 @@ Each result includes:
 - Time in milliseconds
 - A safe error message if the request failed before a response
 
-The final summary counts the jobs that passed and failed. If one job fails, the other six results are still kept.
+The final summary counts the jobs that passed and failed. If one job fails, the other seven results are still kept.
 
 ## How the API checks the scheduler
 
@@ -118,10 +119,10 @@ An API call can return an error status or fail before it gets a response. The Wo
 
 The API can claim a lease and then fail while running the job. The job state records the failure, the API logs the job details, and the Scheduler Worker receives an error response.
 
-A Cron trigger can succeed while one of the seven jobs fails. The summary keeps a separate result for each path.
+A Cron trigger can succeed while one of the eight jobs fails. The summary keeps a separate result for each path.
 
 ## The Email Worker has its own Cron
 
-The Email Worker's five-minute Cron is separate from these seven jobs.
+The Email Worker's five-minute Cron is separate from these eight jobs.
 
 Every five minutes, it checks the receipt KV namespace for intake records that can be retried. Email parsing and delivery recovery stay in the Email Worker. The thirty-minute Scheduler Worker runs the club workflows owned by the API.

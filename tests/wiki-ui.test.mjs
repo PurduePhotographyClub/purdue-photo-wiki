@@ -414,13 +414,14 @@ test('the scheduler guide documents every configured job', () => {
     '/internal/jobs/darkroom/stats/sync',
     '/internal/jobs/equipment/reminders/run',
     '/internal/jobs/photographer-requests/expire',
+    '/internal/jobs/event-carpools/expire',
   ];
   const automation = readProjectFile('src/content/docs/system/automation.mdx');
   const diagrams = readProjectFile('src/components/SystemDiagram.astro');
   const schedulerSourcePath = join(projectRoot, '..', 'scheduler-worker', 'src', 'index.ts');
 
-  assert.match(automation, /seven API jobs/i);
-  assert.match(diagrams, /label: 'Seven jobs'/);
+  assert.match(automation, /eight API jobs/i);
+  assert.match(diagrams, /label: 'Eight jobs'/);
   assert.match(diagrams, /label: 'Membership roles'/);
 
   for (const path of expectedPaths) {
@@ -579,7 +580,7 @@ test('dependency automation keeps the supported toolchain current without batchi
   const dependabot = readProjectFile('.github/dependabot.yml');
   const workflow = readProjectFile('.github/workflows/cloudflare-pages.yml');
 
-  assert.equal(packageJson.engines.node, '>=22.12.0');
+  assert.equal(packageJson.engines.node, packageLock.packages['node_modules/astro'].engines.node);
   assert.deepEqual(packageLock.packages[''].dependencies, packageJson.dependencies);
   assert.deepEqual(packageLock.packages[''].devDependencies, packageJson.devDependencies);
   assert.deepEqual(packageLock.packages[''].engines, packageJson.engines);
