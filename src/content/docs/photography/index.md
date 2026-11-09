@@ -1,176 +1,140 @@
 ---
-title: Getting started
-description: Lets start taking photos!.
+title: "PPC Photography Wiki"
 accent: purple
 sidebar:
   label: Getting started
 ---
 
-<div class="flex flex-col gap-12 sm:gap-16" id="gs-start">
-  <section class="grid grid-cols-1 items-center gap-7 border border-white/10 bg-neutral-950 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.72fr)] lg:gap-10 lg:p-10">
-    <div class="space-y-5">
-      <!-- <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">So you want to get into photography, huh?</p> -->
-      <p class="m-0! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100 sm:text-3xl! lg:text-4xl!">
-        So you want to get into photography, huh?.
-      </p>
-      <p class="m-0! max-w-3xl! text-neutral-300">
-        A phone is enough. Look for reflections, gestures, and anything happening near the edge of the frame.
-      </p>
-    </div>
-    <figure class="relative m-0 overflow-hidden border border-white/10 bg-black">
-      <a class="group block text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-5" aria-label="View Dylan Chu photo full size">
-        <img class="block aspect-[3/4] h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-5.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="eager" fetchpriority="high" decoding="async" />
-      </a>
-      <figcaption class="absolute right-3 bottom-3 m-0! border border-white/10 bg-black/75 px-2 py-1 font-['Space_Mono',monospace] text-[0.68rem]! leading-4! tracking-[0.1em] text-neutral-300 uppercase backdrop-blur-sm">
-        Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a>
-      </figcaption>
-    </figure>
-  </section>
+<figure class="overflow-hidden border border-white/10"><img src="/images/notion/cover-2637b3bf66c38072be87f6ef77e5c235.png" width="2560" height="1024" alt="" class="max-h-72 w-full object-cover" decoding="async" fetchpriority="high" /></figure>
 
-  <section class="border-l-2 border-amber-200/30 px-5 py-4 sm:px-8 sm:py-6" id="gs-practice" aria-label="What to practice first">
-    <div class="mx-auto! w-full max-w-6xl min-w-0">
-      <p class="m-0! mb-8! max-w-3xl! font-['Playfair_Display',Georgia,serif] text-2xl! leading-snug! font-semibold text-neutral-100 sm:mb-10! sm:text-3xl!">
-        Watch the <em class="not-italic text-amber-200">light</em>. Choose the <em class="not-italic text-neutral-100">frame</em>. Leave out anything that does not help.
-      </p>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-6 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-7">
-        <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">01</span>
-        <div class="space-y-3">
-          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Use what you have</h2>
-          <p class="m-0! text-sm! leading-7! text-neutral-400">Use your phone or camera. Learn how it handles bright light, shadows, motion, and color before buying a lens.</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-white/10 py-6 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-7">
-        <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">02</span>
-        <div class="space-y-3">
-          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Try different light</h2>
-          <p class="m-0! text-sm! leading-7! text-neutral-400">Shoot near a window, at sunset, under neon, on a cloudy day, and at noon. Compare the results.</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-y border-white/10 py-6 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-7 sm:py-7">
-        <span class="font-['Playfair_Display',Georgia,serif] text-3xl leading-none font-bold text-amber-200 sm:text-4xl">03</span>
-        <div class="space-y-3">
-          <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-2xl! leading-tight! font-semibold text-neutral-100">Choose the frame</h2>
-          <p class="m-0! text-sm! leading-7! text-neutral-400">Move closer or farther away. Check the corners. Remove anything that pulls attention from the subject.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+Welcome to the PPC Photography Wiki! Here you’ll find a comprehensive guide to a number of topics in photography, ranging from composition, editing, gear, niche topics, and more! Head over to [Getting Started](/photography/#getting-started)  if you are a complete beginner in photography. Otherwise, feel free to explore the contents of the wiki through the page gallery below.
 
-  <section class="grid grid-cols-1 items-center gap-8 border-t border-white/10 pt-8 sm:pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.52fr)] lg:gap-10" id="gs-gear">
-    <div class="space-y-5">
-      <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Before buying gear</p>
-      <h2 class="m-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">Find what you like to photograph</h2>
-      <p class="m-0! text-neutral-300">
-        Cameras get expensive fast. First, notice what you enjoy photographing: portraits, cars, concerts, campus at night, or small details. That will tell you what gear you need.
-      </p>
-      <p class="m-0! text-neutral-400">
-        When you are ready to buy, read the <a href="/photography/buying-guide-gear/">gear guide</a>. Until then, keep practicing.
-      </p>
-    </div>
-    <figure class="relative m-0 overflow-hidden border border-white/10 bg-black">
-      <a class="group block text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-1" aria-label="View Dylan Chu photo full size">
-        <img class="block aspect-[3/4] h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-1.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      </a>
-      <figcaption class="absolute right-3 bottom-3 m-0! border border-white/10 bg-black/75 px-2 py-1 font-['Space_Mono',monospace] text-[0.68rem]! leading-4! tracking-[0.1em] text-neutral-300 uppercase backdrop-blur-sm">
-        Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a>
-      </figcaption>
-    </figure>
-  </section>
+This wiki is <u>very new</u>, and a work in progress! For any questions, comments, or suggestions for the wiki, please contact Dylan Chu in the club discord. If you have any questions about the club or photography, feel free to ask in [#questions-and-help](https://discord.com/channels/1182061172309106708/1198585804235214858) in discord.
 
-  <section class="border-t border-white/10 pt-8 sm:pt-10" id="gs-gallery">
-    <p class="m-0! font-['Space_Mono',monospace] text-[0.75rem]! leading-5! tracking-[0.14em] text-amber-200 uppercase">Photos from club members</p>
-    <h2 class="mt-3! mb-0! border-0! p-0! font-['Playfair_Display',Georgia,serif] text-3xl! leading-tight! font-semibold text-neutral-100 sm:text-4xl!">The camera matters less than your attention</h2>
-    <p class="mt-5! mb-0! text-neutral-300">
-      The world is already full of photos. Look closely, choose a frame, and press the button when the moment feels right.
-    </p>
-    <div class="mt-6 space-y-3" aria-label="Photos by Linzzi Ji and Dylan Chu">
-      <figure class="m-0 overflow-hidden border border-white/10 bg-neutral-900/50">
-        <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-linzzi" aria-label="View Linzzi Ji photo full size">
-          <img class="block aspect-video h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/linzzi.webp" width="2048" height="1152" alt="Photo by Linzzi Ji" loading="lazy" decoding="async" />
-        </a>
-        <figcaption class="m-0! border-t border-white/10 px-3 py-2 text-left font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
-          Featured photo by <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a>
-        </figcaption>
-      </figure>
-      <figure class="m-0 overflow-hidden border border-white/10 bg-neutral-900/50">
-        <div class="grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-3">
-          <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-2" aria-label="View Dylan Chu photo full size">
-            <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-2.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-          </a>
-          <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-3" aria-label="View Dylan Chu photo full size">
-            <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-3.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-          </a>
-          <a class="group block overflow-hidden bg-black text-inherit! no-underline! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" href="#gs-view-dylan-4" aria-label="View Dylan Chu photo full size">
-            <img class="block aspect-4/3 h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015] group-hover:saturate-110" src="/images/pages/getting-started/dylan-4.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-          </a>
-        </div>
-        <figcaption class="m-0! border-t border-white/10 px-3 py-2 text-left font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-500 uppercase">
-          Three photos by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
+---
 
-  <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-linzzi" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">
-    <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
-    <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
-      <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/linzzi.webp" width="2048" height="1152" alt="Photo by Linzzi Ji" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/linzzi_ej7" target="_blank" rel="noopener noreferrer">@Linzzi Ji</a></figcaption>
-    </figure>
-    <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
-  </div>
+## Club links
 
-  <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-dylan-1" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">
-    <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gear" tabindex="-1" aria-label="Close photo viewer"></a>
-    <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
-      <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-1.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
-    </figure>
-    <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gear" aria-label="Close photo viewer">×</a>
-  </div>
+<div class="notion-columns my-8 grid gap-6 md:grid-cols-3">
 
-  <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-dylan-2" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">
-    <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
-    <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
-      <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-2.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
-    </figure>
-    <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
-  </div>
+<div class="min-w-0 space-y-5">
 
-  <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-dylan-3" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">
-    <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
-    <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
-      <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-3.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
-    </figure>
-    <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
-  </div>
+[Website](https://purduephotoclub.org/)
 
-  <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-dylan-4" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">
-    <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-gallery" tabindex="-1" aria-label="Close photo viewer"></a>
-    <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
-      <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-4.webp" width="1024" height="768" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
-    </figure>
-    <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-gallery" aria-label="Close photo viewer">×</a>
-  </div>
-
-  <div class="fixed inset-0 z-[2147483647] hidden h-dvh w-screen items-center justify-center overflow-hidden overscroll-contain bg-black p-4 target:flex sm:p-8" id="gs-view-dylan-5" data-wiki-hash-viewer role="dialog" aria-modal="true" tabindex="-1" aria-label="Photo viewer">
-    <a class="fixed inset-0 z-0 h-dvh w-screen cursor-zoom-out bg-black/95 no-underline! backdrop-blur-sm" href="#gs-start" tabindex="-1" aria-label="Close photo viewer"></a>
-    <figure class="relative z-10 m-0 grid max-h-[calc(100dvh-2rem)] max-w-[min(96vw,86rem)] grid-rows-[minmax(0,1fr)_auto] gap-2">
-      <img class="m-auto block h-auto max-h-[calc(100dvh-5rem)] w-auto max-w-full border border-white/20 object-contain shadow-2xl" src="/images/pages/getting-started/dylan-5.webp" width="1024" height="1365" alt="Photo by Dylan Chu" loading="lazy" decoding="async" />
-      <figcaption class="m-0! text-center font-['Space_Mono',monospace] text-[0.7rem]! leading-5! tracking-[0.08em] text-neutral-400 uppercase">Photo by <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">@Dylan Chu</a></figcaption>
-    </figure>
-    <a class="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-20 grid size-11 place-items-center border border-white/25 bg-neutral-950/95 p-0 text-2xl leading-none text-neutral-100! no-underline! transition hover:border-white/50 hover:bg-neutral-100 hover:text-neutral-950! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200" href="#gs-start" aria-label="Close photo viewer">×</a>
-  </div>
-
-  <section class="border-y border-amber-200/30 bg-amber-200/[0.04] p-5 sm:p-7" id="gs-next">
-    <p class="m-0! text-neutral-200">
-      Next, read <a href="/photography/basics/">Basics</a> to learn aperture, shutter speed, ISO, and camera modes.
-    </p>
-    <p class="mt-4! mb-0! font-['Space_Mono',monospace] text-xs! leading-6! text-neutral-500">
-      Thanks to <a href="https://www.instagram.com/dchu.photo" target="_blank" rel="noopener noreferrer">Dylan Chu</a> for creating this guide.
-    </p>
-  </section>
 </div>
+
+<div class="min-w-0 space-y-5">
+
+[Instagram](https://www.instagram.com/purduephotoclub)
+
+</div>
+
+<div class="min-w-0 space-y-5">
+
+[Discord](https://discord.com/invite/YkVwAcqVqu)
+
+</div>
+
+</div>
+
+---
+
+<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+
+<div class="min-w-0 space-y-5">
+
+</div>
+
+<div class="min-w-0 space-y-5">
+
+### Pages
+
+- [Basics](/photography/basics/)
+- [Anatomy of a Camera](/photography/anatomy-of-a-camera/)
+- [Composition](/photography/composition/)
+- [Editing](/photography/editing/)
+- [Film](/photography/film/)
+- [Buying Guide/Gear](/photography/buying-guide-gear/)
+- [Technical](/photography/technical/)
+- [Astrophotography](/photography/astrophotography/)
+- [Helpful Resources](/photography/helpful-resources/)
+
+</div>
+
+</div>
+
+---
+
+<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+
+## Getting Started
+
+<b>So you want to get into photography, huh?</b>
+
+In that case, this is the perfect place to start! This section will introduce you to photography, how to get into it, and what you need to take amazing photos like the one below.
+
+</div>
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-80c9-9188-c25bcbbaad8e-IMG_9089.jpg" width="5517" height="3103" alt="@Linzzi Ji" loading="lazy" decoding="async" />
+<figcaption><a href="https://www.instagram.com/linzzi_ej7">@Linzzi Ji</a></figcaption>
+</figure>
+
+Photography can be an expensive hobby, but can also be very accessible if you know where to look, and what you want out of your camera. In fact, one of the best cameras you have is one you already own - your phone. Although its diminutive size and distinctive “phone look” can prove to be discouraging factors, phone camera technology has advanced extremely far and can still produce great images. Below are some images shot on the iPhone 15 and processed in Lightroom Mobile (free version).
+
+<div class="notion-columns my-8 grid gap-6 md:grid-cols-3">
+
+<div class="min-w-0 space-y-5">
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-80ea-ba57-eda552bda3b3-APC_0019.jpg" width="3024" height="4032" alt="" loading="lazy" decoding="async" />
+</figure>
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-8028-85bd-e22b835697db-APC_0016.jpg" width="4032" height="3024" alt="" loading="lazy" decoding="async" />
+</figure>
+
+</div>
+
+<div class="min-w-0 space-y-5">
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-80a5-ac11-f255740a4119-APC_0014.jpg" width="4032" height="3024" alt="" loading="lazy" decoding="async" />
+</figure>
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-8038-b3a1-fc6eacf3d6ed-IMG_6253.jpg" width="5712" height="4284" alt="@Dylan Chu" loading="lazy" decoding="async" />
+<figcaption><a href="https://www.instagram.com/dchu.photo">@Dylan Chu</a></figcaption>
+</figure>
+
+</div>
+
+<div class="min-w-0 space-y-5">
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-8081-9734-e3978ae0ebb7-IMG_6433.jpg" width="5712" height="4284" alt="" loading="lazy" decoding="async" />
+</figure>
+
+<figure>
+<img src="/images/notion/2637b3bf-66c3-80c0-b877-d684384a2318-IMG_6943.jpg" width="4005" height="5340" alt="" loading="lazy" decoding="async" />
+</figure>
+
+</div>
+
+</div>
+
+Don’t feel pressured that you <i>need</i> an actual camera to join the club. Many of our current members just use their phones, and having a good eye for composition, light, and color will help you go far.
+
+In the case that you do want to upgrade to a real camera, there are many budget options that won’t break the bank, giving you great features and image quality for a few hundred dollars. You can find an in-depth buying guide over at [Buying Guide/Gear](/photography/buying-guide-gear/), but don’t go there just yet - it will be very overwhelming at first, and unhelpful if you don’t know what you want.
+
+<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+
+#### As opposed to traditional art, photography is more about <i>capturing</i> an image, rather than <i>creating</i> one from scratch. This is what makes it special.
+
+Photography trains your eye to see the beauty present within both our daily lives and our special moments, and your camera helps captures these within your own expression. As you keep doing photography, you’ll eventually develop your own style where you notice you tend towards certain subjects, colors, or environments. A well-trained photographic eye will always be alert, constantly searching for interesting compositions. Even without a camera in your hand, just searching for photos in your mind every day will help you become a better photographer.
+
+</div>
+
+Ready to get into the basics and start learning how to do photography? Head on over to [Basics](/photography/basics/) , which will introduce you to all the basic technical information you need to know in order to start capturing pictures more effectively.
+
+No, I did not AI generate any of this.

@@ -234,11 +234,7 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(homepage, /@5xl:grid-cols-3/);
   assert.match(homepage, /grid gap-3/);
   assert.doesNotMatch(homepage, /aspect-square/);
-  assert.match(gettingStarted, /flex flex-col gap-12 sm:gap-16/);
-  assert.match(gettingStarted, /border-l-2[^\n]+px-5[^\n]+sm:px-8/);
-  assert.match(gettingStarted, /mx-auto! w-full max-w-6xl min-w-0/);
-  assert.match(gettingStarted, /mb-8![^\n]+sm:mb-10!/);
-  assert.match(gettingStarted, /gap-5[^\n]+py-6[^\n]+sm:gap-7[^\n]+sm:py-7/);
+  assert.match(gettingStarted, /notion-columns[^\n]+grid gap-6/);
   assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
   assert.match(footer, /\bw-screen\b/);
   assert.match(footer, /lg:ml-\[calc\(-50vw-8\.5rem\)\]!/);
@@ -271,39 +267,25 @@ test('custom photography pages use a compact section rhythm', () => {
   }
 
   const basics = readProjectFile('src/content/docs/photography/basics.md');
-  assert.match(basics, /basics-hero__image[^"\n]*overflow-hidden/);
-  assert.match(basics, /aspect-\[4\/3\][^"\n]*object-cover/);
+  assert.match(basics, /notion-columns[^\n]+md:grid-cols-2/);
 });
 
-test('the editing color lesson groups controls by purpose and keeps previews centered', () => {
+test('the editing lesson retains the original color sections and local previews', () => {
   const editing = readProjectFile('src/content/docs/photography/editing.md');
-  const colorSection = editing.indexOf('id="color"');
-  const basicControls = editing.indexOf('id="color-basics"');
-  const advancedControls = editing.indexOf('id="color-tools"');
-  const softwareSection = editing.indexOf('id="software"');
-
-  assert.ok(colorSection >= 0, 'the color section is missing');
-  assert.ok(colorSection < basicControls, 'basic color controls should follow the color introduction');
-  assert.ok(basicControls < advancedControls, 'advanced color tools should follow the basic controls');
-  assert.ok(advancedControls < softwareSection, 'color tools should stay inside the color lesson');
-  assert.match(editing, /<section[^>]+id="color-basics">/);
-  assert.match(editing, /mx-auto! w-full max-w-5xl/);
-  assert.match(editing, /max-h-\[34rem\][^"\n]*object-contain[^"\n]*object-top/);
-  assert.doesNotMatch(
-    editing,
-    /id="color"[^>]+lg:grid-cols-\[minmax\(0,0\.9fr\)_minmax\(20rem,1\.1fr\)\]/,
-  );
+  assert.ok(editing.indexOf('## Color\n') < editing.indexOf('### Color Grading'));
+  assert.ok(editing.indexOf('### Color Grading') < editing.indexOf('### Color Mixer'));
+  assert.ok(editing.indexOf('### Color Mixer') < editing.indexOf('## Software'));
+  assert.equal((editing.match(/<img src="\/images\/notion\/(?!cover-)/g) ?? []).length, 12);
 });
 
-test('helpful resources is a compact, purpose-led directory', () => {
+test('helpful resources retains the original seven resource records', () => {
   const resources = readProjectFile('src/content/docs/photography/helpful-resources.md');
-
-  assert.match(resources, /Pick the source that matches your question/);
-  assert.match(resources, /aria-label="How to use these resources"/);
-  assert.match(resources, /sm:grid-cols-2[^"\n]*xl:grid-cols-4/);
-  assert.equal((resources.match(/data-resource-card/g) ?? []).length, 16);
-  assert.doesNotMatch(resources, /\baspect-square\b/);
-  assert.doesNotMatch(resources, />Open<\/a>/);
+  assert.match(resources, /Resource Links/);
+  assert.match(resources, /role="region"/);
+  assert.equal((resources.match(/id="entry-/g) ?? []).length, 7);
+  for (const name of ['DPReview', 'PetaPixel', 'Photons to Photos', 'Christopher Frost', 'flickr', 'SonyAlphaRumors']) {
+    assert.ok(resources.includes(name));
+  }
 });
 
 test('the wiki footer mirrors the club website footer', () => {
@@ -470,8 +452,8 @@ test('every system page uses selective accent-colored emphasis', () => {
 test('getting started keeps photo credits attached to the photos they describe', () => {
   const gettingStarted = readProjectFile('src/content/docs/photography/index.md');
 
-  assert.match(gettingStarted, /Featured photo by[\s\S]+@Linzzi Ji/);
-  assert.match(gettingStarted, /Three photos by[\s\S]+@Dylan Chu/);
+  assert.match(gettingStarted, /<figcaption>[^\n]+@Linzzi Ji/);
+  assert.match(gettingStarted, /<figcaption>[^\n]+@Dylan Chu/);
   assert.doesNotMatch(gettingStarted, /Photos by[\s\S]+@Dylan Chu[\s\S]+and[\s\S]+@Linzzi Ji/);
 });
 
@@ -488,7 +470,10 @@ test('reader-facing copy stays simple and direct', () => {
       'astro.config.mjs',
     ].map((path) => join(projectRoot, path)),
   ];
-  const readerCopy = copyPaths.map((path) => readFileSync(path, 'utf8')).join('\n');
+  // Imported articles preserve the author's original wording, including long
+  // sentences. House style applies to the project's own writing.
+  const authoredCopyPaths = copyPaths.filter((path) => !path.replaceAll('\\', '/').includes('/photography/'));
+  const readerCopy = authoredCopyPaths.map((path) => readFileSync(path, 'utf8')).join('\n');
 
   assert.doesNotMatch(
     readerCopy,
@@ -499,7 +484,7 @@ test('reader-facing copy stays simple and direct', () => {
     /\b(additionally|delve|intricate|pivotal|robust|showcase|tapestry|testament|underscore)\b/i,
   );
 
-  const longSentences = copyPaths.flatMap((path) => {
+  const longSentences = authoredCopyPaths.flatMap((path) => {
     const relativePath = path.slice(projectRoot.length + 1);
     if (relativePath === 'src/content/docs/jobs/index.mdx') {
       return [];
@@ -563,9 +548,8 @@ test('interactive polish avoids competing viewers and preserves accessible feedb
   assert.match(notFound, /name: robots[\s\S]+content: noindex/);
   assert.match(notFound, /<h1\b/);
   assert.doesNotMatch(notFound, /<h2\b[^>]*id=['"]wiki-404-title['"]/);
-  assert.equal((gettingStarted.match(/data-wiki-hash-viewer/g) ?? []).length, 6);
-  assert.equal((gettingStarted.match(/role=['"]dialog['"]/g) ?? []).length, 6);
-  assert.equal((gettingStarted.match(/aria-modal=['"]true['"]/g) ?? []).length, 6);
+  assert.equal((gettingStarted.match(/<img src="\/images\/notion\/(?!cover-)/g) ?? []).length, 7);
+  assert.doesNotMatch(gettingStarted, /data-wiki-hash-viewer/);
   assert.doesNotMatch(header, /const main\s*=\s*document\.querySelector/);
   assert.match(header, /const pageMain\s*=\s*document\.querySelector<HTMLElement>\(['"]main['"]\)/);
   assert.match(header, /pageMain\.inert\s*=\s*isOpen/);
