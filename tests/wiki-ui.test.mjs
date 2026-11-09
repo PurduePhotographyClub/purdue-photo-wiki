@@ -234,7 +234,7 @@ test('article rails, headings, and page controls keep a centered readable rhythm
   assert.match(homepage, /@5xl:grid-cols-3/);
   assert.match(homepage, /grid gap-3/);
   assert.doesNotMatch(homepage, /aspect-square/);
-  assert.match(gettingStarted, /notion-columns[^\n]+grid gap-6/);
+  assert.match(gettingStarted, /photography-media-grid[^\n]+gap-6/);
   assert.doesNotMatch(gettingStarted, /hidden min-h-80/);
   assert.match(footer, /\bw-screen\b/);
   assert.match(footer, /lg:ml-\[calc\(-50vw-8\.5rem\)\]!/);
@@ -247,7 +247,7 @@ test('custom photography pages use a compact section rhythm', () => {
   const compactPages = [
     'src/content/docs/photography/index.md',
     'src/content/docs/photography/anatomy-of-a-camera.md',
-    'src/content/docs/photography/basics.md',
+    'src/content/docs/photography/basics.mdx',
     'src/content/docs/photography/buying-guide-gear.md',
     'src/content/docs/photography/editing.md',
     'src/content/docs/photography/helpful-resources.md',
@@ -260,14 +260,14 @@ test('custom photography pages use a compact section rhythm', () => {
 
   for (const relativePath of [
     'src/content/docs/photography/anatomy-of-a-camera.md',
-    'src/content/docs/photography/basics.md',
+    'src/content/docs/photography/basics.mdx',
   ]) {
     const page = readProjectFile(relativePath);
     assert.doesNotMatch(page, /\blg:items-end\b/, `${relativePath} bottom-aligns a portrait hero`);
   }
 
-  const basics = readProjectFile('src/content/docs/photography/basics.md');
-  assert.match(basics, /notion-columns[^\n]+md:grid-cols-2/);
+  const basics = readProjectFile('src/content/docs/photography/basics.mdx');
+  assert.match(basics, /photography-media-grid[^\n]+lg:grid-cols-2/);
 });
 
 test('the editing lesson retains the original color sections and local previews', () => {
@@ -275,7 +275,7 @@ test('the editing lesson retains the original color sections and local previews'
   assert.ok(editing.indexOf('## Color\n') < editing.indexOf('### Color Grading'));
   assert.ok(editing.indexOf('### Color Grading') < editing.indexOf('### Color Mixer'));
   assert.ok(editing.indexOf('### Color Mixer') < editing.indexOf('## Software'));
-  assert.equal((editing.match(/<img src="\/images\/notion\/(?!cover-)/g) ?? []).length, 12);
+  assert.equal((editing.match(/<img\b[^>]*\bsrc="\/images\/notion\/(?!cover-)/g) ?? []).length, 12);
 });
 
 test('helpful resources retains the original seven resource records', () => {
@@ -452,8 +452,8 @@ test('every system page uses selective accent-colored emphasis', () => {
 test('getting started keeps photo credits attached to the photos they describe', () => {
   const gettingStarted = readProjectFile('src/content/docs/photography/index.md');
 
-  assert.match(gettingStarted, /<figcaption>[^\n]+@Linzzi Ji/);
-  assert.match(gettingStarted, /<figcaption>[^\n]+@Dylan Chu/);
+  assert.match(gettingStarted, /<figcaption\b[^>]*>[^\n]+@Linzzi Ji/);
+  assert.match(gettingStarted, /<figcaption\b[^>]*>[^\n]+@Dylan Chu/);
   assert.doesNotMatch(gettingStarted, /Photos by[\s\S]+@Dylan Chu[\s\S]+and[\s\S]+@Linzzi Ji/);
 });
 
@@ -548,7 +548,7 @@ test('interactive polish avoids competing viewers and preserves accessible feedb
   assert.match(notFound, /name: robots[\s\S]+content: noindex/);
   assert.match(notFound, /<h1\b/);
   assert.doesNotMatch(notFound, /<h2\b[^>]*id=['"]wiki-404-title['"]/);
-  assert.equal((gettingStarted.match(/<img src="\/images\/notion\/(?!cover-)/g) ?? []).length, 7);
+  assert.equal((gettingStarted.match(/<img\b[^>]*\bsrc="\/images\/notion\/(?!cover-)/g) ?? []).length, 7);
   assert.doesNotMatch(gettingStarted, /data-wiki-hash-viewer/);
   assert.doesNotMatch(header, /const main\s*=\s*document\.querySelector/);
   assert.match(header, /const pageMain\s*=\s*document\.querySelector<HTMLElement>\(['"]main['"]\)/);

@@ -198,3 +198,22 @@ html[data-theme='light'] .wiki-brand-logo {
     grid-template-columns: 6rem minmax(0, 1fr);
   }
 }
+
+.wiki-prose[data-photography] .photography-main-layout figure {
+  margin-inline: 0;
+}
+
+.wiki-prose .photography-media-grid > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wiki-prose .photography-media-grid > div > * {
+  margin-block: 0;
+}
+
+.wiki-prose .photography-media-grid figure {
+  flex: none;
+}
