@@ -9,7 +9,7 @@ The importance of editing varies greatly from photographer to photographer. For 
 
 That said, don’t be afraid to edit your images, as this might be one of the key differentiators between your images and those of professionals. Most photographers do at least some editing, and it can really bring your image to life.
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 <b>Table of Contents</b>
 

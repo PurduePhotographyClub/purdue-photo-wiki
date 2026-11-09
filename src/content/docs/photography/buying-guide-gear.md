@@ -7,7 +7,7 @@ accent: orange
 
 Whether just getting into photography or upgrading from an older camera, trying to make a good decision is very hard - camera gear is expensive, and you don’t want to regret your purchase in a few months time. This section will aim to provide a few suggestions for cameras in different price brackets, as well as help you look for and decide what features are important to you. Remember, just because a camera isn’t mentioned here doesn’t mean it isn’t good. Try to learn what matters to you, and if a camera checks all those boxes for a reasonable price, then go for it!
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 <b>Table of Contents</b>
 

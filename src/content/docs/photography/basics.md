@@ -9,7 +9,7 @@ In this section, you’ll learn about the basics of photography, such as the exp
 
 Below is a table of contents that can take you to a specific topic that you want to learn about. Otherwise, the page is laid out in the recommended sequence to read through.
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 <b>Table of Contents</b>
 
@@ -53,7 +53,7 @@ Each of these three settings in every camera adjusts your exposure - the total a
 
 There isn’t much of an easy way to exactly quantify the amount of light hitting the sensor, so we use exposure values, or EV, which represents the luminance of our scene. EVs are on a log base 2 scale, meaning that every +1EV is a doubling in exposure, meaning that the amount of light is doubled, and for every -1EV we halve our light. However, in photography we are only concerned with measuring relative light in stops, which works the same way: +1 stop = 2x the light, -1 stop = 0.5x the light.
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### Aperture
 
@@ -115,7 +115,7 @@ It depends on what you’re shooting. Portraits will usually be shot wide open, 
 
 </div>
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### Shutter Speed
 
@@ -173,7 +173,7 @@ Don’t be afraid to experiment, however! Many photographers like to use slow sh
 
 </div>
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### ISO
 
@@ -238,7 +238,7 @@ So there are many ways to achieve the same exposure. But which one do I choose? 
 
 ---
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 <i>Okay, so I have 3 settings to control when taking a picture and I now understand what each of them does. But how should I control these in my camera?<br /><br /></i>On one of the dials on your camera (this should apply to almost every modern digital camera), you should notice the letters P, A, S, and M, along with some other settings. These stand for Program, Aperture Priority, Shutter Priority, and Manual.
 
@@ -283,7 +283,7 @@ Photography is deeply interlinked with technology, but it depends on you how muc
 
 This article has been very complex, and it is okay if some of it completely flew over your head. If needed, go out and take some pictures to get a feel for it; if you think you don’t need this knowledge in your workflow, that’s perfectly fine. Take as much from this page as you want to.
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 If you want to keep reading and learn how to use your camera better, continue on to [Anatomy of a Camera](/photography/anatomy-of-a-camera/), where we will discuss what the buttons and dials on a camera do, how a camera works, and what settings you might want to adjust.
 

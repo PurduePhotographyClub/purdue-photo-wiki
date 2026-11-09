@@ -7,7 +7,7 @@ accent: cyan
 
 This page will teach you about the various aspects of a camera that actually affect how you take pictures, including how to use your buttons and dials and what settings you should use. For those curious, a more technical coverage of how a camera actually works can be found in [Technical](/photography/technical/).
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 <b>Table of Contents</b>
 
@@ -39,13 +39,13 @@ For this article I will stick to using the Sony A7IV for reference, a relatively
 <img src="/images/notion/2807b3bf-66c3-80cb-858d-f8fef3fb0bc3-92653_original_local_1200x1050_v3_converted.jpg" width="1500" height="1200" alt="" loading="lazy" decoding="async" />
 </figure>
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### Dials
 
 The A7IV has 4 dials in total, all on the right side. This is a little unusual - most cameras will only have 3, but this shouldn’t make much of a difference.
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -61,7 +61,7 @@ This is your mode dial. This adjusts what mode your camera is shooting in, choos
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -81,13 +81,13 @@ Going back to what we covered earlier in the previous article, my recommendation
 
 </div>
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### Buttons
 
 Which buttons that are present on your camera will vary, and yours might have fewer or more than the A7IV - these are generally the most common ones you will find. It is worth noting that depending on the camera system you will be able to rebind buttons that aren’t just the dedicated custom buttons.
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -103,7 +103,7 @@ This is your video recording button.
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -119,7 +119,7 @@ These are custom buttons that you can rebind to many things, which you can find 
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -139,7 +139,7 @@ AF-ON (9) is used for a method of focusing called Back Button Focusing, which me
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -155,7 +155,7 @@ This is your control wheel which is used to navigate through the menus.
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -175,11 +175,11 @@ The trash can (13) is used to delete photos while viewing them in camera, and al
 
 </div>
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### Other
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -195,7 +195,7 @@ This is the camera’s hot shoe, and is used to mount various accessories to the
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -211,7 +211,7 @@ This is the camera’s viewfinder, which is one of two ways you can view and com
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -231,7 +231,7 @@ The camera’s screen is generally self-explanatory, but where some might differ
 
 </div>
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
+<div class="notion-columns notion-control-row my-8 grid gap-6">
 
 <div class="min-w-0 space-y-5">
 
@@ -251,7 +251,7 @@ This is one of two (the other one is on the right side) mounting points to attac
 
 ## Important Settings
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### In-Body Image Stabilization (IBIS)
 
@@ -266,7 +266,7 @@ You almost always want to have IBIS enabled, unless you’re shooting in broad d
 
 </div>
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ### Raw vs. JPG
 

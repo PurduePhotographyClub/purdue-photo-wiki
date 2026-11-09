@@ -15,57 +15,27 @@ This wiki is <u>very new</u>, and a work in progress! For any questions, comment
 
 ## Club links
 
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-3">
+<nav class="not-content my-6 flex flex-wrap gap-3" aria-label="Club links">
+<a class="inline-flex min-h-11 items-center border border-white/15 px-5 py-3 no-underline! transition hover:bg-white/[0.06]" href="https://purduephotoclub.org/">Website</a>
+<a class="inline-flex min-h-11 items-center border border-white/15 px-5 py-3 no-underline! transition hover:bg-white/[0.06]" href="https://www.instagram.com/purduephotoclub">Instagram</a>
+<a class="inline-flex min-h-11 items-center border border-white/15 px-5 py-3 no-underline! transition hover:bg-white/[0.06]" href="https://discord.com/invite/YkVwAcqVqu">Discord</a>
+</nav>
 
-<div class="min-w-0 space-y-5">
+## Pages
 
-[Website](https://purduephotoclub.org/)
+<nav class="not-content my-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" aria-label="Photography pages">
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/basics/">Basics</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/anatomy-of-a-camera/">Anatomy of a Camera</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/composition/">Composition</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/editing/">Editing</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/film/">Film</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/buying-guide-gear/">Buying Guide/Gear</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/technical/">Technical</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/astrophotography/">Astrophotography</a>
+<a class="flex min-h-16 items-center border border-white/15 px-5 py-4 no-underline! transition hover:bg-white/[0.06]" href="/photography/helpful-resources/">Helpful Resources</a>
+</nav>
 
-</div>
-
-<div class="min-w-0 space-y-5">
-
-[Instagram](https://www.instagram.com/purduephotoclub)
-
-</div>
-
-<div class="min-w-0 space-y-5">
-
-[Discord](https://discord.com/invite/YkVwAcqVqu)
-
-</div>
-
-</div>
-
----
-
-<div class="notion-columns my-8 grid gap-6 md:grid-cols-2">
-
-<div class="min-w-0 space-y-5">
-
-</div>
-
-<div class="min-w-0 space-y-5">
-
-### Pages
-
-- [Basics](/photography/basics/)
-- [Anatomy of a Camera](/photography/anatomy-of-a-camera/)
-- [Composition](/photography/composition/)
-- [Editing](/photography/editing/)
-- [Film](/photography/film/)
-- [Buying Guide/Gear](/photography/buying-guide-gear/)
-- [Technical](/photography/technical/)
-- [Astrophotography](/photography/astrophotography/)
-- [Helpful Resources](/photography/helpful-resources/)
-
-</div>
-
-</div>
-
----
-
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 ## Getting Started
 
@@ -127,9 +97,9 @@ Don’t feel pressured that you <i>need</i> an actual camera to join the club. M
 
 In the case that you do want to upgrade to a real camera, there are many budget options that won’t break the bank, giving you great features and image quality for a few hundred dollars. You can find an in-depth buying guide over at [Buying Guide/Gear](/photography/buying-guide-gear/), but don’t go there just yet - it will be very overwhelming at first, and unhelpful if you don’t know what you want.
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
-#### As opposed to traditional art, photography is more about <i>capturing</i> an image, rather than <i>creating</i> one from scratch. This is what makes it special.
+**As opposed to traditional art, photography is more about <i>capturing</i> an image, rather than <i>creating</i> one from scratch. This is what makes it special.**
 
 Photography trains your eye to see the beauty present within both our daily lives and our special moments, and your camera helps captures these within your own expression. As you keep doing photography, you’ll eventually develop your own style where you notice you tend towards certain subjects, colors, or environments. A well-trained photographic eye will always be alert, constantly searching for interesting compositions. Even without a camera in your hand, just searching for photos in your mind every day will help you become a better photographer.
 

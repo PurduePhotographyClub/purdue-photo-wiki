@@ -5,6 +5,7 @@ const accent = (route.entry.data as typeof route.entry.data & { accent?: string 
 
 <div
   data-wiki-accent={accent}
+  data-photography={route.id.split('/')[0] === 'photography' || undefined}
   class="wiki-prose sl-markdown-content min-w-0 text-base leading-7 text-neutral-300 sm:text-[1.0625rem] sm:leading-8
     [&_[id]]:scroll-mt-24
     [&>*+*]:mt-6!
@@ -14,6 +15,7 @@ const accent = (route.entry.data as typeof route.entry.data & { accent?: string 
     [&>.sl-heading-wrapper.level-h2:first-child]:mt-8! [&>.sl-heading-wrapper.level-h2:first-child]:border-0! [&>.sl-heading-wrapper.level-h2:first-child]:pt-0!
     [&>[data-wiki-category-nav]+.sl-heading-wrapper.level-h2]:mt-8! [&>[data-wiki-category-nav]+.sl-heading-wrapper.level-h2]:border-0! [&>[data-wiki-category-nav]+.sl-heading-wrapper.level-h2]:pt-0!
     [&_.sl-heading-wrapper.level-h3]:mt-10! [&_.sl-heading-wrapper.level-h4]:mt-8!
+    [&_.notion-callout>.sl-heading-wrapper:first-child]:mt-0! [&_.notion-callout>.sl-heading-wrapper:first-child]:border-0! [&_.notion-callout>.sl-heading-wrapper:first-child]:pt-0!
     [&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:text-neutral-200
     [&_code]:border [&_code]:border-white/10 [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-['Space_Mono',monospace] [&_code]:text-[0.86em] [&_code]:text-neutral-100
     [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:leading-5 [&_figcaption]:text-neutral-400

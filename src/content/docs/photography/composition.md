@@ -7,7 +7,7 @@ accent: emerald
 
 Composition is photography at its core. So it’s hard to write an article dedicated to the entirety of composition, but I will attempt to cover a framework of how to compose your images - the goal is not to tell you <i>how</i> to shoot or <i>what</i> to shoot, but instead how to think about seeing the world through a unique lens and creating your own style.
 
-<div class="my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
+<div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
 <b>Table of Contents</b>
 
