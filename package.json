@@ -16,8 +16,12 @@
     "pages:deploy": "npm run build && wrangler pages deploy dist"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "^0.3.8",
     "@astrojs/starlight": "^0.41.7",
     "astro": "^7.2.4",
+    "hast-util-from-html": "^2.1.0",
+    "katex": "^0.19.1",
+    "satteri": "^0.9.5",
     "typescript": "^7.0.2"
   },
   "devDependencies": {

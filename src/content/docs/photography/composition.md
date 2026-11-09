@@ -5,7 +5,7 @@ accent: emerald
 
 <figure class="overflow-hidden border border-white/10"><img src="/images/notion/cover-2637b3bf66c380578c11f3857a3335af.png" width="4640" height="2980" alt="" class="max-h-72 w-full object-cover" decoding="async" fetchpriority="high" /></figure>
 
-Composition is photography at its core. So it’s hard to write an article dedicated to the entirety of composition, but I will attempt to cover a framework of how to compose your images - the goal is not to tell you <i>how</i> to shoot or <i>what</i> to shoot, but instead how to think about seeing the world through a unique lens and creating your own style.
+Composition is photography at its core. So it’s hard to write an article dedicated to the entirety of composition, but I will attempt to cover a framework of how to compose your images - the goal is not to tell you <i>how</i> to shoot or <i>what</i> to shoot, but instead to explain how to think about seeing the world through a unique lens and creating your own style.
 
 <div class="notion-callout my-8 border-l-2 border-white/20 bg-white/[0.03] px-5 py-4">
 
@@ -23,7 +23,7 @@ Composition is photography at its core. So it’s hard to write an article dedic
 
 ## Aspect Ratio
 
-Before you even take a picture, you have to adjust your aspect ratio. Most people just shoot with their native aspect ratio, which is usually 3:2 (4:3 for phones). While often we just “make do” with the default aspect ratio, sometimes you might want to put more thought into it. You can do this either by using a different aspect ratio in-camera, which will crop your image to give a preview, or by cropping later in post - do whatever feels right for you.
+Before you even take a picture, you have to adjust your aspect ratio. Most people just shoot with their native aspect ratio, which is usually 3:2 (4:3 for phones). While we often just “make do” with the default aspect ratio, sometimes you might want to put more thought into it. You can do this either by using a different aspect ratio in-camera, which will crop your image to give a preview, or by cropping later in post - do whatever feels right for you.
 
 The default 3:2 aspect ratio that most camera sensors have is a nice, neutral aspect ratio that is suitable for most applications. You can’t go wrong with this one.
 
@@ -59,7 +59,7 @@ The default 3:2 aspect ratio that most camera sensors have is a nice, neutral as
 
 </div>
 
-4:3 is the second most common aspect ratio, and you’ll see it mostly with people who shoot medium format, micro-four thirds, or phones. It gives you a little more breathing room at the top, giving away less of a traditional landscape look in return for a more unique feel. Some photographers prefer 3:4 for vertical pictures, as it gives a very pleasing look that isn’t too tall compared to 2:3.
+4:3 is the second most common aspect ratio, and you’ll see it mostly with people who shoot medium format, Micro Four Thirds, or phones. It gives you a little more breathing room at the top, trading the traditional landscape look for a more unique feel. Some photographers prefer 3:4 for vertical pictures, as it gives a very pleasing look that isn’t too tall compared to 2:3.
 
 <figure>
 <img src="/images/notion/2817b3bf-66c3-8041-a4af-eff3226c8458-45bb5e4e-c086-46d4-b032-8dbad033dd0e.png" width="1808" height="1356" alt="https://www.jamespopsys.com/" loading="lazy" decoding="async" />

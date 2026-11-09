@@ -29,7 +29,7 @@ This page will teach you about the various aspects of a camera that actually aff
 
 Every camera has a different control scheme, and I can’t cover every single brand and every single camera from each brand. Instead, I will try to cover more generalized information that will be applicable to most cameras, but it’s up to you to look up your camera’s manual or watch videos/read articles that go over your specific camera.
 
-For this article I will stick to using the Sony A7IV for reference, a relatively new and popular professional-grade full frame camera.
+For this article, I will stick to using the Sony A7IV for reference, a relatively new and popular professional-grade full-frame camera.
 
 <figure>
 <img src="/images/notion/2807b3bf-66c3-80fe-b448-f28e1b7ff097-image.psd-1-.jpg" width="1200" height="795" alt="" loading="lazy" decoding="async" />
@@ -71,7 +71,7 @@ This is your mode dial. This adjusts what mode your camera is shooting in, choos
 
 <div class="min-w-0 space-y-5">
 
-Next, (2) is your front dial, and typically adjusts exposure compensation, aperture, or shutter speed. (3) is your back dial, and will adjust one of the three settings that (2) does not cover. (4), as mentioned before, is not typically present on most cameras, but it can customized to adjust whatever you want.
+Next, (2) is your front dial and typically adjusts exposure compensation, aperture, or shutter speed. (3) is your back dial, and will adjust one of the three settings that (2) does not cover. (4), as mentioned before, is not typically present on most cameras, but it can be customized to adjust whatever you want.
 
 </div>
 
@@ -85,7 +85,7 @@ Going back to what we covered earlier in the previous article, my recommendation
 
 ### Buttons
 
-Which buttons that are present on your camera will vary, and yours might have fewer or more than the A7IV - these are generally the most common ones you will find. It is worth noting that depending on the camera system you will be able to rebind buttons that aren’t just the dedicated custom buttons.
+The buttons present on your camera will vary, and yours might have fewer or more than the A7IV - these are generally the most common ones you will find. It is worth noting that depending on the camera system, you will be able to rebind buttons that aren’t just the dedicated custom buttons.
 
 <div class="notion-columns notion-control-row my-8 grid gap-6">
 
@@ -133,7 +133,7 @@ These are custom buttons that you can rebind to many things, which you can find 
 
 <div class="min-w-0 space-y-5">
 
-AF-ON (9) is used for a method of focusing called Back Button Focusing, which means that instead of half-pressing your shutter button to autofocus like many normally do, some people prefer to separate these two buttons and use the AF-ON button to activate focus instead. AEL (10) stands for Auto Exposure Lock, and it does exactly what it says: it locks the camera’s auto-metering, so that if you move your scene around it won’t readjust. Lastly, the autofocus joystick (11) is used to adjust the camera’s autofocus point. This is usually reserved for more expensive cameras aimed at professionals, and there is a good chance your camera might not have this.
+AF-ON (9) is used for a method of focusing called Back Button Focusing, which means that instead of half-pressing your shutter button to autofocus as many people normally do, some people prefer to separate these two buttons and use the AF-ON button to activate focus instead. AEL (10) stands for Auto Exposure Lock, and it does exactly what it says: it locks the camera’s auto-metering, so that if you move your scene around it won’t readjust. Lastly, the autofocus joystick (11) is used to adjust the camera’s autofocus point. This is usually reserved for more expensive cameras aimed at professionals, and there is a good chance your camera might not have this.
 
 </div>
 
@@ -149,7 +149,7 @@ AF-ON (9) is used for a method of focusing called Back Button Focusing, which me
 
 <div class="min-w-0 space-y-5">
 
-This is your control wheel which is used to navigate through the menus.
+This is your control wheel, which is used to navigate through the menus.
 
 </div>
 
@@ -189,7 +189,7 @@ The trash can (13) is used to delete photos while viewing them in camera, and al
 
 <div class="min-w-0 space-y-5">
 
-This is the camera’s hot shoe, and is used to mount various accessories to the camera, such as a flash or microphone. When it doesn’t have any electronic connection to the camera, it is called a cold shoe.
+This is the camera’s hot shoe, which is used to mount various accessories to the camera, such as a flash or microphone. When it doesn’t have any electronic connection to the camera, it is called a cold shoe.
 
 </div>
 
@@ -205,7 +205,7 @@ This is the camera’s hot shoe, and is used to mount various accessories to the
 
 <div class="min-w-0 space-y-5">
 
-This is the camera’s viewfinder, which is one of two ways you can view and compose your images while shooting. It is essentially a small screen that you can put right up to your eye (and makes you feel like a true photographer!). While being a holdover from film and DSLR days, it still has some advantages over using the screen like a phone. It can help immerse you in the scene by blocking out everything else except your frame, run at higher refresh rates/brightness compared to the screen, or help you see your frame easier in bright daylight, among other reasons. Some people simply prefer the experience. Many cameras have the viewfinder in the middle of the camera like a DSLR, but some are modeled after rangefinders, which means that the top is flat and the viewfinder is located off to the left side.
+This is the camera’s viewfinder, which is one of two ways you can view and compose your images while shooting. It is essentially a small screen that you can put right up to your eye (and makes you feel like a true photographer!). While being a holdover from film and DSLR days, it still has some advantages over using the screen like a phone. It can help immerse you in the scene by blocking out everything else except your frame, run at higher refresh rates or brightness levels compared to the screen, or help you see your frame easier in bright daylight, among other reasons. Some people simply prefer the experience. Many cameras have the viewfinder in the middle of the camera like a DSLR, but some are modeled after rangefinders, which means that the top is flat and the viewfinder is located off to the left side.
 
 </div>
 
@@ -221,7 +221,7 @@ This is the camera’s viewfinder, which is one of two ways you can view and com
 
 <div class="min-w-0 space-y-5">
 
-The camera’s screen is generally self-explanatory, but where some might differ in is how they can move. The A7IV’s screen is usually called a fully-articulating screen, and can be adjusted in many ways shown below to help you see what you’re shooting when at an difficult angle. Most newer cameras have touch screens, but some older ones may not.
+The camera’s screen is generally self-explanatory, but screens can differ in how they move. The A7IV’s screen is usually called a fully articulating screen and can be adjusted in the ways shown below to help you see what you’re shooting when shooting at a difficult angle. Most newer cameras have touch screens, but some older ones may not.
 
 <figure>
 <img src="/images/notion/2807b3bf-66c3-8042-8074-ff1d7336b3a2-sony-a7-iv-screen-960x640.webp" width="960" height="640" alt="" loading="lazy" decoding="async" />
@@ -241,7 +241,7 @@ The camera’s screen is generally self-explanatory, but where some might differ
 
 <div class="min-w-0 space-y-5">
 
-This is one of two (the other one is on the right side) mounting points to attach a camera strap.
+This is one of two mounting points for a camera strap (the other is on the right side).
 
 </div>
 
@@ -255,9 +255,9 @@ This is one of two (the other one is on the right side) mounting points to attac
 
 ### In-Body Image Stabilization (IBIS)
 
-IBIS refers to the technology that shifts the sensor in your camera to compensate for any hand movements that will shake the camera - basically, its an internal gimbal. This helps with video, but also with low-light photography. IBIS is one of the most crucial elements in letting you achieve sharp shots at night without a tripod. Without IBIS, the shot below would have been impossible to achieve, and with multiple tries the slowest shutter speed I could have shot here would have been around 1/40s or so. Compared to the 1/5s I was able to get, that’s 3 stops - people pay a <i>lot</i> more money for much smaller differences in terms of camera image quality and lens maximum aperture.
+IBIS refers to the technology that shifts the sensor in your camera to compensate for any hand movements that will shake the camera - basically, it’s an internal gimbal. This helps with video, but also with low-light photography. IBIS is one of the most crucial elements in letting you achieve sharp shots at night without a tripod. Without IBIS, the shot below would have been impossible to achieve, and with multiple tries the slowest shutter speed I could have used here would have been around 1/40s or so. Compared to the 1/5s I was able to get, that’s 3 stops - people pay a <i>lot</i> more money for much smaller differences in terms of camera image quality and lens maximum aperture.
 
-You almost always want to have IBIS enabled, unless you’re shooting in broad daylight where your shutter speeds will undoubtedly be fast enough, and want to maximize your camera’s battery life.
+You almost always want to have IBIS enabled, unless you’re shooting in broad daylight where your shutter speeds will undoubtedly be fast enough and you want to maximize your camera’s battery life.
 
 <figure>
 <img src="/images/notion/27f7b3bf-66c3-80d0-b68f-cc2fa1be67e8-P3185164.jpg" width="4639" height="3092" alt="Olympus E-M5 mkii - 12mm (24mm ffeq.), f/7.1, 1/5s, ISO 200." loading="lazy" decoding="async" />
@@ -270,12 +270,12 @@ You almost always want to have IBIS enabled, unless you’re shooting in broad d
 
 ### Raw vs. JPG
 
-One of the best ways to squeeze more out of your camera is shoot in RAW, which you can enable in the camera’s settings (you can choose to shoot JPEG, RAW, or RAW + JPEG). While JPEGs are flat, lossy files that contain only the information what you see when you open it up in an image viewer, RAW files contain the raw sensor output from the camera. What this means is that when you open it up in Lightroom or other editing softwares, you have much greater control and can pull up otherwise lost shadows or blown out highlights. The tradeoff is that RAW files won’t look as good unedited (it bypasses the camera’s internal JPEG color processing), and they can be much greater in size. Shoot RAW if you like to edit, or JPEG if you prefer to leave them more untouched.
+One of the best ways to squeeze more out of your camera is to shoot in RAW, which you can enable in the camera’s settings (you can choose to shoot JPEG, RAW, or RAW + JPEG). While JPEGs are flat, lossy files that contain only the information you see when you open them in an image viewer, RAW files contain the raw sensor output from the camera. What this means is that when you open it up in Lightroom or other editing software, you have much greater control and can pull up otherwise lost shadows or blown out highlights. The trade-off is that RAW files won’t look as good unedited (they bypass the camera’s internal JPEG color processing), and they can be much larger in size. Shoot RAW if you like to edit, or JPEG if you prefer to leave them more untouched.
 
 It is also perfectly fine to edit JPEGs, as you can easily get by without RAWs unless you need to do some heavy post-processing in high dynamic range scenes.
 
 <figure>
-<img src="/images/notion/2fe7b3bf-66c3-80cb-893e-cb6a29c1a580-image.png" width="1280" height="720" alt="https://www.youtube.com/watch?v=wrckVlY5vwU" loading="lazy" decoding="async" />
+<iframe src="https://www.youtube-nocookie.com/embed/wrckVlY5vwU" title="RAW vs. JPEG photography video" width="1280" height="720" class="aspect-video w-full border-0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 <figcaption><a href="https://www.youtube.com/watch?v=wrckVlY5vwU">https://www.youtube.com/watch?v=wrckVlY5vwU</a></figcaption>
 </figure>
 

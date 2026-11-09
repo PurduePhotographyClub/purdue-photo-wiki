@@ -1,9 +1,17 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
+import { satteri } from '@astrojs/markdown-satteri';
+import math from './src/plugins/math.mjs';
 
 export default defineConfig({
   site: 'https://wiki.purduephotoclub.org',
+  markdown: {
+    processor: satteri({
+      features: { math: true },
+      hastPlugins: [math],
+    }),
+  },
   vite: {
     plugins: [tailwindcss()],
   },
