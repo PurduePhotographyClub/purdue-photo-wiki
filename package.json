@@ -16,14 +16,14 @@
     "pages:deploy": "npm run build && wrangler pages deploy dist"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.42.8",
-    "astro": "^7.4.4",
+    "@astrojs/starlight": "^0.42.10",
+    "astro": "^7.4.7",
     "typescript": "^7.0.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.3.3",
-    "tailwindcss": "4.3.3",
-    "wrangler": "^4.156.0"
+    "@tailwindcss/vite": "4.3.5",
+    "tailwindcss": "4.3.5",
+    "wrangler": "^4.158.0"
   },
   "overrides": {
     "devalue": "5.9.4",
